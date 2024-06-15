@@ -7,44 +7,13 @@ SoftwareSerial MWSerial(2, 3); // RX, TX
 
 char *p;
 char buf[256];
-
-// データ列を区切り文字で分割してString型の配列に入れる。
-int split( char* source, char delimiter, String* result ){
-    char* p = source;
-    char tmp[81];
-    memset(tmp, 0, sizeof(tmp));
-    int n = 0;
-    int block = 0;
-
-    // ヌル文字が来るか分けたブロック数がBLOCK_MAXになったらやめる。
-    while( *p != 0 && block < BLOCK_MAX ){
-
-        // 区切り文字が来たら、String型に変換する。
-        if( *p == delimiter ){
-            // 分割したデータが0バイトの時は何もしない。
-            if( n > 0 ){
-                // 念のためヌル文字を末尾に代入。
-                tmp[n] = 0;
-                result[block] = String(tmp);
-                block++;
-
-                n = 0;
-                memset(tmp, 0, sizeof(tmp));
-            }
-        }else{
-            tmp[n] = *p;
-            n++;
-        }
-        p++;
-    }
-
-        return block;
-}
+const int DIN_PIN = 7;
 
 void setup() {
     Wire.begin();
     Serial.begin(38400);
     MWSerial.begin(38400);
+    pinMode( DIN_PIN, INPUT );
 
     p = buf;
     memset(buf, 0, sizeof(buf));
@@ -53,38 +22,36 @@ void setup() {
 }
 
 void loop() {
-    while (MWSerial.available()) {
-        char before = *p;
-        *p = MWSerial.read();
+    // 加速度センサのX軸の値を取得
+	float acc_x = IMU_GetAccX();
+	// 加速度センサのY軸の値を取得
+	float acc_y = IMU_GetAccY();
+	// 加速度センサのZ軸の値を取得
+	float acc_z = IMU_GetAccZ();
+	// ジャイロセンサのX軸の値を取得
+	float gyr_x = IMU_GetGyrX();
+	// ジャイロセンサのY軸の値を取得
+	float gyr_y = IMU_GetGyrY();
+	// ジャイロセンサのZ軸の値を取得
+	float gyr_z = IMU_GetGyrZ();
+	// 磁気センサのX軸の値を取得
+	int mag_x = IMU_GetMagX();
+	// 磁気センサのY軸の値を取得
+	int mag_y = IMU_GetMagY();
+	// 磁気センサのZ軸の値を取得
+	int mag_z = IMU_GetMagZ();
 
-        if( before=='\r' && *p=='\n' ){
-            *p = 0;                  // 末尾をNull文字にする
-            String str[BLOCK_MAX];   // 区切り文字で分割した文字列を入れる
-            int len = p-buf;         // シリアルで読み込んだデータ量の計算
-            int block = split( buf, ';', str );  // データの分割
-
-            if( block == 3 ){
-                Serial.print("Message: ");
-                Serial.println(buf);
-                Serial.print("Serial No.: ");
-                Serial.println(str[0]);
-                Serial.print("LQI: ");
-                Serial.println(str[1]);
-                Serial.print("Data: ");
-                Serial.println(str[2]);
-                Serial.println();
-            }
-
-            p = buf;
-            memset(buf, 0, sizeof(buf));
-        }else{
-            if( *p >= 0x20 ){
-                p++;
-            }
-        }
-    }
-
-    while(Serial.available()){
-        MWSerial.write(Serial.read());
+    if ( value == HIGH ){
+        MWSerial.write(","
+            + String(acc_x) + ","
+            + String(acc_y) + ","
+            + String(acc_z) + ","
+            + String(gyr_x) + ","
+            + String(gyr_y) + ","
+            + String(gyr_z) + ","
+            + String(mag_x) + ","
+            + String(mag_y) + ","
+            + String(mag_z) + ","
+        );
     }
 }
