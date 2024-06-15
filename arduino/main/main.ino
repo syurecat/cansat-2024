@@ -3,10 +3,6 @@
 
 SoftwareSerial MWSerial(2, 3); // RX, TX
 
-#define BLOCK_MAX 10
-
-char *p;
-char buf[256];
 const int DIN_PIN = 7;
 
 void setup() {
@@ -40,6 +36,8 @@ void loop() {
 	int mag_y = IMU_GetMagY();
 	// 磁気センサのZ軸の値を取得
 	int mag_z = IMU_GetMagZ();
+
+    int value = digitalRead( DIN_PIN );
 
     if ( value == HIGH ){
         MWSerial.write(","
