@@ -1,4 +1,5 @@
 #include <SoftwareSerial.h>
+#include "./IMU.h"
 
 SoftwareSerial MWSerial(2, 3); // RX, TX
 
@@ -41,11 +42,14 @@ int split( char* source, char delimiter, String* result ){
 }
 
 void setup() {
+    Wire.begin();
     Serial.begin(38400);
     MWSerial.begin(38400);
 
     p = buf;
     memset(buf, 0, sizeof(buf));
+    IMU_Init();
+    Serial.println(F("Init done"));
 }
 
 void loop() {
