@@ -13,8 +13,8 @@ void setup() {
     pinMode( DIN_PIN, INPUT );
     delay(250);
 
-    if (SD_init();){
-        MWSerial.println("SD_init_done.")
+    if (SD_init()){
+        MWSerial.println("SD_init_done.");
     }else{
         MWSerial.println("SD: init failed!");
     }
