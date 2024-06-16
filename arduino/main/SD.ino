@@ -7,7 +7,7 @@ Sd_t sd;
 // #define SD_IS_MKDIR
 
 
-void SD_Init() {
+int SD_Init() {
 	sd.logFileName = "log.txt";
 
 	pinMode(PIN_SD_SS, OUTPUT);

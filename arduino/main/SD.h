@@ -17,7 +17,7 @@ http://akizukidenshi.com/download/ds/akizuki/AE-microSD-LLCNV_sch_20190218_01.pd
 
 
 // 初期化
-void SD_Init();
+int SD_Init();
 // SDカードに str の文字列を書き込み
 void SD_Write(String str);
 // 現在書き込んでいるディレクトリ名を取得
