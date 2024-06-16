@@ -39,17 +39,21 @@ void loop() {
 
     int value = digitalRead( DIN_PIN );
 
-    if ( value == HIGH ){
-        MWSerial.write(","
+    if ( value == LOW ){
+        MWSerial.write("acc,"
             + String(acc_x) + ","
             + String(acc_y) + ","
-            + String(acc_z) + ","
+            + String(acc_z) + "¥n"
+        );
+        MWSerial.write("gyr,"
             + String(gyr_x) + ","
             + String(gyr_y) + ","
-            + String(gyr_z) + ","
+            + String(gyr_z) + "¥n"
+        );
+        MWSerial.write("mag,"
             + String(mag_x) + ","
             + String(mag_y) + ","
-            + String(mag_z) + ","
+            + String(mag_z) + "¥n"
         );
     }
 }
