@@ -11,8 +11,6 @@ void setup() {
     MWSerial.begin(38400);
     pinMode( DIN_PIN, INPUT );
 
-    p = buf;
-    memset(buf, 0, sizeof(buf));
     IMU_Init();
     Serial.println(F("Init done"));
 }
