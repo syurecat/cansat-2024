@@ -1,4 +1,5 @@
 #include <SoftwareSerial.h>
+#include "./SD.h"
 #include "./IMU.h"
 
 SoftwareSerial MWSerial(2, 3); // RX, TX
@@ -10,12 +11,16 @@ void setup() {
     Serial.begin(38400);
     MWSerial.begin(38400);
     pinMode( DIN_PIN, INPUT );
+    delay(250);
 
+    SD_init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
     IMU_Init();
-    Serial.println(F("Init done"));
+    Serial.println(F("Init done."));
+    MWSerial.println(F("Init done."));
 }
 
 void loop() {
+    IMU_UpdateAll();
     // 加速度センサのX軸の値を取得
 	float acc_x = IMU_GetAccX();
 	// 加速度センサのY軸の値を取得
@@ -35,23 +40,35 @@ void loop() {
 	// 磁気センサのZ軸の値を取得
 	int mag_z = IMU_GetMagZ();
 
+    SD_Write(","
+        + String(acc_x) + ","
+        + String(acc_y) + ","
+        + String(acc_z) + ","
+        + String(gyr_x) + ","
+        + String(gyr_y) + ","
+        + String(gyr_z) + ","
+        + String(mag_x) + ","
+        + String(mag_y) + ","
+        + String(mag_z) + ","
+    );
+
     int value = digitalRead( DIN_PIN );
 
     if ( value == LOW ){
         MWSerial.println("acc,"
             + String(acc_x) + ","
             + String(acc_y) + ","
-            + String(acc_z) + "¥n"
+            + String(acc_z) + ","
         );
         MWSerial.println("gyr,"
             + String(gyr_x) + ","
             + String(gyr_y) + ","
-            + String(gyr_z) + "¥n"
+            + String(gyr_z) + ","
         );
         MWSerial.println("mag,"
             + String(mag_x) + ","
             + String(mag_y) + ","
-            + String(mag_z) + "¥n"
+            + String(mag_z) + ","
         );
     }
 }
