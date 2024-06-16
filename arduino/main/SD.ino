@@ -14,7 +14,7 @@ int SD_Init() {
 
 	if (!SD.begin(PIN_SD_SS)) {
 		Serial.println(F("SD: init failed!"));
-		return 1;
+		return 0;
 	}
 
 
@@ -22,7 +22,7 @@ int SD_Init() {
 	for (uint16_t i = 0; i <= 1000; i++) {
 		if (i == 1000) {
 			Serial.println(F("SD: Number of Folder is MAX!"));
-			return 1;
+			return 0;
 		}
 
 		sd.DirName[1] = '0' + i/100;
@@ -53,7 +53,7 @@ int SD_Init() {
 	SD_Write(F("START UP!!"));
 
 	Serial.println(F("SD init done."));
-	return 0;
+	return 1;
 }
 
 
