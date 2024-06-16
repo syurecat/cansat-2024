@@ -13,7 +13,11 @@ void setup() {
     pinMode( DIN_PIN, INPUT );
     delay(250);
 
-    SD_init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
+    if (SD_init();){
+        MWSerial.println("SD_init_done.")
+    }else{
+        MWSerial.println("SD: init failed!");
+    }
     IMU_Init();
     Serial.println(F("Init done."));
     MWSerial.println(F("Init done."));
