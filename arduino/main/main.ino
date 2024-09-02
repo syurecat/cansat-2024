@@ -14,6 +14,7 @@ void setup() {
     delay(250);
 
     SD_Init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
+    BTH_Init();
     IMU_Init();
     Serial.println(F("Init done."));
     MWSerial.println(F("Init done."));
@@ -21,13 +22,14 @@ void setup() {
 
 void loop() {
     IMU_UpdateAll();
+    BTH_Update();
     // 加速度センサのX軸の値を取得
 	float acc_x = IMU_GetAccX();
 	// 加速度センサのY軸の値を取得
 	float acc_y = IMU_GetAccY();
 	// 加速度センサのZ軸の値を取得
 	float acc_z = IMU_GetAccZ();
-	// ジャイロセンサのX軸の値を取得
+	// ジャイロセンサのX軸の値を取得s
 	float gyr_x = IMU_GetGyrX();
 	// ジャイロセンサのY軸の値を取得
 	float gyr_y = IMU_GetGyrY();
@@ -39,18 +41,13 @@ void loop() {
 	int mag_y = IMU_GetMagY();
 	// 磁気センサのZ軸の値を取得
 	int mag_z = IMU_GetMagZ();
+    // 気圧の値を取得
+    float prs = BTH_GetPressure();
+    // 湿度の値を取得
+    float hum = BTH_GetHumidity();
+    // 温度の値を取得
+    float tmp = BTH_GetTemperature();
 
-    SD_Write(","
-        + String(acc_x) + ","
-        + String(acc_y) + ","
-        + String(acc_z) + ","
-        + String(gyr_x) + ","
-        + String(gyr_y) + ","
-        + String(gyr_z) + ","
-        + String(mag_x) + ","
-        + String(mag_y) + ","
-        + String(mag_z) + ","
-    );
 
     int value = digitalRead( DIN_PIN );
 
@@ -71,4 +68,16 @@ void loop() {
             + String(mag_z) + ","
         );
     }
+
+        SD_Write(","
+        + String(acc_x) + ","
+        + String(acc_y) + ","
+        + String(acc_z) + ","
+        + String(gyr_x) + ","
+        + String(gyr_y) + ","
+        + String(gyr_z) + ","
+        + String(mag_x) + ","
+        + String(mag_y) + ","
+        + String(mag_z) + ","
+    );
 }
