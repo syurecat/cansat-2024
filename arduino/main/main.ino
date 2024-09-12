@@ -15,6 +15,7 @@ void setup() {
     delay(250);
 
     SD_Init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
+    GPS_Init();
     BTH_Init();
     IMU_Init();
     Serial.println(F("Init done."));

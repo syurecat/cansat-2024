@@ -56,6 +56,10 @@ int GPS_Update() {
 			str += line[i];
 		}
 
+		if (list[0] == "$GPRPM"){
+			rtn = 1;
+		}
+
 		// $GPGGAセンテンスのみ読み込む
 		if (list[0] == "$GPGGA") {
 
