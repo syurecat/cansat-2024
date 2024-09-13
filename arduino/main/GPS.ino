@@ -1,6 +1,6 @@
 #include "./GPS.h"
 
-unsigned long timeout = 1000;  // タイムアウト時間(ms)
+unsigned long timeout = 200;  // タイムアウト時間(ms)
 
 Gps_t gps;
 
