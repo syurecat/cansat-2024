@@ -23,9 +23,9 @@ void setup() {
 }
 
 void loop() {
-    int  = GPS_Update();
+    int gps = GPS_Update();
 
-    if (GPS == 1){
+    if (gps == 1){
         IMU_UpdateAll();
         BTH_Update();
         // 加速度センサのX軸の値を取得
