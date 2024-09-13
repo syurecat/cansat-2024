@@ -12,7 +12,7 @@ void setup() {
     Serial.begin(38400);
     MWSerial.begin(38400);
     pinMode( DIN_PIN, INPUT );
-    delay(250);
+    delay(300);
 
     SD_Init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
     GPS_Init();
