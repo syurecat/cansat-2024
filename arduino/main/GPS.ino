@@ -39,6 +39,12 @@ int GPS_Update() {
 
 	Serial.println(line);
 
+	if (millis() - startTime >= timeout) {
+		// タイムアウト時の処理
+		rtn = 1;
+		Serial.println("GPS timeout");
+	}
+
 	if(line != ""){
 		uint16_t i;
 		uint8_t  index = 0;
