@@ -12,7 +12,7 @@ void setup() {
     Serial.begin(38400);
     MWSerial.begin(38400);
     pinMode( DIN_PIN, INPUT );
-    delay(250);
+    delay(300);
 
     SD_Init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
     GPS_Init();
@@ -34,7 +34,7 @@ void loop() {
         float acc_y = IMU_GetAccY();
         // 加速度センサのZ軸の値を取得
         float acc_z = IMU_GetAccZ();
-        // ジャイロセンサのX軸の値を取得s
+        // ジャイロセンサのX軸の値を取得
         float gyr_x = IMU_GetGyrX();
         // ジャイロセンサのY軸の値を取得
         float gyr_y = IMU_GetGyrY();
