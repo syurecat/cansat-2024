@@ -1,5 +1,7 @@
 #include "./GPS.h"
 
+unsigned long timeout = 1000;  // タイムアウト時間(ms)
+
 Gps_t gps;
 
 SoftwareSerial GpsSerial(PIN_GPS_TX, PIN_GPS_RX);
@@ -25,8 +27,16 @@ void GPS_Init() {
 
 int GPS_Update() {
 	int rtn = 0;
+	unsigned long startTime = millis();
 	// 1つのセンテンスを読み込む
-	String line = GpsSerial.readStringUntil('\n');
+	while (GpsSerial.available() && (millis() - startTime) < timeout) {
+		char c = GpsSerial.read();
+		if (c == '\n') {
+			break;  // 改行がきたらループを抜ける
+		}
+		line += c;  // データを追加
+	}
+
 	Serial.println(line);
 
 	if(line != ""){
