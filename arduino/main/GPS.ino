@@ -27,6 +27,7 @@ void GPS_Init() {
 
 int GPS_Update() {
 	int rtn = 0;
+	String line = "";
 	unsigned long startTime = millis();
 	// 1つのセンテンスを読み込む
 	while (GpsSerial.available() && (millis() - startTime) < timeout) {
