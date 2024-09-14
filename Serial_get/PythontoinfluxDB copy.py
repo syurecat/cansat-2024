@@ -3,24 +3,41 @@
 #参照元 https://dev.classmethod.jp/articles/send-and-visualize-data-with-influxdb-cloud/
 #https://docs.influxdata.com/influxdb/cloud-serverless/reference/client-libraries/v3/python/#installation
 
-import influxdb_client_3 ,os ,time#influxDB cloud import
-from influxdb_client_3 import InfluxDBClient3, Point, WriteOptions,write_client_options, SYNCHRONOUS #特定のもののみをimport
-import serial
 import time
+import influxdb_client
+from influxdb_client.client.write_api import SYNCHRONOUS
 
-ser = serial.Serial('COM4',115200,timeout=None)
+bucket = "cansat"
+org = "science"
+token = "Bui6iPWok68lbgks7SySIrPUZSZP4y75MF3VjVsirJ7hHgFPQqR9qKug6EdJKp2k0954BHMtHMYrkgTtRLeSig=="
+url="http://localhost:8086"
 
+temp, humi, pres = 0.0, 0.0, 0.0
+Accx, Accy, Accz = 0.0, 0.0, 0.0
+Gyrx, Gyry, Gyrz = 0.0, 0.0, 0.0
+Magx, Magy, Magz = 0.0, 0.0, 0.0
+lati, long, alti, stre = 0.0, 0.0, 0.0, 0.0
 
-client = InfluxDBClient3(host=f"https://us-east-1-1.aws.cloud2.influxdata.com",
-                        database=f"cansattable",
-                        token=f"PFbeV34P6tr9B4ZTOob8HF8zI4Nx876hCMJCReng58GDvEhhNxX0lFC0yhNkLPqqlFoDCe3Q16uMXer3gjuqYw==",
-                        write_options=SYNCHRONOUS,
-                        flight_client_options=None,
-                        )
+client = influxdb_client.InfluxDBClient(
+    url=url,
+    token=token,
+    org=org
+)
+
+write_api = client.write_api(write_options=SYNCHRONOUS)
+
+p = influxdb_client.Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+write_api.write(bucket=bucket, org=org, record=p)
+
+#######################################################################################################
+
+import serial
+
+ser = serial.Serial('COM7',115200,timeout=None)
 
 database="cansattable"
 
-i=0
+i=-1
 while True: 
   line = ser.readline()
   line = line.decode('utf-8', errors='ignore')
@@ -43,47 +60,46 @@ while True:
 
   i+=1
   if i >= 5:
-      data = {
-            "point": {
-            "temp": temp,
-            "humi": humi,
-            "pres": pres,
-            "Accx": Accx,
-            "Accy": Accy,
-            "Accz": Accz,
-            "Gyrx": Gyrx,
-            "Gyry": Gyry,
-            "Gyrz": Gyrz,
-            "Magx": Magx,
-            "Magy": Magy,
-            "Magz": Magz,
-            "lati": lati,
-            "long": long,
-            "alti": alti,
-            "stre": stre,
-        },
-        }
-      for key in data:
-          point = (
-              Point('cansat1')
-              .field("temp",data[key]["temp"])
-              .field("HUMI",data[key]["humi"])
-              .field("PRE",data[key]["pres"])
-              .field("Accx",data[key]["Accx"])
-              .field("Accy",data[key]["Accy"])
-              .field("Accz",data[key]["Accz"])
-              .field("Gyrx",data[key]["Gyry"])
-              .field("Gyrz",data[key]["Gyrz"])
-              .field("Magx",data[key]["Magx"])
-              .field("Magy",data[key]["Magy"])
-              .field("Magz",data[key]["Magz"])
-              .field("lati",data[key]["lati"])
-              .field("long",data[key]["long"])
-              .field("alti",data[key]["alti"])
-              .field("stre",data[key]["stre"])
-              )
-          client.write(database=database, record=point)
-          time.sleep(0.05)
-      i = 0
+    data = {
+        "temp": temp,
+        "humi": humi,
+        "pres": pres,
+        "Accx": Accx,
+        "Accy": Accy,
+        "Accz": Accz,
+        "Gyrx": Gyrx,
+        "Gyry": Gyry,
+        "Gyrz": Gyrz,
+        "Magx": Magx,
+        "Magy": Magy,
+        "Magz": Magz,
+        "lati": lati,
+        "long": long,
+        "alti": alti,
+        "stre": stre,
+    }
+
+    point = (
+        influxdb_client.Point('cansat')
+        .field("temp",data["temp"])
+        .field("HUMI",data["humi"])
+        .field("PRE",data["pres"])
+        .field("Accx",data["Accx"])
+        .field("Accy",data["Accy"])
+        .field("Accz",data["Accz"])
+        .field("Gyrx",data["Gyrx"])
+        .field("Gyry",data["Gyry"])
+        .field("Gyrz",data["Gyrz"])
+        .field("Magx",data["Magx"])
+        .field("Magy",data["Magy"])
+        .field("Magz",data["Magz"])
+        .field("lati",data["lati"])
+        .field("long",data["long"])
+        .field("alti",data["alti"])
+        .field("stre",data["stre"])
+        )
+    write_api.write(bucket=bucket, org=org, record=point)
+    time.sleep(0.05)
+    i = 0
 
       
