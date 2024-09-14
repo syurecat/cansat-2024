@@ -8,7 +8,7 @@ int ranges[4][3] = {  // 各データ範囲 (min, max, scale factor)
 
 float lat_range[2] = {24.0, 46.0};  // 緯度の範囲
 float lon_range[2] = {123.0, 153.0};  // 経度の範囲
-
+int alt_range[2] = {0, 10000};  // 高度の範囲
 
 void setup() {
     Serial.begin(115200);
@@ -30,9 +30,12 @@ void loop() {
             // GPSの範囲で出力
             float lat = random(lat_range[0] * 100, lat_range[1] * 100) / 100.0;
             float lon = random(lon_range[0] * 100, lon_range[1] * 100) / 100.0;
-            Serial.print(lat, 6);  // 緯度を6桁表示
+            int alt = random(alt_range[0], alt_range[1]);  // 高度
+            Serial.print(lat, 6);  // 緯度
             Serial.print(",");
-            Serial.print(lon, 6);  // 経度を6桁表示
+            Serial.print(lon, 6);  // 経度
+            Serial.print(",");
+            Serial.print(alt);  // 高度
             Serial.print(",");
         }
 
