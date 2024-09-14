@@ -43,18 +43,18 @@ while True:
     line = line.decode('utf-8', errors='ignore').strip()
     print(line)
     row = line
-    row = row.split(',')[1:-1]
+    row = row.split(',')[1:]
     print(row)
     if "BME" in line :
-        temp,humi,pres = map(float, row)
+        temp,humi,pres,stre = map(float, row)
     elif "ACC" in line:
-        Accx,Accy,Accz = map(float, row)        
+        Accx,Accy,Accz,stre = map(float, row)        
     elif "GYR" in line:
-        Gyrx,Gyry,Gyrz = map(float, row)     
+        Gyrx,Gyry,Gyrz,stre = map(float, row)     
     elif "MAG" in line:
-        Magx, Magy, Magz = map(float, row)     
+        Magx, Magy, Magz,stre = map(float, row)     
     elif "GPS" in line:
-        lati, long, alti, stre = map(float, row)
+        lati,long,alti,stre = map(float, row)
 
     i+=1
     if i >= 5:
