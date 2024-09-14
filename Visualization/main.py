@@ -10,8 +10,8 @@ app = FastAPI()
 @app.get("/attitude_image")
 async def get_attitude_image():
     # InfluxDBからデータを取得
-    sensor_data = get_sensor_data()  # InfluxDBから取得
-    pitch, roll, yaw = sensor_data['pitch'], sensor_data['roll'], sensor_data['yaw']
+    imu_data = get_imu_data()  # InfluxDBから取得
+    pitch, roll, yaw = imu_data['pitch'], imu_data['roll'], imu_data['yaw']
 
     # 3Dプロットを生成
     fig = generate_3d_plot(pitch, roll, yaw)
