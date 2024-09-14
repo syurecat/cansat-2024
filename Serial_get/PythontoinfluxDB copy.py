@@ -39,67 +39,63 @@ database="cansattable"
 
 i=-1
 while True: 
-  line = ser.readline()
-  line = line.decode('utf-8', errors='ignore')
-  print(line)
-  row = line
-  row = row.split(',')[1:-1]
-  print(row)
-  if "BME" in line :
-      temp,humi,pres = map(float, row)
-  elif "ACC" in line:
-      Accx,Accy,Accz = map(float, row)        
-  elif "GYR" in line:
-      Gyrx,Gyry,Gyrz = map(float, row)     
-  elif "MAG" in line:
-      Magx, Magy, Magz = map(float, row)     
-  elif "GPS" in line:
-      stre = row[-1].rstrip('\r\n')
-      lati, long, alti = map(float,row)
-      stre = float(stre)
+    line = ser.readline()
+    line = line.decode('utf-8', errors='ignore').strip()
+    print(line)
+    row = line
+    row = row.split(',')[1:-1]
+    print(row)
+    if "BME" in line :
+        temp,humi,pres = map(float, row)
+    elif "ACC" in line:
+        Accx,Accy,Accz = map(float, row)        
+    elif "GYR" in line:
+        Gyrx,Gyry,Gyrz = map(float, row)     
+    elif "MAG" in line:
+        Magx, Magy, Magz = map(float, row)     
+    elif "GPS" in line:
+        lati, long, alti, stre = map(float, row)
 
-  i+=1
-  if i >= 5:
-    data = {
-        "temp": temp,
-        "humi": humi,
-        "pres": pres,
-        "Accx": Accx,
-        "Accy": Accy,
-        "Accz": Accz,
-        "Gyrx": Gyrx,
-        "Gyry": Gyry,
-        "Gyrz": Gyrz,
-        "Magx": Magx,
-        "Magy": Magy,
-        "Magz": Magz,
-        "lati": lati,
-        "long": long,
-        "alti": alti,
-        "stre": stre,
-    }
+    i+=1
+    if i >= 5:
+        data = {
+            "temp": temp,
+            "humi": humi,
+            "pres": pres,
+            "Accx": Accx,
+            "Accy": Accy,
+            "Accz": Accz,
+            "Gyrx": Gyrx,
+            "Gyry": Gyry,
+            "Gyrz": Gyrz,
+            "Magx": Magx,
+            "Magy": Magy,
+            "Magz": Magz,
+            "lati": lati,
+            "long": long,
+            "alti": alti,
+            "stre": stre,
+        }
 
-    point = (
-        influxdb_client.Point('cansat')
-        .field("temp",data["temp"])
-        .field("HUMI",data["humi"])
-        .field("PRE",data["pres"])
-        .field("Accx",data["Accx"])
-        .field("Accy",data["Accy"])
-        .field("Accz",data["Accz"])
-        .field("Gyrx",data["Gyrx"])
-        .field("Gyry",data["Gyry"])
-        .field("Gyrz",data["Gyrz"])
-        .field("Magx",data["Magx"])
-        .field("Magy",data["Magy"])
-        .field("Magz",data["Magz"])
-        .field("lati",data["lati"])
-        .field("long",data["long"])
-        .field("alti",data["alti"])
-        .field("stre",data["stre"])
-        )
-    write_api.write(bucket=bucket, org=org, record=point)
-    time.sleep(0.05)
-    i = 0
-
-      
+        point = (
+            influxdb_client.Point('cansat')
+            .field("temp",data["temp"])
+            .field("HUMI",data["humi"])
+            .field("PRE",data["pres"])
+            .field("Accx",data["Accx"])
+            .field("Accy",data["Accy"])
+            .field("Accz",data["Accz"])
+            .field("Gyrx",data["Gyrx"])
+            .field("Gyry",data["Gyry"])
+            .field("Gyrz",data["Gyrz"])
+            .field("Magx",data["Magx"])
+            .field("Magy",data["Magy"])
+            .field("Magz",data["Magz"])
+            .field("lati",data["lati"])
+            .field("long",data["long"])
+            .field("alti",data["alti"])
+            .field("stre",data["stre"])
+            )
+        write_api.write(bucket=bucket, org=org, record=point)
+        time.sleep(0.05)
+        i = 0
