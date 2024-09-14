@@ -28,5 +28,5 @@ void loop() {
         Serial.println(random(150, 200));  // 品質の出力
     }
 
-    delay(200);  // 1秒間隔で出力
+    delay(400);  // 1秒間隔で出力
 }
