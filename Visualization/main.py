@@ -17,10 +17,10 @@ def calculate_pitch_roll(accel_data):
     roll = math.atan2(-ax, az)
     
     # ラジアンから度への変換
-    pitch_deg = math.degrees(pitch)
-    roll_deg = math.degrees(roll)
+    pitch = math.degrees(pitch)
+    roll = math.degrees(roll)
     
-    return pitch_deg, roll_deg
+    return pitch, roll
 
 #### ヨー角の計算
 
@@ -30,18 +30,18 @@ def calculate_yaw(mag_data, pitch, roll):
     mz = mag_data['z']
     
     # ピッチとロールをラジアンに変換
-    pitch_rad = math.radians(pitch)
-    roll_rad = math.radians(roll)
+    pitch = math.radians(pitch)
+    roll = math.radians(roll)
     
     # 補正された磁力計の値を計算
-    mx2 = mx * math.cos(pitch_rad) + mz * math.sin(pitch_rad)
-    my2 = mx * math.sin(roll_rad) * math.sin(pitch_rad) + my * math.cos(roll_rad) - mz * math.sin(roll_rad) * math.cos(pitch_rad)
+    mx2 = mx * math.cos(pitch) + mz * math.sin(pitch)
+    my2 = mx * math.sin(roll) * math.sin(pitch) + my * math.cos(roll) - mz * math.sin(roll * math.cos(pitch)
     
     # ヨー角を計算
     yaw = math.atan2(-my2, mx2)
-    yaw_deg = math.degrees(yaw)
+    yaw = math.degrees(yaw)
     
-    return yaw_deg
+    return yaw
 
 app = FastAPI()
 
