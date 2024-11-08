@@ -12,12 +12,10 @@ void loop() {
     if (Serial.available()) {
         char dataFromPC = Serial.read();
         mySerial.write(dataFromPC);
-        Serial.println(dataFromPC);
     }
 
     if (mySerial.available()) {
         char dataFromDevice = mySerial.read();
         Serial.write(dataFromDevice);
-        Serial.println(dataFromDevice);
     }
 }
