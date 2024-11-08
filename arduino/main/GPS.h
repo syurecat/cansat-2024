@@ -13,7 +13,7 @@ http://akizukidenshi.com/catalog/g/gK-09991/
 // 初期化
 void GPS_Init();
 // センサ値の更新
-int GPS_Update();
+void GPS_Update();
 // センサ値の表示
 void GPS_Print();
 // 経度の値を取得

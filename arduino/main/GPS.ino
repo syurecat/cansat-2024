@@ -25,24 +25,19 @@ void GPS_Init() {
 }
 
 
-int GPS_Update() {
-	int rtn = 0;
+void GPS_Update() {
 	String line = "";
 	unsigned long startTime = millis();
-	// 1つのセンテンスを読み込む
 	while (GpsSerial.available() && (millis() - startTime) < timeout) {
 		char c = GpsSerial.read();
 		if (c == '\n') {
 			break;  // 改行がきたらループを抜ける
 		}
-		line += c;  // データを追加
+		line += c;
 	}
-
-	Serial.println(line);
 
 	if (millis() - startTime >= timeout) {
 		// タイムアウト時の処理
-		rtn = 1;
 		Serial.println("GPS timeout");
 	}
 
@@ -73,51 +68,20 @@ int GPS_Update() {
 			str += line[i];
 		}
 
-		if (list[0] == "$GPRPM"){
-			rtn = 1;
-		}
-
 		// $GPGGAセンテンスのみ読み込む
 		if (list[0] == "$GPGGA") {
 
-			rtn = 1;
-			// ステータス
-			if(list[6] != "0") {
+			// 緯度
+			gps.lat = GPS_NMEA2DDf_(list[2].toFloat());
 
-				// 緯度
-				gps.lat = GPS_NMEA2DDf_(list[2].toFloat());
+			// 経度
+			gps.lng = GPS_NMEA2DDf_(list[4].toFloat());
 
-				// 経度
-				gps.lng = GPS_NMEA2DDf_(list[4].toFloat());
-
-				// 海抜
-				gps.height = list[9].toFloat();
-
-				gps.last_received_time = millis() / 1000;
-				Serial.print(F("測位成功"));
-				// Serial.print(F("GPS OK"));
-			} else {
-				Serial.print(F("測位失敗"));
-				// Serial.print(F("GPS NG"));
-			}
-
-			Serial.println(F(""));
+			// 海抜
+			gps.height = list[9].toFloat();
 		}
 	}
-	return rtn;
-}
 
-void GPS_Print() {
-	Serial.print(F("測位結果："));
-	Serial.print(F("GPS: Lat="));
-	Serial.print(GPS_GetLat(),6);
-	Serial.print(F(", Lng="));
-	Serial.print(GPS_GetLng(),6);
-	Serial.print(F(", Height="));
-	Serial.print(GPS_GetHeight(),2);
-	Serial.print(F(", RecTime="));
-	Serial.print(gps.last_received_time);
-	Serial.println(F(""));
 }
 
 float GPS_GetLat() {
