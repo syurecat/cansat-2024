@@ -106,4 +106,3 @@ void loop() {
         + String(height)+ ","
     );
 }
-}
