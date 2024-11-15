@@ -3,6 +3,7 @@
 SoftwareSerial GpsSerial(PIN_GPS_TX, PIN_GPS_RX);
 
 bool irq = false;
+String line;
 
 void push();
 void menu();
@@ -12,9 +13,10 @@ int getChecksum(String data);
 void setup() {
     Serial.begin(115200);
     GpsSerial.begin(9600);
-    GpsSerial.println("$PMTK314,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28");
     pinMode(2,INPUT_PULLUP);
     attachInterrupt(digitalPinToInterrupt(2),push,RISING);
+    delay(2000);
+    GpsSerial.println("$PMTK314,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28");
     GpsSerial.println("$PMTK220,200*2C");
     Serial.println("Ready");
 }
@@ -54,7 +56,7 @@ void menu(){
             Serial.println("==========================================================");
             Serial.println("The possible interval values range between 100 and 10000 millisecond.");
             Serial.println("Please enter:");
-            String line = Serial.readStringUntil('\n');
+            line = Serial.readStringUntil('\n');
             updaterate(line);
             break;
         case '2':
@@ -66,7 +68,7 @@ void menu(){
             Serial.println("NMEA_SEN_GLL,NMEA_SEN_RMC,NMEA_SEN_VTG,NMEA_SEN_GGA,NMEA_SEN_GSA,NMEA_SEN_GSV,Reserved,Reserved,Reserved,Reserved,Reserved,Reserved,NMEA_SEN_ZDA,NMEA_SEN_MCHN");
             Serial.println("Note: Enter the setting values accurately. They will not be validated!");
             Serial.println("Please enter:");
-            String line = Serial.readStringUntil('\n');
+            line = Serial.readStringUntil('\n');
             sentenceOutput(line);
             break;
         case '3':
@@ -88,14 +90,14 @@ void updaterate(String rate) {
     if (rate.toInt() > 100 && rate.toInt() < 10000) {
         String query = "$PMTK220," + rate;
         GpsSerial.println(query + "*" + String(getChecksum(query), HEX));
-        Serial.println("Set to {rate}")
+        Serial.println("Set to {rate}");
     }
 }
 
 void sentenceOutput(String rate) {
     String query = "$PMTK314," + rate;
     GpsSerial.println(query + "*" + String(getChecksum(query), HEX));
-    Serial.println("Set to {rate}")
+    Serial.println("Set to {rate}");
 }
 
 int getChecksum(String data) {
