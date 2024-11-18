@@ -1,7 +1,9 @@
 //参考 https://zenn.dev/sdkfz181tiger/books/735e854bee9fc9/viewer/
 
 import * as THREE from "three";
+import { GLTFLoader } from "GLTFLoader";
 
+const CANDATA = "./cansat-3dData/cansatafull.gltf"
 const W_WIDTH  = window.innerWidth; // ブラウザの横サイズ
 const W_HEIGHT = window.innerHeight;// ブラウザの縦サイズ
 const W_ASPECT = window.innerWidth / window.innerHeight;// アスペクト比
@@ -25,8 +27,8 @@ window.onload = ()=>{
 	let div = document.getElementById("three");
 	div.appendChild(renderer.domElement);
 	//配置
-    const loader = new THREE.GLTFLoader();
-    loader.load('path model', function (gltf) {
+    const loader = new GLTFLoader();
+    loader.load(CANDATA, function (gltf) {
         const model = gltf.scene;
         scene.add(model);
 
