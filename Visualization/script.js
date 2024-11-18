@@ -1,7 +1,7 @@
 //参考 https://zenn.dev/sdkfz181tiger/books/735e854bee9fc9/viewer/
 
-import * as THREE from "three";
-import { GLTFLoader } from "GLTFLoader";
+import * as THREE from "https://unpkg.com/three@0.170.0/build/three.module.js";
+import { GLTFLoader } from "https://unpkg.com/three@0.170.0/examples/jsm/loaders/GLTFLoader.js";
 
 const CANDATA = "./cansat-3dData/cansatafull.gltf"
 const W_WIDTH  = window.innerWidth; // ブラウザの横サイズ
