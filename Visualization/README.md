@@ -1,3 +1,10 @@
+# WebGLを用いた姿勢等の可視化
+　当然WebGLを直接動かす技術は持ち合わせていないため、`three.js`を使用しました。
+
+## ＊注意事項等＊
+- Firefoxには対応していません。importmapを使用しているからです。解決した場合は対応します
+- ブラウザはローカルファイルで実行したときファイルを追加で読み込まないため[http-server](https://github.com/http-party/http-server)を使用しました。
+
 ## three.js用メモ
 
 ### カメラ
