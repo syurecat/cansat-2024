@@ -13,7 +13,7 @@ let camera, scene, renderer, cube;// カメラ、シーン、レンダラー、�
 window.onload = ()=>{
 	//カメラ
 	camera = new THREE.PerspectiveCamera(50, W_ASPECT, 1, 1000);
-	camera.position.set(0, 0, 600);
+	camera.position.set(0, 0, 0);
 	//シーン
 	scene = new THREE.Scene();
 	//ライト
