@@ -28,9 +28,9 @@ window.onload = ()=>{
 	div.appendChild(renderer.domElement);
 
 	//テスト
-	const geometry = new THREE.BoxGeometry(1,1,1);
+	const geometry = new THREE.BoxGeometry(10,10,10);
 	const material = new THREE.MeshBasicMaterial({color:0x00ff00});
-	const cube = new THREE.Mesh(geometry, material);
+	cube = new THREE.Mesh(geometry, material);
 	scene.add(cube);
 	
 	//配置
