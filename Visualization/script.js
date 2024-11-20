@@ -26,16 +26,23 @@ window.onload = ()=>{
 	//配置
 	let div = document.getElementById("three");
 	div.appendChild(renderer.domElement);
-	//配置
-    const loader = new GLTFLoader();
-    loader.load(CANDATA, function (gltf) {
-        const model = gltf.scene;
-        scene.add(model);
 
-        model.scale.set(1, 1, 1);  // サイズ調整
-    }, undefined, function (error) {
-        console.error('Model loading error:', error);
-    });
+	//テスト
+	const geometry = new THREE.BoxGeometry(1,1,1);
+	const material = new THREE.MeshBasicMaterial({color:0x00ff00});
+	const cube = new THREE.Mesh(geometry, material);
+	scene.add(cube);
+	
+	//配置
+    // const loader = new GLTFLoader();
+    // loader.load(CANDATA, function (gltf) {
+    //     const model = gltf.scene;
+    //     scene.add(model);
+
+    //     model.scale.set(1, 1, 1);  // サイズ調整
+    // }, undefined, function (error) {
+    //     console.error('Model loading error:', error);
+    // });
 	//アニメーション
 	animate();
 }
