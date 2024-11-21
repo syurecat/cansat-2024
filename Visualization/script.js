@@ -17,8 +17,11 @@ window.onload = ()=>{
 	//シーン
 	scene = new THREE.Scene();
 	//ライト
-	let ambLight = new THREE.AmbientLight(0x333333);
-	scene.add(ambLight);
+	// let ambLight = new THREE.AmbientLight(0x333333);
+	// scene.add(ambLight);
+	let Light = new THREE.DirectionalLight(0xffffff, 1);
+	dirLight.position.set(x,y,z);
+	scene.add(Light);
 	//レンダラー
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setPixelRatio(W_RATIO);// ピクセル比
