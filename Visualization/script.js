@@ -13,7 +13,7 @@ let camera, scene, renderer, cube;// カメラ、シーン、レンダラー、�
 window.onload = ()=>{
 	//カメラ
 	camera = new THREE.PerspectiveCamera(50, W_ASPECT, 1, 1000);
-	camera.position.set(0, 0, 600);
+	camera.position.set(0, 0, 50);
 	//シーン
 	scene = new THREE.Scene();
 	//ライト
@@ -26,16 +26,23 @@ window.onload = ()=>{
 	//配置
 	let div = document.getElementById("three");
 	div.appendChild(renderer.domElement);
-	//配置
-    const loader = new GLTFLoader();
-    loader.load(CANDATA, function (gltf) {
-        const model = gltf.scene;
-        scene.add(model);
 
-        model.scale.set(1, 1, 1);  // サイズ調整
-    }, undefined, function (error) {
-        console.error('Model loading error:', error);
-    });
+	//テスト
+	const geometry = new THREE.BoxGeometry(10,10,10);
+	const material = new THREE.MeshBasicMaterial({color:0x00ff00});
+	cube = new THREE.Mesh(geometry, material);
+	scene.add(cube);
+	
+	//配置
+    // const loader = new GLTFLoader();
+    // loader.load(CANDATA, function (gltf) {
+    //     const model = gltf.scene;
+    //     scene.add(model);
+
+    //     model.scale.set(1, 1, 1);  // サイズ調整
+    // }, undefined, function (error) {
+    //     console.error('Model loading error:', error);
+    // });
 	//アニメーション
 	animate();
 }
