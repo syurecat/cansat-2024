@@ -20,7 +20,7 @@ window.onload = ()=>{
 	scene = new THREE.Scene();
 	scene.background = new THREE.Color('#00ff00');
 	//ヘルパー
-	let gridhelper = new THREE.GridHelper( 10, 50, '#ff0000');
+	let gridhelper = new THREE.GridHelper( 20, 100, '#ff0000');
 	scene.add(gridhelper);
 	//ライト
 	// let ambLight = new THREE.AmbientLight(0x333333);
@@ -28,6 +28,9 @@ window.onload = ()=>{
 	let dirLight = new THREE.DirectionalLight(0xffffff, 1);
 	dirLight.position.set(20,20,20);
 	scene.add(dirLight);
+
+	let helper = new THREE.DirectionalLightHelper( dirLight, 5 );
+	scene.add( helper );
 	//レンダラー
 	renderer = new THREE.WebGLRenderer({antialias: true});
 	renderer.setPixelRatio(W_RATIO);// ピクセル比
