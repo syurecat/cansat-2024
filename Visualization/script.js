@@ -2,13 +2,14 @@
 
 import * as THREE from "three";
 import { GLTFLoader } from "GLTFLoader";
+import Stats from "stats";
 
 const CANDATA = "./cansat-3dData/cansatafull.gltf"
 const W_WIDTH  = window.innerWidth; // ブラウザの横サイズ
 const W_HEIGHT = window.innerHeight;// ブラウザの縦サイズ
 const W_ASPECT = window.innerWidth / window.innerHeight;// アスペクト比
 const W_RATIO  = window.devicePixelRatio;// ピクセル比
-let camera, scene, renderer, cube, model;// カメラ、シーン、レンダラー、立方体
+let camera, scene, renderer, stats, cube, model;// カメラ、シーン、レンダラー、立方体
 
 window.onload = ()=>{
 	//カメラ
@@ -33,6 +34,9 @@ window.onload = ()=>{
 	//配置
 	let div = document.getElementById("three");
 	div.appendChild(renderer.domElement);
+
+	stats = Stats();
+	document.body.appendChild(stats.dom);
 
 	//テスト
 	// const geometry = new THREE.BoxGeometry(10,10,10);
@@ -62,6 +66,7 @@ function animate(){
 		// model.rotation.y += 0.01;
 	}
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
+	stats.update();
 	renderer.render(scene, camera);// レンダリング
 	requestAnimationFrame(animate);// 更新
 }
