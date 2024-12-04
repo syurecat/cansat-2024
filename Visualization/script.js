@@ -6,11 +6,12 @@ import Stats from "stats";
 import { OrbitControls } from "orbitcontrols";
 
 const CANDATA = "./cansat-3dData/cansatafull.gltf"
+const CANDATA2 = "./cansat-3dData/Body.gltf"
 const W_WIDTH  = window.innerWidth; // ブラウザの横サイズ
 const W_HEIGHT = window.innerHeight;// ブラウザの縦サイズ
 const W_ASPECT = window.innerWidth / window.innerHeight;// アスペクト比
 const W_RATIO  = window.devicePixelRatio;// ピクセル比
-let camera, scene, renderer, stats, controls, cube, model;// カメラ、シーン、レンダラー、立方体
+let camera, scene, renderer, stats, controls, cube, model, model2;// カメラ、シーン、レンダラー、立方体
 
 window.onload = ()=>{
 	//カメラ
@@ -26,7 +27,7 @@ window.onload = ()=>{
 	// let ambLight = new THREE.AmbientLight(0x333333);
 	// scene.add(ambLight);
 	let dirLight = new THREE.DirectionalLight(0xffffff, 1);
-	dirLight.position.set(20,20,20);
+	dirLight.position.set(10,10,10);
 	scene.add(dirLight);
 
 	let helper = new THREE.DirectionalLightHelper( dirLight, 5 );
@@ -59,6 +60,16 @@ window.onload = ()=>{
 
         model.scale.set(20, 20, 20);  // サイズ調整
 		model.position.set(0, 0, 0);
+    }, undefined, function (error) {
+        console.error('Model loading error:', error);
+    });
+    const loader2 = new GLTFLoader();
+    loader2.load(CANDATA2, function (gltf) {
+        model2 = gltf.scene;
+        scene.add(model2);
+
+        model2.scale.set(20, 20, 20);  // サイズ調整
+		model2.position.set(0, 0, 0);
     }, undefined, function (error) {
         console.error('Model loading error:', error);
     });
