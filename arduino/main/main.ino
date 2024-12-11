@@ -2,9 +2,11 @@
 #include "./SD.h"
 #include "./IMU.h"
 #include "./GPS.h"
+#include "./LED.h"
 
 SoftwareSerial MWSerial(2, 3); // RX, TX
 
+bool errorFlag = false;
 const int DIN_PIN = 7;
 
 void setup() {
@@ -108,4 +110,5 @@ void loop() {
             + String(height)+ ","
         );
     }
+    LED_Error(errorFlag);
 }
