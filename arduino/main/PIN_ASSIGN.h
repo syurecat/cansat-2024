@@ -6,6 +6,9 @@
 #define PIN_LIT A1
 #define PIN_MIC A2
 
+#define PIN_LED_STATES 
+#define PIN_LED_ERROR 
+
 #define PIN_GPS_TX 8
 #define PIN_GPS_RX 9
 #define PIN_XBEE_TX 2
