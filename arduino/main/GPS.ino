@@ -27,7 +27,6 @@ int GPS_Update() {
 	int rtn = 0;
 	// 1つのセンテンスを読み込む
 	String line = GpsSerial.readStringUntil('\n');
-	Serial.println(line);
 
 	if(line != ""){
 		uint16_t i;
@@ -56,14 +55,11 @@ int GPS_Update() {
 			str += line[i];
 		}
 
-		if (list[0] == "$GPRPM"){
-			rtn = 1;
-		}
-
 		// $GPGGAセンテンスのみ読み込む
+		// !この条件分岐は必要か？
 		if (list[0] == "$GPGGA") {
 
-			rtn = 1;
+			rtn = list[6];
 			// ステータス
 			if(list[6] != "0") {
 
@@ -77,14 +73,10 @@ int GPS_Update() {
 				gps.height = list[9].toFloat();
 
 				gps.last_received_time = millis() / 1000;
-				Serial.print(F("測位成功"));
-				// Serial.print(F("GPS OK"));
-			} else {
-				Serial.print(F("測位失敗"));
-				// Serial.print(F("GPS NG"));
 			}
 
-			Serial.println(F(""));
+			Serial.print(F("GPS_Update:"));
+			Serial.printl(rtn);
 		}
 	}
 	return rtn;
