@@ -8,6 +8,7 @@ SoftwareSerial MWSerial(2, 3); // RX, TX
 
 bool errorFlag = false;
 const int DIN_PIN = 7;
+uint8_t gpsQuality = 0;
 
 void setup() {
     Wire.begin();
@@ -25,7 +26,7 @@ void setup() {
 }
 
 void loop() {
-    gps = GPS_Update();
+    gpsQuality = GPS_Update();
     IMU_UpdateAll();
     BTH_Update();
     // 加速度センサのX軸の値を取得

@@ -7,7 +7,7 @@
 // 初期化
 void LED_Init();
 // 状態表示
-void LED_States();
+void LED_States(byte gpsQuality);
 // エラー表示
 void LED_Error(bool flag);
 
