@@ -11,4 +11,12 @@ void LED_States();
 // エラー表示
 void LED_Error(bool flag);
 
+typedef struct {
+    bool active;
+    uint8_t count;
+    unsigned long lastTime;
+	unsigned long currentTime;
+} Led_t;
+
+
 #endif

@@ -1,13 +1,20 @@
 #include "./LED.h"
 
-unsigned long prevMillis = 0;
-bool ledErrState = false;
-int blinkCount = 0;
-unsigned long interval = 500
+Led_t ledState;
+Led_t ledError;
 
 void LED_Init() {
     pinMode(PIN_LED_STATES, OUTPUT);
+    ledState.active = false;
+    ledState.count = 0;
+    ledState.currentTime = 0;
+    ledState.lastTime = 0;
     pinMode(PIN_LED_ERROR, OUTPUT);
+    ledError.active = false;
+    ledError.count = 0;
+    ledError.currentTime = 0;
+    ledError.lastTime = 0;
+    Serial.println(F("LED init done"));
 }
 
 void LED_Error(bool flag) {
@@ -15,10 +22,10 @@ void LED_Error(bool flag) {
         digitalWrite(PIN_LED_ERROR, LOW);
         return;
     }
-    unsigned long curMillis = millis();
-    if (curMillis - prevMillis >= interval) {
-        prevMillis = curMillis;
-        ledErrState = !ledErrState;
-        digitalWrite(PIN_LED_ERROR, ledErrState)
+    ledError.currentTime = millis();
+    if (ledError.currentTime - ledError.lastTime >= interval) {
+        ledError.lastTime = ledError.currentTime;
+        ledError.active = !ledError.active;
+        digitalWrite(PIN_LED_ERROR, ledError.active)
     }
 }
