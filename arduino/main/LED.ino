@@ -33,7 +33,7 @@ void LED_States(uint8_t gpsQuality){
         interval = 400;
         break;
     default: // その他または無効
-        blinkInterval = 10000;
+        interval = 10000;
     }
         ledState.currentTime = millis();
     if (ledState.currentTime - ledState.lastTime >= interval) {
