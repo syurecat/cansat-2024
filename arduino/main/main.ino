@@ -27,6 +27,7 @@ void setup() {
 
 void loop() {
     gpsQuality = GPS_Update();
+    LED_States(gpsQuality);
     IMU_UpdateAll();
     BTH_Update();
     // 加速度センサのX軸の値を取得
