@@ -24,7 +24,7 @@ void GPS_Init() {
 
 
 int GPS_Update() {
-	long rtn = 0;
+	int rtn = 0;
 	// 1つのセンテンスを読み込む
 	String line = GpsSerial.readStringUntil('\n');
 
@@ -59,7 +59,7 @@ int GPS_Update() {
 		// !この条件分岐は必要か？
 		if (list[0] == "$GPGGA") {
 
-			rtn = list[6].toInt();
+			rtn = (int)list[6].toInt();
 			// ステータス
 			if(list[6] != "0") {
 
