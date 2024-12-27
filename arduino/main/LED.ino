@@ -39,7 +39,7 @@ void LED_States(uint8_t gpsQuality){
     if (ledState.currentTime - ledState.lastTime >= interval) {
         ledState.lastTime = ledState.currentTime;
         ledState.active = !ledState.active;
-        digitalWrite(PIN_LED_ERROR, ledState.active)
+        digitalWrite(PIN_LED_ERROR, ledState.active);
     }
 }
 
@@ -53,6 +53,6 @@ void LED_Error(bool flag) {
     if (ledError.currentTime - ledError.lastTime >= interval) {
         ledError.lastTime = ledError.currentTime;
         ledError.active = !ledError.active;
-        digitalWrite(PIN_LED_ERROR, ledError.active)
+        digitalWrite(PIN_LED_ERROR, ledError.active);
     }
 }
