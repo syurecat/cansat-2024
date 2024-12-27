@@ -9,6 +9,8 @@
 #define PIN_LED_STATES 4
 #define PIN_LED_ERROR 5
 
+#define PIN_SEP_SW 6
+
 #define PIN_GPS_TX 8
 #define PIN_GPS_RX 9
 #define PIN_XBEE_TX 2
