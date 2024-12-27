@@ -14,6 +14,7 @@ void setup() {
     Wire.begin();
     Serial.begin(38400);
     MWSerial.begin(38400);
+    LED_Init();
     pinMode( DIN_PIN, INPUT );
     delay(300);
 
