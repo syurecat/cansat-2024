@@ -3,6 +3,7 @@
 
 #include "./PIN_ASSIGN.h"
 #include <Wire.h>
+#include "./LED.h"
 
 // #################### Barometer & Thermohygrometer ####################
 

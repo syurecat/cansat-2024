@@ -74,8 +74,10 @@ void BTH_Init() {
 	for (uint8_t i=0; i<26; i++) {
 		while (Wire.available() == 0) {
 			Serial.println(F("Waiting for receiving data from BME280..."));
+			LED_Error(true);
 		}
 		buffer[i] = Wire.read();
+		LED_Error(false);
 	}
 
 	dig_T1 = ((uint16_t)((buffer[1] << 8) | buffer[0]));
@@ -102,8 +104,10 @@ void BTH_Init() {
 	for (uint8_t i=0; i<7; i++) {
 		while (Wire.available() == 0) {
 			Serial.println(F("Waiting for receiving data from BME280..."));
+			LED_Error(true);
 		}
 		buffer[i] = Wire.read();
+		LED_Error(false);
 	}
 
 	dig_H2 = ((int16_t)((buffer[1] << 8) | buffer[0]));
@@ -134,8 +138,10 @@ void BTH_Update() {
 	for (uint8_t i=0; i<8; i++) {
 		while (Wire.available() == 0 ) {
 			Serial.println(F("Waiting for receiving data from BME280..."));
+			LED_Error(true);
 		}
 		buffer[i] = Wire.read();
+		LED_Error(false);
 	}
 
 	int32_t adc_T = ((uint32_t)buffer[3] << 12) | ((uint32_t)buffer[4] << 4) | ((buffer[5] >> 4) & 0x0F);
