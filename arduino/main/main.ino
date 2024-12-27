@@ -3,6 +3,7 @@
 #include "./IMU.h"
 #include "./GPS.h"
 #include "./LED.h"
+#include "./GLOBALS.h"
 
 SoftwareSerial MWSerial(2, 3); // RX, TX
 
@@ -112,4 +113,5 @@ void loop() {
     );
 
     LED_Error(errorFlag);
+    errorFlag = false;
 }

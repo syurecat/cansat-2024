@@ -68,6 +68,7 @@ void SD_Write(String str) {
 	} else {
 		// if the file didn't open, print an error:
 		Serial.println(F("SD: Open Error"));
+		errorFlag = true;
 	}
 
 	logFile.close();
