@@ -1,11 +1,9 @@
-FROM node:3.8-slim-buster
+FROM node:23
 
-ARG dir=/app
+WORKDIR /app
 
-WORKDIR $dir
-
-COPY package*.json ./
-
+COPY /app/package.json ./
+RUN ls -la /app
 RUN npm install
-
+RUN ls -la /app/node_modules/express
 CMD ["node", "main.js"]

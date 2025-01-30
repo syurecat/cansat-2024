@@ -1,4 +1,5 @@
 import { WebSocketServer } from 'ws';
+import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
 
 const influxDB = new InfluxDB({
@@ -9,7 +10,6 @@ const writeApi = influxDB.getWriteApi(
     YOUR_ORG,
     YOUR_BUCKET
 )
-const express = require('express');
 const app = express();
 app.use(express.json())
 const wrap = fn => (...args) => fn(...args).catch(args[2])
