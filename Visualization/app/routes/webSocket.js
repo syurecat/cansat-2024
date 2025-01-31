@@ -4,7 +4,7 @@ let clients = new Set();
 let wss = null;
 
 export function setWebSocket(server) {
-    wss = WebSocketServer({ server });
+    wss = new WebSocketServer({ server });
 
     wss.on('connection', function connection(ws) {
         clients.add(ws);
