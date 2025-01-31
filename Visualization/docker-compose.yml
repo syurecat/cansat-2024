@@ -6,7 +6,7 @@ services:
       - ./app:/app
       - /app/node_modules
     ports:
-      - 7000
+      - 7080
     depends_on:
       - influxdb
     environment:
