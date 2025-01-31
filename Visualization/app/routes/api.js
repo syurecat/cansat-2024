@@ -30,7 +30,7 @@ router.get('/send', authenticate, wrap(async (req, res, next) => {
     try{
         getClients().forEach(client => {
             if (client.readyState === WebSocket.OPEN){
-                client.json(req);
+                client.json({ massage: req});
             }
         });
         res.status(200).json({ massage: "succese" })

@@ -1,9 +1,10 @@
 import ws from 'ws'
 
-let clients = new Set(); // クライアントを保存する
+let clients = new Set();
+let wss = null;
 
 function setupWebSocket(server) {
-    const wss = new ws.Server({ server });
+    wss = new ws.Server({ server });
 
     wss.on('connection', function connection(ws) {
         ws.on('error', console.error);
@@ -20,4 +21,13 @@ function getClients() {
     return clients;
 }
 
-module.exports = { setupWebSocket, getClients };
+function closeWebSocket() {
+    if (wss) {
+        console.log("Closing WebSocket server...");
+        wss.clients.forEach((ws) => ws.json({ message: "Server close"}));
+        wss.clients.forEach((ws) => ws.close());
+        wss.close();
+    }
+}
+
+module.exports = { setupWebSocket, getClients, closeWebSocket};

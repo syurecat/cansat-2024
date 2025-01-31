@@ -3,7 +3,7 @@ import http from 'http'
 import path from 'path'
 import indexRouter from 'routes/index.js'
 import apiRouter from 'routes/api.js'
-import {setWebSocket} from 'routes/WebSocket.js'
+import {setWebSocket, closeWebSocket} from 'routes/WebSocket.js'
 
 const app = express();
 const server = http.createServer(app);
@@ -35,4 +35,22 @@ app.use(wrap(async (err, req, res, next) => {
 
 app.listen(7000, () => {
     console.log("Server running on http://localhost:7000");
+});
+
+process.on("SIGINT", () => {
+    console.log("Shutting down server...");
+    closeWebSocket();
+    server.close(() => {
+        console.log("HTTP server closed.");
+        process.exit(0);
+    });
+});
+
+process.on("SIGTERM", () => {
+    console.log("Received SIGTERM, shutting down...");
+    closeWebSocket();
+    server.close(() => {
+        console.log("HTTP server closed.");
+        process.exit(0);
+    });
 });
