@@ -1,15 +1,14 @@
 import { WebSocketServer } from 'ws';
 import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
-import os from 'os'
 
 const influxDB = new InfluxDB({
     http://influxdb/,
-    os.environ['INFLUXDB_TOKEN']
+    process.env.INFLUXDB_TOKEN
 })
 const writeApi = influxDB.getWriteApi(
-    os.environ['INFLUXDB_ORG'],
-    os.environ['INFLUXDB_BUCKET']
+    process.env.INFLUXDB_ORG,
+    process.env.INFLUXDB_BUCKET
 )
 const app = express();
 app.use(express.json())
