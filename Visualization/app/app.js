@@ -1,12 +1,13 @@
 import express from 'express'
 import http from 'http'
 import path from 'path'
+import { fileURLToPath } from 'url';
 import indexRouter from './routes/index.js'
 import apiRouter from './routes/api.js'
 import {setWebSocket, closeWebSocket} from './routes/webSocket.js'
 
-const __dirname = import.meta.dir;
-const __filename = import.meta.path;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
 const server = http.createServer(app);
 const wrap = fn => (...args) => fn(...args).catch(args[2])
