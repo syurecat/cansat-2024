@@ -5,6 +5,8 @@ import indexRouter from './routes/index.js'
 import apiRouter from './routes/api.js'
 import {setWebSocket, closeWebSocket} from './routes/webSocket.js'
 
+const __dirname = import.meta.dir;
+const __filename = import.meta.path;
 const app = express();
 const server = http.createServer(app);
 const wrap = fn => (...args) => fn(...args).catch(args[2])
