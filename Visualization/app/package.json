@@ -5,7 +5,7 @@
     "type": "module",
     "exports": "./app.js",
     "scripts": {
-      "start": "node main.js"
+      "start": "node app.js"
     },
     "dependencies": {
       "@influxdata/influxdb-client": "1.35.0",
