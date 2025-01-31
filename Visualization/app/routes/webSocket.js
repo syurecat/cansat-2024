@@ -1,8 +1,4 @@
 import { WebSocketServer } from 'ws'
-import { fileURLToPath } from 'url';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 let clients = new Set();
 let wss = null;

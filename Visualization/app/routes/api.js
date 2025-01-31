@@ -1,7 +1,8 @@
 import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
-import {getClients} from './webSocket.js'
+import path from 'path'
 import { fileURLToPath } from 'url';
+import {getClients} from './webSocket.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
