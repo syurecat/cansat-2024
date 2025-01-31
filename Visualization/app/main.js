@@ -4,11 +4,11 @@ import {InfluxDB, Point} from '@influxdata/influxdb-client'
 
 const influxDB = new InfluxDB({
     http://influxdb/,
-    YOUR_API_TOKEN
+    os.environ['INFLUXDB_TOKEN']
 })
 const writeApi = influxDB.getWriteApi(
-    YOUR_ORG,
-    YOUR_BUCKET
+    os.environ['INFLUXDB_ORG'],
+    os.environ['INFLUXDB_BUCKET']
 )
 const app = express();
 app.use(express.json())
