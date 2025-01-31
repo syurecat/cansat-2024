@@ -1,6 +1,6 @@
 import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
-import {getClients} from 'routes/webSocket.js'
+import {getClients} from './webSocket.js'
 
 const INFLUXDB_URL = 'http://influxdb:8086'
 const influxDB = new InfluxDB({

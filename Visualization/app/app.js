@@ -1,9 +1,9 @@
 import express from 'express'
 import http from 'http'
 import path from 'path'
-import indexRouter from 'routes/index.js'
-import apiRouter from 'routes/api.js'
-import {setWebSocket, closeWebSocket} from 'routes/WebSocket.js'
+import indexRouter from './routes/index.js'
+import apiRouter from './routes/api.js'
+import {setWebSocket, closeWebSocket} from './routes/webSocket.js'
 
 const app = express();
 const server = http.createServer(app);
