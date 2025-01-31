@@ -3,7 +3,7 @@ import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
 
 const influxDB = new InfluxDB({
-    http://influxdb/,
+    http://influxdb/:8086,
     process.env.INFLUXDB_TOKEN
 })
 const writeApi = influxDB.getWriteApi(
