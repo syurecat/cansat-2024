@@ -3,7 +3,7 @@ import ws from 'ws'
 let clients = new Set();
 let wss = null;
 
-function setupWebSocket(server) {
+export function setupWebSocket(server) {
     wss = new ws.Server({ server });
 
     wss.on('connection', function connection(ws) {
@@ -17,11 +17,11 @@ function setupWebSocket(server) {
     });
 }
 
-function getClients() {
+export function getClients() {
     return clients;
 }
 
-function closeWebSocket() {
+export function closeWebSocket() {
     if (wss) {
         console.log("Closing WebSocket server...");
         wss.clients.forEach((ws) => ws.json({ message: "Server close"}));
@@ -30,4 +30,4 @@ function closeWebSocket() {
     }
 }
 
-module.exports = { setupWebSocket, getClients, closeWebSocket};
+
