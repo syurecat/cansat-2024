@@ -84,3 +84,4 @@ router.all('/update', wrap(async (req, res, next) => {
     res.status(405).json({ massage: "Method Not Allowed" });
 }));
   
+export default router;
