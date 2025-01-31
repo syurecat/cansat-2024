@@ -3,7 +3,7 @@ import ws from 'ws'
 let clients = new Set();
 let wss = null;
 
-export function setupWebSocket(server) {
+export function setWebSocket(server) {
     wss = new ws.Server({ server });
 
     wss.on('connection', function connection(ws) {
