@@ -30,7 +30,7 @@ router.get('/send', authenticate, wrap(async (req, res, next) => {
     try{
         getClients().forEach(client => {
             if (client.readyState === WebSocket.OPEN){
-                client.json({ massage: req});
+                client.JSON.stringify({ massage: req});
             }
         });
         res.status(200).json({ massage: "succese" })
@@ -69,7 +69,7 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
             if (req.body.type == "IMU") {
                 getClients().forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
-                        client.json(req.body.data);
+                        client.JSON.stringify(req.body.data);
                     }
                 });
             }
