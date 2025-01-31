@@ -2,9 +2,10 @@ import { WebSocketServer } from 'ws';
 import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
 
+const INFLUXDB_URL = 'http://influxdb:8086'
 const influxDB = new InfluxDB({
-    http://influxdb/:8086,
-    process.env.INFLUXDB_TOKEN
+    url: INFLUXDB_URL,
+    token: process.env.INFLUXDB_TOKEN
 })
 const writeApi = influxDB.getWriteApi(
     process.env.INFLUXDB_ORG,
