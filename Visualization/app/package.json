@@ -3,14 +3,16 @@
     "version": "1.0.0",
     "description": "cansat 2024 data server",
     "type": "module",
-    "main": "main.js",
+    "exports": "./app.js",
     "scripts": {
       "start": "node main.js"
     },
     "dependencies": {
       "@influxdata/influxdb-client": "1.35.0",
       "ws": "8.18.0",
-      "express": "4.21.2"
+      "express": "4.21.2",
+      "http": "0.0.1-security",
+      "path": "0.12.7"
     }
 }
   

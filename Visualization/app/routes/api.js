@@ -1,6 +1,6 @@
-import { WebSocketServer } from 'ws';
 import express from 'express'
 import {InfluxDB, Point} from '@influxdata/influxdb-client'
+import {getClients} from 'routes/webSocket.js'
 
 const INFLUXDB_URL = 'http://influxdb:8086'
 const influxDB = new InfluxDB({
@@ -11,16 +11,9 @@ const writeApi = influxDB.getWriteApi(
     process.env.INFLUXDB_ORG,
     process.env.INFLUXDB_BUCKET
 )
-const app = express();
-app.use(express.json())
+const router = express.Router();
 const wrap = fn => (...args) => fn(...args).catch(args[2])
-const SENSER_TYPES = ["ACC", "GPU", "GYR", "MAG", "BME"];
-
-const server = app.listen(4080, () => {
-    console.log("Node.js is listening to PORT:" + server.address().port);
-});
-
-const wss = new WebSocketServer({ server });
+const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
 
 function authenticate(req, res, next) {
     const token = req.body.token;
@@ -33,17 +26,21 @@ function authenticate(req, res, next) {
     }
 }
 
-wss.on('connection', function connection(ws) {
-  ws.on('error', console.error);
+router.get('/send', authenticate, wrap(async (req, res, next) => {
+    try{
+        getClients().forEach(client => {
+            if (client.readyState === WebSocket.OPEN){
+                client.json(req);
+            }
+        });
+        res.status(200).json({ massage: "succese" })
+    } catch (error) {
+        console.error('Error Sending:', error)
+        res.status(500).json({ massage: "Faild to send" })
+    }
+}));
 
-  ws.on('message', function message(data) {
-    console.log('received: %s', data);
-  });
-
-  ws.send('something');
-});
-
-app.post('/update', authenticate, wrap(async (req, res, next) => {
+router.post('/update', authenticate, wrap(async (req, res, next) => {
         console.log('Authenticated POST request received:', req.body);
         if (!req.body.type || !req.body.name || !req.body.data) {
             res.status(400).json({ massage: "Bad Request" });
@@ -70,7 +67,7 @@ app.post('/update', authenticate, wrap(async (req, res, next) => {
             await writeApi.flush();
             res.status(200).json({ massage: "success" });
             if (req.body.type == "IMU") {
-                clients.forEach(client => {
+                getClients().forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
                         client.json(req.body.data);
                     }
@@ -83,20 +80,7 @@ app.post('/update', authenticate, wrap(async (req, res, next) => {
     })
 );
 
-app.all('/update', wrap(async (req, res, next) => {
+router.all('/update', wrap(async (req, res, next) => {
     res.status(405).json({ massage: "Method Not Allowed" });
 }));
-
-app.all('/teapot', wrap(async (req, res, next) => {
-    res.status(418).send("I'm a teapot" );
-}));
-
-app.all("*", wrap(async (req, res, next) => {
-    res.status(404).send("Not Found");
-}));
-
-app.use(async (err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send("Internal Server Error");
-});
   
