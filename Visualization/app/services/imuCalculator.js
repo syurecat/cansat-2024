@@ -3,9 +3,9 @@ import * as math from 'mathjs';
 class IMUCalculator {
     constructor() {
         this.x = math.zeros(3, 1); // 状態ベクトル
-        this.P = math.eye(3); // 共分散行列
-        this.Q = math.multiply(math.eye(3), 0.001); // プロセスノイズ
-        this.R = math.multiply(math.eye(2), 0.01); // 観測ノイズ
+        this.P = math.identity(3); // 共分散行列
+        this.Q = math.multiply(math.identity(3), 0.001); // プロセスノイズ
+        this.R = math.multiply(math.identity(2), 0.01); // 観測ノイズ
         this.accel = [0, 0, 0]; // 加速度
     }
 
@@ -19,7 +19,7 @@ class IMUCalculator {
 
     // 状態遷移のヤコビアン
     calc_F() {
-        return math.eye(3); // 角速度の積分なので単位行列
+        return math.identity(3); // 角速度の積分なので単位行列
     }
 
     // 観測モデル（加速度計による傾き推定）
@@ -67,7 +67,7 @@ class IMUCalculator {
         let K = math.multiply(this.P, math.multiply(math.transpose(H), math.inv(S)));
 
         let updated_x = math.add(this.x, math.multiply(K, y_res));
-        let I = math.eye(3);
+        let I = math.identity(3);
         let updated_P = math.multiply(math.subtract(I, math.multiply(K, H)), this.P);
 
         this.x = updated_x;
