@@ -3,6 +3,7 @@ import {InfluxDB, Point} from '@influxdata/influxdb-client'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import {getClients} from './webSocket.js'
+import IMUCalculator from '../services/imuCalculator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,7 +19,9 @@ const writeApi = influxDB.getWriteApi(
 const router = express.Router();
 const wrap = fn => (...args) => fn(...args).catch(args[2])
 const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
+const imu = new IMUCalculator();
 
+// api auth
 function authenticate(req, res, next) {
     const token = req.body.token;
     if(!token) {
@@ -30,6 +33,7 @@ function authenticate(req, res, next) {
     }
 }
 
+// webSocket send 
 router.get('/send', authenticate, wrap(async (req, res, next) => {
     try{
         getClients().forEach(client => {
@@ -44,6 +48,7 @@ router.get('/send', authenticate, wrap(async (req, res, next) => {
     }
 }));
 
+// db update
 router.post('/update', authenticate, wrap(async (req, res, next) => {
         console.log('Authenticated POST request received:', req.body);
         if (!req.body.type || !req.body.name || !req.body.data) {
@@ -70,10 +75,18 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
             writeApi.writePoint(point);
             await writeApi.flush();
             res.status(200).json({ massage: "success" });
-            if (req.body.type == "IMU") {
+            if (req.body.type == "ACC") {
+                imu.storeAccel(req.body.data);
+            }
+            if (req.body.type == "GYR") {
+                const currentTime = Date.now();
+                const dt = lastTime ? (currentTime - lastTime) / 1000 : 0;
+                imu.predict(req.body.data, dt);
+                imu.update();
+                lastTime = currentTime;
                 getClients().forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
-                        client.JSON.stringify(req.body.data);
+                        client.JSON.stringify(imu.getAngle());
                     }
                 });
             }

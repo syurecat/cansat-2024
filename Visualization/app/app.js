@@ -23,10 +23,12 @@ app.get("/", indexRouter);
 // api root
 app.use("/api", apiRouter);
 
+// teapot
 app.all('/teapot', wrap(async (req, res, next) => {
     res.status(418).send("I'm a teapot");
 }));
 
+// not found
 app.all("*", wrap(async (req, res, next) => {
     res.status(404).send("Not Found");
 }));
