@@ -20,6 +20,7 @@ const router = express.Router();
 const wrap = fn => (...args) => fn(...args).catch(args[2])
 const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
 const imu = new IMUCalculator();
+const AUTH_TOKEN = process.env.AUTH_TOKEN
 
 // api auth
 function authenticate(req, res, next) {
@@ -34,7 +35,7 @@ function authenticate(req, res, next) {
 }
 
 // webSocket send 
-router.get('/send', authenticate, wrap(async (req, res, next) => {
+router.post('/send', authenticate, wrap(async (req, res, next) => {
     try{
         getClients().forEach(client => {
             if (client.readyState === WebSocket.OPEN){

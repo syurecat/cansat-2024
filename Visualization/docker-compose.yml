@@ -13,6 +13,7 @@ services:
       - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
       - INFLUXDB_ORG=${INFLUXDB_ORG}
       - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+      - AUTH_TOKEN=${AUTH_TOKEN}
     networks:
       - cansat_network
 

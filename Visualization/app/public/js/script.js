@@ -77,6 +77,27 @@ window.onload = ()=>{
 	animate();
 }
 
+const socket = new WebSocket('ws://localhost:8080'); // WebSocketサーバーのアドレス
+
+socket.onmessage = (event) => {
+    try {
+        const data = JSON.parse(event.data);
+        
+        if (data.euler) {
+            // オイラー角 (rad) を受け取ってオブジェクトを回転
+            const { x, y, z } = data.euler;
+            const euler = new THREE.Euler(x, y, z, 'XYZ'); // 回転順序
+            cube.quaternion.setFromEuler(euler); // クォータニオンに変換
+        }
+
+        if (data.message) {
+            alert(`Message: ${data.message}`);
+        }
+    } catch (error) {
+        console.error('WebSocket Error:', error);
+    }
+};
+
 function animate(){
 	//読み込み待ち
 	if (model) {
