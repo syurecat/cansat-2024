@@ -17,6 +17,7 @@ setWebSocket(server);
 // public
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+app.use(cors())
 
 // root index
 app.get("/", indexRouter);
