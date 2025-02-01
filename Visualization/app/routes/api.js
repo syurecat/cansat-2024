@@ -36,18 +36,26 @@ function authenticate(req, res, next) {
 
 // webSocket send 
 router.post('/send', authenticate, wrap(async (req, res, next) => {
-    try{
-        getClients().forEach(client => {
-            if (client.readyState === WebSocket.OPEN){
-                client.JSON.stringify({ massage: req});
-            }
-        });
-        res.status(200).json({ massage: "succese" })
-    } catch (error) {
-        console.error('Error Sending:', error)
-        res.status(500).json({ massage: "Faild to send" })
+    console.log('Authenticated POST request received:', req.body);
+    if (!req.body.massage) {
+        res.status(400).json({ massage: "Bad Request" });
+    } else {
+        next();
     }
-}));
+    }), wrap(async (req, res, next) => {
+        try{
+            getClients().forEach(client => {
+                if (client.readyState === WebSocket.OPEN){
+                    client.send(req.body.massage);
+                }
+            });
+            res.status(200).json({ massage: "succese" })
+        } catch (error) {
+            console.error('Error Sending:', error)
+            res.status(500).json({ massage: "Faild to send" })
+        }
+    })
+);
 
 // db update
 router.post('/update', authenticate, wrap(async (req, res, next) => {
