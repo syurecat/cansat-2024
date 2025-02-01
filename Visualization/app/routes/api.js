@@ -21,6 +21,7 @@ const wrap = fn => (...args) => fn(...args).catch(args[2])
 const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
 const imu = new IMUCalculator();
 const AUTH_TOKEN = process.env.AUTH_TOKEN
+let lastTime = 0;
 
 // api auth
 function authenticate(req, res, next) {
@@ -62,24 +63,24 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
         console.log('Authenticated POST request received:', req.body);
         if (!req.body.type || !req.body.name || !req.body.data) {
             res.status(400).json({ massage: "Bad Request" });
-        } else if (!SENSER_TYPES.includes(type)) {
+        } else if (!SENSER_TYPES.includes(req.body.type)) {
             res.status(421).json({ massage: "Misdirected Request" });
         } else {
             next();
         }
     }), wrap(async (req, res, next) => {
         try {
-            const point = new Point(type)
+            const point = new Point(req.body.type)
                 .tag("sensor", req.body.name);
 
-            for (const key in data) {
+            for (const key in req.data) {
                 if (typeof data[key] === "number") {
                     point.floatField(key, data[key]);
                 }
             }
             
-            if (!req.body.stre) {
-                point.floatField("stre", stre);
+            if (req.body.stre) {
+                point.floatField("stre", req.body.stre);
             }
             writeApi.writePoint(point);
             await writeApi.flush();
@@ -95,7 +96,7 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
                 lastTime = currentTime;
                 getClients().forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
-                        client.JSON.stringify(imu.getAngle());
+                        client.send(JSON.stringify({"euler": imu.getAngle()}));
                     }
                 });
             }
