@@ -1,6 +1,7 @@
 import express from 'express'
 import http from 'http'
 import path from 'path'
+import cors from 'cors'
 import { fileURLToPath } from 'url';
 import indexRouter from './routes/index.js'
 import apiRouter from './routes/api.js'
@@ -38,7 +39,7 @@ app.use(wrap(async (err, req, res, next) => {
     res.status(500).send("Internal Server Error");
 }));
 
-app.listen(7080, () => {
+server.listen(7080, () => {
     console.log("Server running on http://localhost:7080");
 });
 
