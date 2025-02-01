@@ -1,4 +1,4 @@
-import math from 'mathjs'
+import * as math from 'mathjs';
 
 class IMUCalculator {
     constructor() {
