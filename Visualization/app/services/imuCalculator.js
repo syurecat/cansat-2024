@@ -1,83 +1,61 @@
-import * as math from 'mathjs';
+import { matrix, multiply, add, subtract, transpose, inv, identity } from 'mathjs';
 
-class IMUCalculator {
-    constructor() {
-        this.x = math.zeros(3, 1); // 状態ベクトル
-        this.P = math.identity(3); // 共分散行列
-        this.Q = math.multiply(math.identity(3), 0.001); // プロセスノイズ
-        this.R = math.multiply(math.identity(2), 0.01); // 観測ノイズ
-        this.accel = [0, 0, 0]; // 加速度
-    }
+// 初期状態 (オイラー角 [roll, pitch, yaw])
+let x = matrix([[0], [0], [0]]);
 
-    // 状態遷移モデル
-    f(x, u, dt) {
-        let [wx, wy, wz] = u;
-        let dx = math.multiply(dt, [[wx], [wy], [wz]]);
-        let newX = math.add(x, dx);
-        return newX;
-    }
+// 状態誤差共分散行列
+let P = identity(3);
 
-    // 状態遷移のヤコビアン
-    calc_F() {
-        return math.identity(3); // 角速度の積分なので単位行列
-    }
+// 状態遷移ノイズ
+const Q = matrix([
+    [0.001, 0, 0],
+    [0, 0.001, 0],
+    [0, 0, 0.001]
+]);
 
-    // 観測モデル（加速度計による傾き推定）
-    h(x) {
-        let theta_x = x.get([0, 0]);
-        let theta_y = x.get([1, 0]);
-        let hx = math.sin(theta_x);
-        let hy = math.sin(theta_y);
-        return math.matrix([[hx], [hy]]);
-    }
+// 観測ノイズ
+const R = matrix([
+    [0.01, 0],
+    [0, 0.01]
+]);
 
-    // 観測モデルのヤコビアン
-    calc_H(x) {
-        let theta_x = x.get([0, 0]);
-        let theta_y = x.get([1, 0]);
-        let Hx = math.cos(theta_x);
-        let Hy = math.cos(theta_y);
-        return math.matrix([
-            [Hx, 0, 0],
-            [0, Hy, 0]
-        ]);
-    }
-
-    // EKF 予測ステップ
-    predict(gyro, dt) {
-        let F = this.calc_F();
-        let predicted_x = this.f(this.x, gyro, dt);
-        let P_temp = math.multiply(F, math.multiply(this.P, math.transpose(F)));
-        let updated_P = math.add(P_temp, this.Q);
-
-        this.x = predicted_x;
-        this.P = updated_P;
-    }
-
-    // 加速度を保存
-    storeAccel(accel) {
-        this.accel = accel;
-    }
-
-    // EKF 更新ステップ
-    update() {
-        let H = this.calc_H(this.x);
-        let y_res = math.subtract(math.matrix([[this.accel[0]], [this.accel[1]]]), this.h(this.x));
-        let S = math.add(math.multiply(H, math.multiply(this.P, math.transpose(H))), this.R);
-        let K = math.multiply(this.P, math.multiply(math.transpose(H), math.inv(S)));
-
-        let updated_x = math.add(this.x, math.multiply(K, y_res));
-        let I = math.identity(3);
-        let updated_P = math.multiply(math.subtract(I, math.multiply(K, H)), this.P);
-
-        this.x = updated_x;
-        this.P = updated_P;
-    }
-
-    // 角度を取得
-    getAngle() {
-        return this.x.valueOf().map(row => row[0]);
-    }
+export function predict(gyr, dt) {
+    const [gx, gy, gz] = gyr;
+    const roll = x.get([0, 0]);
+    const pitch = x.get([1, 0]);
+    
+    // 状態遷移モデル (ジャイロによるオイラー角の更新)
+    const F = matrix([
+        [1, Math.sin(roll) * Math.tan(pitch) * dt, Math.cos(roll) * Math.tan(pitch) * dt],
+        [0, Math.cos(roll) * dt, -Math.sin(roll) * dt],
+        [0, Math.sin(roll) / Math.cos(pitch) * dt, Math.cos(roll) / Math.cos(pitch) * dt]
+    ]);
+    
+    const u = matrix([[gx * dt], [gy * dt], [gz * dt]]);
+    x = add(x, multiply(F, u));
+    P = add(multiply(F, multiply(P, transpose(F))), Q);
 }
 
-export default IMUCalculator;
+export function update(acc) {
+    const [ax, ay, az] = acc;
+    const roll_meas = Math.atan2(ay, az);
+    const pitch_meas = Math.atan2(-ax, Math.sqrt(ay * ay + az * az));
+    
+    const H = matrix([
+        [1, 0, 0],
+        [0, 1, 0]
+    ]);
+    
+    const z = matrix([[roll_meas], [pitch_meas]]);
+    const y = subtract(z, multiply(H, x));
+    
+    const S = add(multiply(H, multiply(P, transpose(H))), R);
+    const K = multiply(multiply(P, transpose(H)), inv(S));
+    
+    x = add(x, multiply(K, y));
+    P = multiply(subtract(identity(3), multiply(K, H)), P);
+}
+
+export function getEulerAngles() {
+    return x.toArray().flat();
+}

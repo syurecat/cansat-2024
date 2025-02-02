@@ -3,7 +3,7 @@ import {InfluxDB, Point} from '@influxdata/influxdb-client'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import {getClients} from './webSocket.js'
-import IMUCalculator from '../services/imuCalculator.js';
+import { predict, update, getEulerAngles } from '../services/imuCalculator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,9 +19,8 @@ const writeApi = influxDB.getWriteApi(
 const router = express.Router();
 const wrap = fn => (...args) => fn(...args).catch(args[2])
 const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
-const imu = new IMUCalculator();
 const AUTH_TOKEN = process.env.AUTH_TOKEN
-let lastTime = 0;
+let lastTime = Date.now();
 
 // api auth
 function authenticate(req, res, next) {
@@ -85,18 +84,29 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
             writeApi.writePoint(point);
             await writeApi.flush();
             res.status(200).json({ massage: "success" });
-            if (req.body.type == "ACC") {
-                imu.storeAccel(req.body.data);
-            }
             if (req.body.type == "GYR") {
                 const currentTime = Date.now();
                 const dt = lastTime ? (currentTime - lastTime) / 1000 : 0;
-                imu.predict(req.body.data, dt);
-                imu.update();
+                const gyrData = [
+                    Number(req.body.data.x),
+                    Number(req.body.data.y),
+                    Number(req.body.data.z)
+                  ];
+                console.log("Received data:", gyrData);
+                predict(gyrData, dt);
                 lastTime = currentTime;
+            }
+            if (req.body.type == "ACC") {
+                const accData = [
+                    Number(req.body.data.x),
+                    Number(req.body.data.y),
+                    Number(req.body.data.z)
+                  ];
+                console.log("Received data:", accData);
+                update(accData);
                 getClients().forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({"euler": imu.getAngle()}));
+                        client.send(JSON.stringify({"euler": getEulerAngles()}));
                     }
                 });
             }
