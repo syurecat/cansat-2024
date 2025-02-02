@@ -72,7 +72,7 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
             const point = new Point(req.body.type)
                 .tag("sensor", req.body.name);
 
-            for (const key in req.data) {
+            for (const key in req.body.data) {
                 if (typeof data[key] === "number") {
                     point.floatField(key, data[key]);
                 }
