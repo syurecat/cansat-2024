@@ -63,21 +63,21 @@ window.onload = ()=>{
     }, undefined, function (error) {
         console.error('Model loading error:', error);
     });
-    const loader2 = new GLTFLoader();
-    loader2.load(CANDATA2, function (gltf) {
-        model2 = gltf.scene;
-        scene.add(model2);
+    // const loader2 = new GLTFLoader();
+    // loader2.load(CANDATA2, function (gltf) {
+    //     model2 = gltf.scene;
+    //     scene.add(model2);
 
-        model2.scale.set(20, 20, 20);  // サイズ調整
-		model2.position.set(0, 0, 0);
-    }, undefined, function (error) {
-        console.error('Model loading error:', error);
-    });
+    //     model2.scale.set(20, 20, 20);  // サイズ調整
+	// 	model2.position.set(0, 0, 0);
+    // }, undefined, function (error) {
+    //     console.error('Model loading error:', error);
+    // });
 	//アニメーション
 	animate();
 }
 
-const socket = new WebSocket('ws://localhost:8080'); // WebSocketサーバーのアドレス
+const socket = new WebSocket('ws://localhost:7080'); // WebSocketサーバーのアドレス
 
 socket.onmessage = (event) => {
     try {
@@ -85,9 +85,11 @@ socket.onmessage = (event) => {
         
         if (data.euler) {
             // オイラー角 (rad) を受け取ってオブジェクトを回転
-            const { x, y, z } = data.euler;
+			console.log(data.euler)
+            const [ x, y, z ] = data.euler;
+			console.log(x, y, z)
             const euler = new THREE.Euler(x, y, z, 'XYZ'); // 回転順序
-            cube.quaternion.setFromEuler(euler); // クォータニオンに変換
+            model.quaternion.setFromEuler(euler); // クォータニオンに変換
         }
 
         if (data.message) {
