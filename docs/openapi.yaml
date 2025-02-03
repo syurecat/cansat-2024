@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: Cansat API
+  version: 1.0.0
+  description: これは Cansat API のドキュメントです
+tags:
+  - name: "webSocket"
+  - name: "data"
+paths:
+  /send:
+    post:
+      summary: Send webSocket massege
+      description: Sends a message to all connected clients via websocket.
+      tags: ["webSocket"]
+      parameters:
+        - name: token
+          in: query
+          description: token
+          required: true
+          schema: { type:string }
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: sucsess
+          content:
+            application/json:
+              example:
+                id: 123
+                name: "John Doe"
+                email: "john@example.com"

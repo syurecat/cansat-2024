@@ -41,9 +41,9 @@ AUTH_TOKEN=cansat
 ```
 
 ## 📜 ライセンス
-coming soon
+TODO
 
 ## 📧 コンタクト
-coming soon
+TODO
 
 
