@@ -1,0 +1,55 @@
+services:
+  app:
+    build: .
+    container_name: app
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    ports:
+      - 7080:7080
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_TOKEN=${INFLUXDB_TOKEN}
+      - INFLUXDB_ORG=${INFLUXDB_ORG}
+      - INFLUXDB_BUCKET=${INFLUXDB_BUCKET}
+      - AUTH_TOKEN=${AUTH_TOKEN}
+    networks:
+      - cansat_network
+
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    volumes:
+      - ./influxdb2/influxdb_data:/var/lib/influxdb2
+      - ./influxdb2/influxdb_config:/etc/influxdb2
+    ports:
+      - 7086:8086
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=${INFLUXDB_USERNAME}
+      - DOCKER_INFLUXDB_INIT_PASSWORD=${INFLUXDB_PASSWORD}
+      - DOCKER_INFLUXDB_INIT_ORG=${INFLUXDB_ORG}
+      - DOCKER_INFLUXDB_INIT_BUCKET=${INFLUXDB_BUCKET}
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${INFLUXDB_TOKEN}
+    networks:
+      - cansat_network
+  
+  grafana:
+    image: grafana/grafana-oss
+    container_name: grafana
+    ports:
+      - 7000:3000
+    user: "472"
+    volumes:
+      - ./grafana/grafana_data:/var/lib/grafana
+    depends_on:
+      - influxdb
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost:8085
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
+    networks:
+      - cansat_network
+
+networks:
+  cansat_network:

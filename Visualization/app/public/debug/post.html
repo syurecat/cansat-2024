@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POST API Debugger</title>
+</head>
+<body>
+    <h2>POST API Debugger</h2>
+    <label for="apiUrl">API URL:</label>
+    <input type="text" id="apiUrl" placeholder="https://example.com/api" size="50"><br><br>
+
+    <label for="jsonData">JSON Data:</label><br>
+    <textarea id="jsonData" rows="10" cols="50">{ "key": "value" }</textarea><br><br>
+
+    <button onclick="sendPostRequest()">Send POST</button>
+
+    <h3>Response:</h3>
+    <pre id="responseOutput"></pre>
+
+    <script>
+        async function sendPostRequest() {
+            const apiUrl = document.getElementById('apiUrl').value;
+            const jsonData = document.getElementById('jsonData').value;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: jsonData
+                });
+
+                const responseData = await response.text();
+                document.getElementById('responseOutput').textContent = responseData;
+            } catch (error) {
+                document.getElementById('responseOutput').textContent = "Error: " + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
