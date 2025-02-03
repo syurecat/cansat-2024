@@ -59,7 +59,6 @@ router.post('/send', authenticate, wrap(async (req, res, next) => {
 
 // db update
 router.post('/update', authenticate, wrap(async (req, res, next) => {
-        console.log('Authenticated POST request received:', req.body);
         if (!req.body.type || !req.body.name || !req.body.data) {
             res.status(400).json({ massage: "Bad Request" });
         } else if (!SENSER_TYPES.includes(req.body.type)) {
@@ -72,9 +71,9 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
             const point = new Point(req.body.type)
                 .tag("sensor", req.body.name);
 
-            for (const key in req.data) {
-                if (typeof data[key] === "number") {
-                    point.floatField(key, data[key]);
+            for (const key in req.body.data) {
+                if (typeof req.body.data[key] === "number") {
+                    point.floatField(key, req.body.data[key]);
                 }
             }
             
