@@ -6,12 +6,11 @@ import Stats from "stats";
 import { OrbitControls } from "orbitcontrols";
 
 const CANDATA = "./cansat-3dData/cansatafull.gltf"
-const CANDATA2 = "./cansat-3dData/Body.gltf"
 const W_WIDTH  = window.innerWidth; // ブラウザの横サイズ
 const W_HEIGHT = window.innerHeight;// ブラウザの縦サイズ
 const W_ASPECT = window.innerWidth / window.innerHeight;// アスペクト比
 const W_RATIO  = window.devicePixelRatio;// ピクセル比
-let camera, scene, renderer, stats, controls, cube, model, model2;// カメラ、シーン、レンダラー、立方体
+let camera, scene, renderer, stats, controls, cube, model, curQuaternion, trgtQuaternion;// カメラ、シーン、レンダラー、立方体
 
 window.onload = ()=>{
 	//カメラ
@@ -63,16 +62,10 @@ window.onload = ()=>{
     }, undefined, function (error) {
         console.error('Model loading error:', error);
     });
-    // const loader2 = new GLTFLoader();
-    // loader2.load(CANDATA2, function (gltf) {
-    //     model2 = gltf.scene;
-    //     scene.add(model2);
 
-    //     model2.scale.set(20, 20, 20);  // サイズ調整
-	// 	model2.position.set(0, 0, 0);
-    // }, undefined, function (error) {
-    //     console.error('Model loading error:', error);
-    // });
+	curQuaternion = new THREE.Quaternion();
+	trgtQuaternion = new THREE.Quaternion();
+
 	//アニメーション
 	animate();
 }
@@ -80,6 +73,7 @@ window.onload = ()=>{
 const socket = new WebSocket('ws://localhost:7080'); // WebSocketサーバーのアドレス
 
 socket.onmessage = (event) => {
+	if (!model) return;
     try {
         const data = JSON.parse(event.data);
         
@@ -87,10 +81,9 @@ socket.onmessage = (event) => {
             // オイラー角 (rad) を受け取ってオブジェクトを回転
 			console.log(data.euler)
             const [ x, y, z ] = data.euler;
-			console.log(x, y, z)
             const euler = new THREE.Euler(x, y, z, 'XYZ'); // 回転順序
-            model.quaternion.setFromEuler(euler); // クォータニオンに変換
-        }
+			trgtQuaternion.setFromEuler(euler);
+		}
 
         if (data.message) {
             alert(`Message: ${data.message}`);
@@ -103,8 +96,8 @@ socket.onmessage = (event) => {
 function animate(){
 	//読み込み待ち
 	if (model) {
-		// model.rotation.x += 0.01;
-		// model.rotation.y += 0.01;
+		curQuaternion.slerp(trgtQuaternion, 0.06);// 第2引数は線形補間の値
+		model.quaternion.copy(curQuaternion);
 	}
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	controls.update();
