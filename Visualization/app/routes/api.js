@@ -211,6 +211,18 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
     })
 );
 
+router.all('/status', wrap(async (req, res, next) => {
+    res.status(405).json({ message: "Method Not Allowed" });
+}));
+
+router.all('/latest', wrap(async (req, res, next) => {
+    res.status(405).json({ message: "Method Not Allowed" });
+}));
+
+router.all('/send', wrap(async (req, res, next) => {
+    res.status(405).json({ message: "Method Not Allowed" });
+}));
+
 router.all('/update', wrap(async (req, res, next) => {
     res.status(405).json({ message: "Method Not Allowed" });
 }));
