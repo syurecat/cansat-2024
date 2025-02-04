@@ -1,31 +1,125 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
   title: Cansat API
+  description: センサーの値をアップデートし、WebSocketクライアントにメッセージを送信するAPI
   version: 1.0.0
-  description: これは Cansat API のドキュメントです
-tags:
-  - name: "webSocket"
-  - name: "data"
+
 paths:
-  /send:
+  /update:
     post:
-      summary: Send webSocket massege
-      description: Sends a message to all connected clients via websocket.
-      tags: ["webSocket"]
-      parameters:
-        - name: token
-          in: query
-          description: token
-          required: true
-          schema: { type:string }
-          schema:
-            type: integer
+      summary: センサーの値をアップデートします
+      description: |
+        センサーの値をアップデートします。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, type, name, data]
+              properties:
+                token:
+                  type: string
+                  description: 認証トークンです。
+                type:
+                  type: string
+                  enum: [ACC, GPU, GYR, MAG, BME]
+                  description: "センサーのタイプ。_measurementの値になります。"
+                name:
+                  type: string
+                  description: "センサーの名前（タグとして使用）。"
+                data:
+                  type: object
+                  additionalProperties:
+                    type: number
+                  description: "センサーの測定データ（x, y, z など）。"
+                stre:
+                  type: number
+                  description: "オプションの伝送電波強度。"
       responses:
         "200":
-          description: sucsess
+          description: 成功
+        "400":
+          description: 必須の値が設定されていない
+        "401":
+          description: tokenのミス
+        "404":
+          description: データが見つからない
+        "405":
+          description: メソッドミス
+        "421":
+          description: type等の中身が指定の内容になっていない
+        "500":
+          description: サーバー内エラー
+
+  /send:
+    post:
+      summary: WebSocketクライアント全員にメッセージを送信します
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, message]
+              properties:
+                token:
+                  type: string
+                  description: 認証トークンです。
+                message:
+                  type: string
+                  description: 送信するメッセージの内容。
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 必須の値が設定されていない
+        "401":
+          description: tokenのミス
+        "405":
+          description: メソッドミス
+        "500":
+          description: サーバー内エラー
+
+  /latest:
+    get:
+      summary: 最後のセンサーデータを取得します
+      parameters:
+        - name: type
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ACC, GPU, GYR, MAG, BME]
+          description: センサーのタイプ。
+      responses:
+        "200":
+          description: 成功
           content:
             application/json:
-              example:
-                id: 123
-                name: "John Doe"
-                email: "john@example.com"
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                  name:
+                    type: string
+                  data:
+                    type: object
+                    additionalProperties:
+                      type: number
+                  timestamp:
+                    type: string
+                    format: date-time
+        "400":
+          description: 必須の値が設定されていない
+        "401":
+          description: tokenのミス
+        "404":
+          description: データが見つからない
+        "405":
+          description: メソッドミス
+        "421":
+          description: type等の中身が指定の内容になっていない
+        "500":
+          description: サーバー内エラー
