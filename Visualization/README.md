@@ -12,24 +12,27 @@
 - OS: Windows11
 - docker v3.8
 
-## 環境構築
+## 使用方法
+
+### 環境構築
+リポジトリをクローン
 ```sh
-# リポジトリをクローン
 git clone https://github.com/syurecat/cansat-2024
 cd cansat-2024/Visualization
-
-# 依存関係をインストール
-npm install
 ```
 
-## 実行方法
+### 実行方法
 ```sh
 docker-compose up
 ```
 ブラウザで `http://localhost:8080` にアクセス。
 
+### apiドキュメント
+TODO
+
+
 ## 環境変数
-以下の環境変数を設定する必要があります。
+以下の環境変数を設定する必要があります。.envにデフォルトの値がすでに入力されているため、適宜変更してください。
 ```
 INFLUXDB_USERNAME=cansat
 INFLUXDB_PASSWORD=cansat2024
