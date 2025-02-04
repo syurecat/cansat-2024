@@ -1,13 +1,17 @@
-
 <!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Debugger</title>
   </head>
   <body>
-    <p>WebSocketサンプル</p>
-	<input id="eventType">
-	<input id="dispMsg">
+    <h2>WebSocketサンプル</h2>
+	<label for="eventType">eventType:</label>
+	<input id="eventType" size="30"><br><br>
+
+	<label for="dispMsg">eventData:</label><br>
+	<div id="dispMsg"></div>
   </body>
 </html>
 
@@ -18,26 +22,34 @@
 
 	//接続通知
 	connection.onopen = function(event) {
+		const time = new Date().toLocaleTimeString();
+		const dispMsg = document.getElementById("dispMsg");
 		document.getElementById( "eventType" ).value = "通信接続イベント受信";
-		document.getElementById( "dispMsg" ).value = event.data;
+		dispMsg.innerHTML = `<pre>${time}: ${event.data}</pre>` + dispMsg.innerHTML;
 	};
 	 
 	//エラー発生
 	connection.onerror = function(error) {
+		const time = new Date().toLocaleTimeString();
+		const dispMsg = document.getElementById("dispMsg");
 		document.getElementById( "eventType" ).value = "エラー発生イベント受信";
-		document.getElementById( "dispMsg" ).value = error.data;
+		dispMsg.innerHTML = `<pre>${time}: ${event.data}</pre>` + dispMsg.innerHTML;
 	};
 	 
 	//メッセージ受信
 	connection.onmessage = function(event) {
+		const time = new Date().toLocaleTimeString();
+		const dispMsg = document.getElementById("dispMsg");
 		document.getElementById( "eventType" ).value = "メッセージ受信";
-		document.getElementById( "dispMsg" ).value = event.data;
+		dispMsg.innerHTML = `<pre>${time}: ${event.data}</pre>` + dispMsg.innerHTML;
 	};
 	  
 	//切断
 	connection.onclose = function() {
+		const time = new Date().toLocaleTimeString();
+		const dispMsg = document.getElementById("dispMsg");
 		document.getElementById( "eventType" ).value = "通信切断イベント受信";
-		document.getElementById( "dispMsg" ).value = "";
+		dispMsg.innerHTML = `<pre>${time}: ${event.data}</pre>` + dispMsg.innerHTML;
 	};
 </script>
 

@@ -8,7 +8,7 @@
 <body>
     <h2>POST API Debugger</h2>
     <label for="apiUrl">API URL:</label>
-    <input type="text" id="apiUrl" placeholder="https://example.com/api" size="50"><br><br>
+    <input type="text" id="apiUrl" placeholder="http://localhost:7080/api" size="50"><br><br>
 
     <label for="jsonData">JSON Data:</label><br>
     <textarea id="jsonData" rows="10" cols="50">{ "key": "value" }</textarea><br><br>
@@ -16,12 +16,14 @@
     <button onclick="sendPostRequest()">Send POST</button>
 
     <h3>Response:</h3>
-    <pre id="responseOutput"></pre>
+    <div id="response"></div>
 
     <script>
         async function sendPostRequest() {
+            const time = new Date().toLocaleTimeString();
             const apiUrl = document.getElementById('apiUrl').value;
             const jsonData = document.getElementById('jsonData').value;
+            const res = document.getElementById('response')
 
             try {
                 const response = await fetch(apiUrl, {
@@ -33,9 +35,9 @@
                 });
 
                 const responseData = await response.text();
-                document.getElementById('responseOutput').textContent = responseData;
+                res.innerHTML = `<pre>${time}: ${responseData}</pre>` + res.innerHTML;
             } catch (error) {
-                document.getElementById('responseOutput').textContent = "Error: " + error.message;
+                res.innerHTML = `<pre>${time}: Error:  ${error.message}</pre>` + res.innerHTML;
             }
         }
     </script>
