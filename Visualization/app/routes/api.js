@@ -43,8 +43,9 @@ function authenticate(req, res, next) {
 async function getTagKeys(measurement) {
     const fluxQuery = `
       import "influxdata/influxdb/schema"
-      schema.tagKeys(
+      schema.tagValues(
         bucket: "${INFLUXDB_BUCKET}",
+        tag: "sensor",
         predicate: (r) => r._measurement == "${measurement}"
       )
     `;
@@ -101,6 +102,7 @@ router.get('/latest/:type/:name', wrap(async (req, res, next) => {
             res.status(400).json({ message: "Bad Request" })
         } else {
             const tags = await getTagKeys(req.params.type);
+            console.log(tags)
             if (!tags.includes(req.params.name)) {
                 res.status(400).json({ message: "Bad Request" })
             } else {
@@ -109,7 +111,7 @@ router.get('/latest/:type/:name', wrap(async (req, res, next) => {
         }
     }), wrap(async (req, res, next) => {
         try {
-            const fluxQuery = `from(bucket: "your_bucket")
+            const fluxQuery = `from(bucket: "${INFLUXDB_BUCKET}")
                                 |> range(start: -1h)
                                 |> filter(fn: (r) => r._measurement == "${req.params.type}")
                                 |> filter(fn: (r) => r.sensor == "${req.params.name}")
