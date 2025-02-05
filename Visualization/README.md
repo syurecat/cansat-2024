@@ -27,8 +27,8 @@ docker-compose up
 ```
 ブラウザで `http://localhost:8080` にアクセス。
 
-### apiドキュメント
-TODO
+### APIドキュメント
+[API ドキュメント](https://syurecat.github.io/cansat-2024/docs/api/)をご参照ください。
 
 
 ## 環境変数
