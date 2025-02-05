@@ -80,7 +80,7 @@ router.get("/senserTag/:type", wrap(async (req, res, next) => {
         }
     }), wrap(async (req, res, next) => {
         const tags = await getTagKeys(req.params.type)
-        req.status(200).json({ message: "succese", tag: tags})
+        res.status(200).json({ message: "succese", tag: tags})
     })
 )
 
