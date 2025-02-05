@@ -70,6 +70,20 @@ router.get('/status', wrap(async (req, res) => {
     res.status(200).json({ message: 'OK', uptime: process.uptime() });
 }));
 
+router.get("/senserTag/:type", wrap(async (req, res, next) => {
+        if (!req.params.type) {
+            res.status(404).json({ message: "Not Found "})
+        } else if (!SENSER_TYPES.includes(req.params.type)) {
+            res.status(400).json({ message: "Bad Request" })
+        } else {
+            next();
+        }
+    }), wrap(async (req, res, next) => {
+        const tags = await getTagKeys(req.params.type)
+        req.status(200).json({ message: "succese", tag: tags})
+    })
+)
+
 router.get('/latest/:type/:name', wrap(async (req, res, next) => {
         if (!req.params.type || !req.params.name) {
             res.status(404).json({ message: "Not Found" })
@@ -116,7 +130,7 @@ router.post('/send', authenticate, wrap(async (req, res, next) => {
         try{
             getClients().forEach(client => {
                 if (client.readyState === WebSocket.OPEN){
-                    client.send(req.body.massage);
+                    client.send(JSON.stringify({"message": req.body.massage}));
                 }
             });
             res.status(200).json({ message: "succese" })

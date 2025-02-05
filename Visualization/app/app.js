@@ -41,7 +41,7 @@ app.all("*", wrap(async (req, res, next) => {
 
 app.use(wrap(async (err, req, res, next) => {
     console.error(err.stack)
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
 }));
 
 server.listen(7080, () => {
