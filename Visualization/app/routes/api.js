@@ -121,7 +121,7 @@ router.get('/latest/:type/:name', wrap(async (req, res, next) => {
 // webSocket send 
 router.post('/send', authenticate, wrap(async (req, res, next) => {
     console.log('Authenticated POST request received:', req.body);
-    if (!req.body.massage) {
+    if (!req.body.message) {
         res.status(400).json({ message: "Bad Request" });
     } else {
         next();
