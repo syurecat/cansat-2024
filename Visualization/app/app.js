@@ -5,6 +5,7 @@ import cors from 'cors'
 import { fileURLToPath } from 'url';
 import indexRouter from './routes/index.js'
 import apiRouter from './routes/api.js'
+import debugRouter from './routes/debug.js'
 import {setWebSocket, closeWebSocket} from './routes/webSocket.js'
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +25,9 @@ app.get("/", indexRouter);
 
 // api root
 app.use("/api", apiRouter);
+
+// debug index
+app.use("/debug", debugRouter);
 
 // teapot
 app.all('/teapot', wrap(async (req, res, next) => {
