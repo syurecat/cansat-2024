@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: Cansat API
+  description: センサーの値をアップデートし、WebSocketクライアントにメッセージを送信するAPI
+  version: 1.1.0
+
+servers:
+  - url: http://localhost:7080/api
+
+paths:
+  /status:
+    get:
+      summary: Get API status
+      operationId: getStatus
+      responses:
+        '200':
+          $ref: '#/components/responses/SuccessStatus'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /senserTag/{type}:
+    get:
+      summary: Get sensor tags by type
+      operationId: getSensorTags
+      parameters:
+        - $ref: '#/components/parameters/SensorType'
+      responses:
+        '200':
+          $ref: '#/components/responses/SensorTagsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /latest/{type}/{name}:
+    get:
+      summary: Get the latest sensor data
+      operationId: getLatestData
+      parameters:
+        - $ref: '#/components/parameters/SensorType'
+        - $ref: '#/components/parameters/SensorName'
+      responses:
+        '200':
+          $ref: '#/components/responses/LatestDataResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /send:
+    post:
+      summary: Send message via WebSocket
+      operationId: sendMessage
+      requestBody:
+        $ref: '#/components/requestBodies/SendMessage'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /update:
+    post:
+      summary: Update sensor data in InfluxDB
+      operationId: updateData
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateData'
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  parameters:
+    SensorType:
+      name: type
+      in: path
+      required: true
+      schema:
+        type: string
+        enum: [ACC, GPS, GYR, MAG, BME]
+    SensorName:
+      name: name
+      in: path
+      required: true
+      schema:
+        type: string
+
+  requestBodies:
+    SendMessage:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                description: Authentication token
+              message:
+                type: string
+                description: Message to send via WebSocket
+            required:
+              - token
+              - message
+
+    UpdateData:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              token:
+                type: string
+                description: Authentication token
+              type:
+                type: string
+                enum: [ACC, GPS, GYR, MAG, BME]
+                description: Sensor type
+              name:
+                type: string
+                description: Sensor name
+              data:
+                type: object
+                additionalProperties:
+                  type: number
+                description: Sensor data
+              stre:
+                type: number
+                description: Strength value (optional)
+            required:
+              - token
+              - type
+              - name
+              - data
+
+  responses:
+    SuccessStatus:
+      description: API is running
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+              uptime:
+                type: number
+
+    SensorTagsResponse:
+      description: Successfully retrieved sensor tags
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "succese"
+              tag:
+                type: array
+                items:
+                  type: string
+
+    LatestDataResponse:
+      description: Successfully retrieved latest data
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "succese"
+              data:
+                type: array
+                items:
+                  type: object
+
+    Success:
+      description: Operation successful
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "success"
+
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Bad Request"
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Unauthorized"
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Forbidden"
+    NotFound:
+      description: "Resource not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Not Found"
+    ServerError:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Internal Server Error"
