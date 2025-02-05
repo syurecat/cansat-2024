@@ -66,31 +66,6 @@ async function getTagKeys(measurement) {
     });
 }
 
-async function getFieldKeys(measurement) {
-    const fluxQuery = `
-      import "influxdata/influxdb/schema"
-      schema.fieldKeys(
-        bucket: "${INFLUXDB_BUCKET}",
-        predicate: (r) => r._measurement == "${measurement}"
-      )
-    `;
-  
-    return new Promise((resolve, reject) => {
-      const fields = [];
-      queryApi.queryRows(fluxQuery, {
-        next(row, tableMeta) {
-          fields.push(tableMeta.toObject(row)._value);
-        },
-        error(error) {
-          reject(error);
-        },
-        complete() {
-          resolve(fields);
-        },
-      });
-    });
-}
-
 router.get('/status', wrap(async (req, res) => {
     res.status(200).json({ message: 'OK', uptime: process.uptime() });
 }));
