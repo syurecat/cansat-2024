@@ -66,6 +66,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -84,6 +86,8 @@ paths:
           $ref: '#/components/responses/Unauthorized'
         '403':
           $ref: '#/components/responses/Forbidden'
+        '406':
+          $ref: '#/components/responses/NotAcceptable'
         '500':
           $ref: '#/components/responses/ServerError'
 
@@ -246,6 +250,16 @@ components:
               message:
                 type: string
                 example: "Not Found"
+    NotAcceptable:
+      description: "Requested data format not supported"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "Not Acceptable"
     ServerError:
       description: Internal Server Error
       content:
