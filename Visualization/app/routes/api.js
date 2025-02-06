@@ -215,5 +215,10 @@ router.all('/send', wrap(async (req, res, next) => {
 router.all('/update', wrap(async (req, res, next) => {
     res.status(405).json({ message: "Method Not Allowed" });
 }));
+
+router.use(wrap(async (err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).json({ message: "Internal Server Error" });
+}));
   
 export default router;

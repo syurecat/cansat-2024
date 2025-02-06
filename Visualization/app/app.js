@@ -18,7 +18,16 @@ setWebSocket(server);
 // public
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
+app.use(express.urlencoded());
 app.use(cors())
+
+// JSON error
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.type === "entity.parse.failed") {
+        return res.status(406).json({ message: "Not Acceptable" });
+    }
+    next(err);
+});
 
 // root index
 app.get("/", indexRouter);
