@@ -138,7 +138,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\" or r[\"_field\"] == \"pres\" or r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\" or r[\"_field\"] == \"pres\" or r[\"_field\"] == \"temp\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -228,7 +228,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -318,7 +318,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -380,7 +380,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -442,7 +442,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -504,7 +504,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -594,7 +594,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> filter(fn: (r) => r[\"tag1\"] == \"tag1_value\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
