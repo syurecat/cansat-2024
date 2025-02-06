@@ -66,34 +66,23 @@ async function getTagKeys(measurement) {
     });
 }
 
-async function getFieldKeys(measurement) {
-    const fluxQuery = `
-      import "influxdata/influxdb/schema"
-      schema.fieldKeys(
-        bucket: "${INFLUXDB_BUCKET}",
-        predicate: (r) => r._measurement == "${measurement}"
-      )
-    `;
-  
-    return new Promise((resolve, reject) => {
-      const fields = [];
-      queryApi.queryRows(fluxQuery, {
-        next(row, tableMeta) {
-          fields.push(tableMeta.toObject(row)._value);
-        },
-        error(error) {
-          reject(error);
-        },
-        complete() {
-          resolve(fields);
-        },
-      });
-    });
-}
-
 router.get('/status', wrap(async (req, res) => {
     res.status(200).json({ message: 'OK', uptime: process.uptime() });
 }));
+
+router.get("/senserTag/:type", wrap(async (req, res, next) => {
+        if (!req.params.type) {
+            res.status(404).json({ message: "Not Found "})
+        } else if (!SENSER_TYPES.includes(req.params.type)) {
+            res.status(400).json({ message: "Bad Request" })
+        } else {
+            next();
+        }
+    }), wrap(async (req, res, next) => {
+        const tags = await getTagKeys(req.params.type)
+        req.status(200).json({ message: "succese", tag: tags})
+    })
+)
 
 router.get('/latest/:type/:name', wrap(async (req, res, next) => {
         if (!req.params.type || !req.params.name) {
@@ -141,7 +130,7 @@ router.post('/send', authenticate, wrap(async (req, res, next) => {
         try{
             getClients().forEach(client => {
                 if (client.readyState === WebSocket.OPEN){
-                    client.send(req.body.massage);
+                    client.send(JSON.stringify({"message": req.body.massage}));
                 }
             });
             res.status(200).json({ message: "succese" })
@@ -210,6 +199,18 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
         }
     })
 );
+
+router.all('/status', wrap(async (req, res, next) => {
+    res.status(405).json({ message: "Method Not Allowed" });
+}));
+
+router.all('/latest', wrap(async (req, res, next) => {
+    res.status(405).json({ message: "Method Not Allowed" });
+}));
+
+router.all('/send', wrap(async (req, res, next) => {
+    res.status(405).json({ message: "Method Not Allowed" });
+}));
 
 router.all('/update', wrap(async (req, res, next) => {
     res.status(405).json({ message: "Method Not Allowed" });

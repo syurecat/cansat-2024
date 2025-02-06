@@ -5,6 +5,7 @@ import cors from 'cors'
 import { fileURLToPath } from 'url';
 import indexRouter from './routes/index.js'
 import apiRouter from './routes/api.js'
+import debugRouter from './routes/debug.js'
 import {setWebSocket, closeWebSocket} from './routes/webSocket.js'
 
 const __filename = fileURLToPath(import.meta.url);
@@ -25,6 +26,9 @@ app.get("/", indexRouter);
 // api root
 app.use("/api", apiRouter);
 
+// debug index
+app.use("/debug", debugRouter);
+
 // teapot
 app.all('/teapot', wrap(async (req, res, next) => {
     res.status(418).send("I'm a teapot");
@@ -37,7 +41,7 @@ app.all("*", wrap(async (req, res, next) => {
 
 app.use(wrap(async (err, req, res, next) => {
     console.error(err.stack)
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ message: "Internal Server Error" });
 }));
 
 server.listen(7080, () => {
