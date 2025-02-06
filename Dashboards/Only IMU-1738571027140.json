@@ -75,7 +75,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Accx\")\r\n  |> keep(columns: [\"_time\", \"_value\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\")\r\n  |> keep(columns: [\"_time\", \"_value\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -134,7 +134,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Accx\" or r[\"_field\"] == \"Accy\" or r[\"_field\"] == \"Accz\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -197,7 +197,7 @@
             "type": "influxdb",
             "uid": "eebxb15g2xiwwf"
           },
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Gyrx\" or r[\"_field\"] == \"Gyry\" or r[\"_field\"] == \"Gyrz\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GYR\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -256,7 +256,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Magx\" or r[\"_field\"] == \"Magy\" or r[\"_field\"] == \"Magz\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MAG\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -346,7 +346,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Accx\" or r[\"_field\"] == \"Accy\" or r[\"_field\"] == \"Accz\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -436,7 +436,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Gyrx\" or r[\"_field\"] == \"Gyry\" or r[\"_field\"] == \"Gyrz\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GYR\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -526,7 +526,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Magx\" or r[\"_field\"] == \"Magy\" or r[\"_field\"] == \"Magz\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MAG\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
