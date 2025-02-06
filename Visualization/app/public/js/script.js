@@ -5,12 +5,13 @@ import { GLTFLoader } from "GLTFLoader";
 import Stats from "stats";
 import { OrbitControls } from "orbitcontrols";
 
-const CANDATA = "./cansat-3dData/cansatafull.gltf"
+const CANDATA = "./cansat-3dData/body.gltf"
 const W_WIDTH  = window.innerWidth; // ブラウザの横サイズ
 const W_HEIGHT = window.innerHeight;// ブラウザの縦サイズ
 const W_ASPECT = window.innerWidth / window.innerHeight;// アスペクト比
 const W_RATIO  = window.devicePixelRatio;// ピクセル比
-let camera, scene, renderer, stats, controls, cube, model, curQuaternion, trgtQuaternion;// カメラ、シーン、レンダラー、立方体
+const clock = new THREE.Clock;
+let camera, scene, renderer, stats, controls, cube, model, curQuaternion, trgtQuaternion, mixer;
 
 window.onload = ()=>{
 	//カメラ
@@ -57,8 +58,19 @@ window.onload = ()=>{
         model = gltf.scene;
         scene.add(model);
 
-        model.scale.set(20, 20, 20);  // サイズ調整
+		console.log(gltf.animations);
+
+        model.scale.set(0.03, 0.03, 0.03);  // サイズ調整
 		model.position.set(0, 0, 0);
+
+		//アニメーションミキサ
+		mixer = new THREE.AnimationMixer(model);
+
+		gltf.animations.forEach((clip) => {
+			const action = mixer.clipAction(clip);
+			action.setLoop(THREE.LoopRepeat);
+			action.reset().play();
+		})
     }, undefined, function (error) {
         console.error('Model loading error:', error);
     });
@@ -94,10 +106,13 @@ socket.onmessage = (event) => {
 };
 
 function animate(){
+	const delta = clock.getDelta();
+	if (mixer) mixer.update(delta);
 	//読み込み待ち
 	if (model) {
 		curQuaternion.slerp(trgtQuaternion, 0.06);// 第2引数は線形補間の値
 		model.quaternion.copy(curQuaternion);
+		mixer.update()
 	}
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	controls.update();
