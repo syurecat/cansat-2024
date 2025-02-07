@@ -11,7 +11,7 @@ const W_HEIGHT = window.innerHeight;// ブラウザの縦サイズ
 const W_ASPECT = window.innerWidth / window.innerHeight;// アスペクト比
 const W_RATIO  = window.devicePixelRatio;// ピクセル比
 const clock = new THREE.Clock;
-let camera, scene, renderer, stats, controls, cube, model, curQuaternion, trgtQuaternion, mixer;
+let camera, scene, renderer, stats, controls, cube, model, curQuaternion, trgtQuaternion, mixer, animationActions;
 
 window.onload = ()=>{
 	//カメラ
@@ -58,7 +58,7 @@ window.onload = ()=>{
         model = gltf.scene;
         scene.add(model);
 
-		console.log(gltf.animations);
+		animationActions = [];
 
         model.scale.set(0.03, 0.03, 0.03);  // サイズ調整
 		model.position.set(0, 0, 0);
@@ -68,8 +68,9 @@ window.onload = ()=>{
 
 		gltf.animations.forEach((clip) => {
 			const action = mixer.clipAction(clip);
-			action.setLoop(THREE.LoopRepeat);
-			action.reset().play();
+			action.setLoop(THREE.LoopOnce, 0);
+			action.clampWhenFinished = true;
+			animationActions.push(action);
 		})
     }, undefined, function (error) {
         console.error('Model loading error:', error);
@@ -95,6 +96,11 @@ socket.onmessage = (event) => {
             const [ x, y, z ] = data.euler;
             const euler = new THREE.Euler(x, y, z, 'XYZ'); // 回転順序
 			trgtQuaternion.setFromEuler(euler);
+		}
+
+		if (data.flag && mixer) {
+			action.reset();
+			action.play();
 		}
 
         if (data.message) {
