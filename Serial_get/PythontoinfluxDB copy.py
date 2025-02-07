@@ -26,8 +26,8 @@ client = influxdb_client.InfluxDBClient(
 
 write_api = client.write_api(write_options=SYNCHRONOUS)
 
-p = influxdb_client.Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
-write_api.write(bucket=bucket, org=org, record=p)
+#p = influxdb_client.Point("my_measurement").tag("location", "Prague").field("temperature", 25.3)
+#write_api.write(bucket=bucket, org=org, record=p)
 
 #######################################################################################################
 
@@ -78,19 +78,23 @@ while True:
         }
 
         point = (
-            influxdb_client.Point('cansat')
+            influxdb_client.Point('BME')
             .field("temp",data["temp"])
             .field("HUMI",data["humi"])
-            .field("PRE",data["pres"])
-            .field("Accx",data["Accx"])
-            .field("Accy",data["Accy"])
-            .field("Accz",data["Accz"])
-            .field("Gyrx",data["Gyrx"])
-            .field("Gyry",data["Gyry"])
-            .field("Gyrz",data["Gyrz"])
-            .field("Magx",data["Magx"])
-            .field("Magy",data["Magy"])
-            .field("Magz",data["Magz"])
+            .field("PRE",data["pres"]),
+            influxdb_client.Point('ACC')
+            .field("x",data["Accx"])
+            .field("y",data["Accy"])
+            .field("z",data["Accz"]),
+            influxdb_client.Point('GYR')
+            .field("x",data["Gyrx"])
+            .field("y",data["Gyry"])
+            .field("z",data["Gyrz"]),
+            influxdb_client.Point('MAG')
+            .field("x",data["Magx"])
+            .field("y",data["Magy"])
+            .field("z",data["Magz"]),
+            influxdb_client.Point('GPS')
             .field("lati",data["lati"])
             .field("long",data["long"])
             .field("alti",data["alti"])
