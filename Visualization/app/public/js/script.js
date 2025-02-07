@@ -112,7 +112,6 @@ function animate(){
 	if (model) {
 		curQuaternion.slerp(trgtQuaternion, 0.06);// 第2引数は線形補間の値
 		model.quaternion.copy(curQuaternion);
-		mixer.update(delta)
 	}
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	controls.update();
