@@ -107,7 +107,7 @@ socket.onmessage = (event) => {
 
 function animate(){
 	const delta = clock.getDelta();
-	if (mixer) mixer.update(delta);
+	if (mixer) mixer.update(delta);//アニメーションの更新
 	//読み込み待ち
 	if (model) {
 		curQuaternion.slerp(trgtQuaternion, 0.06);// 第2引数は線形補間の値
