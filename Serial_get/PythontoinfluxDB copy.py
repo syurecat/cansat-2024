@@ -7,8 +7,8 @@ import time
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
 
-bucket = "cansat"
-org = "science"
+bucket = "cansat_data"
+org = "koshi"
 token = "Bui6iPWok68lbgks7SySIrPUZSZP4y75MF3VjVsirJ7hHgFPQqR9qKug6EdJKp2k0954BHMtHMYrkgTtRLeSig=="
 url="http://localhost:8086"
 
