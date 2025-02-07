@@ -97,7 +97,8 @@ while True:
             influxdb_client.Point('GPS')
             .field("lati",data["lati"])
             .field("long",data["long"])
-            .field("alti",data["alti"])
+            .field("alti",data["alti"]),
+            influxdb_client.Point('SIG')
             .field("stre",data["stre"])
             )
         write_api.write(bucket=bucket, org=org, record=point)
