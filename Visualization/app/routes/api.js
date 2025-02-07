@@ -141,6 +141,23 @@ router.post('/send', authenticate, wrap(async (req, res, next) => {
     })
 );
 
+// webSocket send 
+router.post('/flag', authenticate, wrap(async (req, res, next) => {
+    console.log('Authenticated POST request received:', req.body);
+        try{
+            getClients().forEach(client => {
+                if (client.readyState === WebSocket.OPEN){
+                    client.send(JSON.stringify({"flag": true }));
+                }
+            });
+            res.status(200).json({ message: "succese" })
+        } catch (error) {
+            console.error('Error Sending:', error)
+            res.status(500).json({ message: "Faild to send" })
+        }
+    })
+);
+
 // db update
 router.post('/update', authenticate, wrap(async (req, res, next) => {
         if (!req.body.type || !req.body.name || !req.body.data) {
