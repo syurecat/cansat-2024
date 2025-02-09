@@ -3,11 +3,6 @@
 ## 概要
 このディレクトリにはcansatのデータを処理するwebサーバが入っています。主に可視化を担当しています。
 
-## 機能
-- ✅ 機能1
-- ✅ 機能2
-- ✅ 機能3
-
 ## 動作環境(確認済み)
 - OS: Windows11
 - docker v3.8
@@ -30,6 +25,18 @@ docker-compose up
 ### APIドキュメント
 [API ドキュメント](https://syurecat.github.io/cansat-2024/docs/api/)をご参照ください。
 
+dockerを起動した状態で、http://localhost:7080/debug にアクセスするとwebsocketの通信やpostの試行が可能です。
+
+### 初期設定について
+パスワード等の設定の問題があるため、Grafanaやinfluxdbのconfigファイルはリポジトリに含まれていません。`./Visualization` の中にconfigやデータファイルが作成されるため、必要な場合はバックアップを取ることをおすすめします。またこれらのファイルが生成済みの場合、環境変数での設定が適応されません。手動で設定するかディレクトリを削除してから、dockerを実行してください。
+
+#### influxdb
+
+influxdbは通常、設定変更なく使用可能ですが、必要な場合は[influxdbの公式ドキュメント](https://docs.influxdata.com/influxdb/v2/)を参照してください。
+
+#### Grafana
+
+Grafanaのセットアップの詳細については[Grafanaセットアップ](https://github.com/syurecat/cansat-2024/tree/main/docs/Grafanaセットアップ) もしくは、[公式のドキュメント](https://grafana.com/docs/) を参照してください。
 
 ## 環境変数
 以下の環境変数を設定する必要があります。.envにデフォルトの値がすでに入力されているため、適宜変更してください。
@@ -42,11 +49,3 @@ INFLUXDB_TOKEN=0xDkk_QUWINO7cZX8U8CQlRKpNLUEZTO-MHYWlrBAEbYY9aqfCIcL4yJAPORtebdE
 GRAFANA_PASSWORD=cansat2024
 AUTH_TOKEN=cansat
 ```
-
-## 📜 ライセンス
-TODO
-
-## 📧 コンタクト
-TODO
-
-
