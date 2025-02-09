@@ -79,7 +79,7 @@
             "type": "influxdb",
             "uid": "eebxb15g2xiwwf"
           },
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"Accx\")\r\n  |> keep(columns: [\"_time\", \"_value\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\")\r\n  |> keep(columns: [\"_time\", \"_value\"])\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -201,7 +201,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "latitude = from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"cansat\" and\r\n  r[\"_field\"] == \"lati\"\r\n  )\r\nlongitude = from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"cansat\" and\r\n  r[\"_field\"] == \"long\"\r\n  )\r\n  join(tables: {longitude,latitude}, on: [\"_time\"])\r\n",
+          "query": "latitude = from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"GPS\" and\r\n  r[\"_field\"] == \"lati\"\r\n  )\r\nlongitude = from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"GPS\" and\r\n  r[\"_field\"] == \"long\"\r\n  )\r\n  join(tables: {longitude,latitude}, on: [\"_time\"])\r\n",
           "refId": "A"
         }
       ],
@@ -291,7 +291,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"lati\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"lati\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -381,7 +381,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"long\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"long\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -471,7 +471,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -533,7 +533,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -623,7 +623,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -682,7 +682,7 @@
       "pluginVersion": "11.5.0",
       "targets": [
         {
-          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"cansat\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
