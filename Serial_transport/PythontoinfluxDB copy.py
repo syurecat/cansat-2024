@@ -4,6 +4,7 @@
 #https://docs.influxdata.com/influxdb/cloud-serverless/reference/client-libraries/v3/python/#installation
 
 import time
+import serial
 import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
 
@@ -30,8 +31,6 @@ write_api = client.write_api(write_options=SYNCHRONOUS)
 #write_api.write(bucket=bucket, org=org, record=p)
 
 #######################################################################################################
-
-import serial
 
 ser = serial.Serial('COM7',115200,timeout=None)
 
