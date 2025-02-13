@@ -99,8 +99,10 @@ socket.onmessage = (event) => {
 		}
 
 		if (data.flag && mixer) {
-			action.reset();
-			action.play();
+			animationActions.forEach((animate) => {
+				action.reset();
+				action.play();
+			})
 		}
 
         if (data.message) {
