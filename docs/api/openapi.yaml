@@ -53,10 +53,10 @@ paths:
 
   /flag:
     post:
-      summary: Send message via WebSocket
+      summary: Send flag via WebSocket
       operationId: sendMessage
       requestBody:
-        $ref: '#/components/requestBodies/flag'
+        $ref: '#/components/requestBodies/Flag'
       responses:
         '200':
           $ref: '#/components/responses/Success'
@@ -128,7 +128,7 @@ components:
         type: string
 
   requestBodies:
-    frag:
+    Flag:
       required: true
       content:
         application/json:
