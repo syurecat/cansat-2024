@@ -25,10 +25,24 @@ cd cansat-2024/Visualization
 ```sh
 docker-compose up
 ```
-ブラウザで `http://localhost:8080` にアクセス。
+ブラウザで `http://localhost:7080` にアクセス。
 
 ### APIドキュメント
 [API ドキュメント](https://syurecat.github.io/cansat-2024/docs/api/)をご参照ください。
+
+### Grafana
+ブラウザで `http://localhost:7000` にアクセス。
+
+- ユーザー名:  "admin"
+- パスワード:  ${GRAFANA_PASSWORD}
+
+にてログイン
+
+Configuration>Data SourcesにてAdd data sourceを選択
+|項目|値|
+|:-:|:-:|
+|url|http://influxdb:8086|
+|ORG|${INFLUXDB_ORG}|
 
 
 ## 環境変数
