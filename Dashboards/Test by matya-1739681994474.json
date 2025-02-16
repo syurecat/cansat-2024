@@ -19,14 +19,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 11,
   "links": [],
   "panels": [
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -92,9 +91,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -160,9 +158,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -229,7 +226,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -314,9 +311,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -410,9 +406,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -439,12 +434,13 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 13,
+        "w": 7,
         "x": 11,
         "y": 4
       },
       "id": 27,
       "options": {
+        "bgcolor": "blue",
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
@@ -473,7 +469,6 @@
         }
       ],
       "title": "データ時刻",
-      "transparent": true,
       "transformations": [
         {
           "id": "convertFieldType",
@@ -488,12 +483,86 @@
           }
         }
       ],
+      "transparent": true,
       "type": "stat"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "decmdb6t0s2kgf"
+        "uid": "aec8r1ex6tywwe"
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 4
+      },
+      "id": 28,
+      "options": {
+        "bgColor": "blue",
+        "clockType": "24 hour",
+        "countdownSettings": {
+          "endCountdownTime": "2025-02-17T01:01:52+09:00",
+          "endText": "00:00:00",
+          "invalidValueText": "invalid value",
+          "noValueText": "no value found",
+          "queryCalculation": "last",
+          "source": "input"
+        },
+        "countupSettings": {
+          "beginCountupTime": "2025-02-17T01:01:52+09:00",
+          "beginText": "00:00:00",
+          "invalidValueText": "invalid value",
+          "noValueText": "no value found",
+          "queryCalculation": "last",
+          "source": "input"
+        },
+        "dateSettings": {
+          "dateFormat": "YYYY-MM-DD",
+          "fontSize": "15px",
+          "fontWeight": "normal",
+          "locale": "",
+          "showDate": true
+        },
+        "descriptionSettings": {
+          "descriptionText": "",
+          "fontSize": "12px",
+          "fontWeight": "normal",
+          "noValueText": "no description found",
+          "source": "none"
+        },
+        "fontMono": false,
+        "mode": "time",
+        "refresh": "sec",
+        "timeSettings": {
+          "fontSize": "52px",
+          "fontWeight": "normal"
+        },
+        "timezone": "Japan",
+        "timezoneSettings": {
+          "fontSize": "12px",
+          "fontWeight": "normal",
+          "showTimezone": true,
+          "zoneFormat": "offsetAbbv"
+        }
+      },
+      "pluginVersion": "2.1.8",
+      "targets": [
+        {
+          "refId": "A"
+        }
+      ],
+      "title": "",
+      "type": "grafana-clock-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -570,9 +639,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -666,9 +734,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -734,7 +801,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -817,9 +884,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -913,9 +979,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1043,7 +1108,6 @@
         }
       ],
       "title": "位置情報",
-      "transparent": true,
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1062,13 +1126,13 @@
           }
         }
       ],
+      "transparent": true,
       "type": "geomap"
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1162,9 +1226,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1243,7 +1306,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1326,9 +1389,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1422,9 +1484,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1505,9 +1566,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1588,9 +1648,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1669,9 +1728,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1765,9 +1823,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1861,9 +1918,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -1982,9 +2038,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -2079,9 +2134,8 @@
     },
     {
       "datasource": {
-        "default": true,
         "type": "influxdb",
-        "uid": "bdxva1ue7rx8gc"
+        "uid": "aec8r1ex6tywwe"
       },
       "fieldConfig": {
         "defaults": {
@@ -2183,8 +2237,8 @@
     "list": []
   },
   "time": {
-    "from": "2025-02-03T07:58:38.473Z",
-    "to": "2025-02-03T07:59:18.473Z"
+    "from": "now-30m",
+    "to": "now"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -2197,6 +2251,6 @@
   "timezone": "Asia/Tokyo",
   "title": "Test by matya",
   "uid": "edxvoc5bjasxsd",
-  "version": 2,
+  "version": 5,
   "weekStart": ""
 }
