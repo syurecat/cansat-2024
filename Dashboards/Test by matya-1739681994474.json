@@ -1431,15 +1431,15 @@
               },
               {
                 "color": "yellow",
-                "value": 20
+                "value": 17
               },
               {
                 "color": "green",
-                "value": 25
+                "value": 23
               },
               {
                 "color": "orange",
-                "value": 28
+                "value": 29
               },
               {
                 "color": "red",
@@ -1517,11 +1517,11 @@
               },
               {
                 "color": "green",
-                "value": 1013
+                "value": 990
               },
               {
                 "color": "#EF843C",
-                "value": 1800
+                "value": 1100
               },
               {
                 "color": "#E24D42",
@@ -1601,7 +1601,7 @@
               },
               {
                 "color": "#EAB839",
-                "value": 70
+                "value": 80
               },
               {
                 "color": "red",
