@@ -3,7 +3,7 @@ import {InfluxDB, Point} from '@influxdata/influxdb-client'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import {getClients} from './webSocket.js'
-import { predict, update, getEulerAngles } from '../services/imuCalculator.js';
+import imuCalculator from '../services/imuCalculator.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,6 +27,11 @@ const wrap = fn => (...args) => fn(...args).catch(args[2])
 const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
 const AUTH_TOKEN = process.env.AUTH_TOKEN
 let lastTime = Date.now();
+const sensor = new imuCalculator({
+    sampleInterval: 5,
+    algorithm: 'Madgwick',
+    beta: 0.1
+});
 
 // api auth
 function authenticate(req, res, next) {
@@ -184,18 +189,6 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
             writeApi.writePoint(point);
             await writeApi.flush();
             res.status(200).json({ message: "success" });
-            if (req.body.type == "GYR") {
-                const currentTime = Date.now();
-                const dt = lastTime ? (currentTime - lastTime) / 1000 : 0;
-                const gyrData = [
-                    Number(req.body.data.x),
-                    Number(req.body.data.y),
-                    Number(req.body.data.z)
-                  ];
-                console.log("Received data:", gyrData);
-                predict(gyrData, dt);
-                lastTime = currentTime;
-            }
             if (req.body.type == "ACC") {
                 const accData = [
                     Number(req.body.data.x),
@@ -203,10 +196,30 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
                     Number(req.body.data.z)
                   ];
                 console.log("Received data:", accData);
-                update(accData);
+                sensor.updateAccel(accData);
+            }
+            if (req.body.type == "GYR") {
+                const gyrData = [
+                    Number(req.body.data.x),
+                    Number(req.body.data.y),
+                    Number(req.body.data.z)
+                  ];
+                console.log("Received data:", gyrData);
+                sensor.updateGyro(gyrData);
+                lastTime = currentTime;
+            }
+            if (req.body.type == "MAG") {
+                const magData = [
+                    Number(req.body.data.x),
+                    Number(req.body.data.y),
+                    Number(req.body.data.z)
+                  ];
+                console.log("Received data:", magData);
+                sensor.updateMag(magData);
+                sensor.updateSensorData();
                 getClients().forEach(client => {
                     if (client.readyState === WebSocket.OPEN) {
-                        client.send(JSON.stringify({"euler": getEulerAngles()}));
+                        client.send(JSON.stringify({"euler": sensor.getQuaternion()}));
                     }
                 });
             }
