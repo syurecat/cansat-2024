@@ -30,7 +30,7 @@ let lastTime = Date.now();
 const sensor = new imuCalculator({
     sampleInterval: 5,
     algorithm: 'Madgwick',
-    beta: 0.1
+    beta: 0.4
 });
 
 // api auth
@@ -206,7 +206,6 @@ router.post('/update', authenticate, wrap(async (req, res, next) => {
                   ];
                 console.log("Received data:", gyrData);
                 sensor.updateGyro(gyrData);
-                lastTime = currentTime;
             }
             if (req.body.type == "MAG") {
                 const magData = [
