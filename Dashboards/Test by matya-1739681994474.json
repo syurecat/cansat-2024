@@ -87,6 +87,7 @@
         }
       ],
       "title": "気温",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -154,6 +155,7 @@
         }
       ],
       "title": "気圧",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -221,6 +223,7 @@
         }
       ],
       "title": "湿度",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -306,6 +309,7 @@
         }
       ],
       "title": "加速度",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -401,6 +405,7 @@
         }
       ],
       "title": "加速度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -468,6 +473,7 @@
         }
       ],
       "title": "データ時刻",
+      "transparent": true,
       "transformations": [
         {
           "id": "convertFieldType",
@@ -559,6 +565,7 @@
         }
       ],
       "title": "信号強度",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -654,6 +661,7 @@
         }
       ],
       "title": "信号強度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -720,6 +728,7 @@
         }
       ],
       "title": "信号強度",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -803,6 +812,7 @@
         }
       ],
       "title": "角速度",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -898,6 +908,7 @@
         }
       ],
       "title": "角速度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1032,6 +1043,7 @@
         }
       ],
       "title": "位置情報",
+      "transparent": true,
       "transformations": [
         {
           "id": "convertFieldType",
@@ -1145,6 +1157,7 @@
         }
       ],
       "title": "高度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1224,6 +1237,7 @@
         }
       ],
       "title": "高度",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -1307,6 +1321,7 @@
         }
       ],
       "title": "地磁気",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -1402,6 +1417,7 @@
         }
       ],
       "title": "地磁気",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1484,6 +1500,7 @@
         }
       ],
       "title": "気温",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -1566,6 +1583,7 @@
         }
       ],
       "title": "気圧",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -1646,6 +1664,7 @@
         }
       ],
       "title": "湿度",
+      "transparent": true,
       "type": "gauge"
     },
     {
@@ -1741,6 +1760,7 @@
         }
       ],
       "title": "気温",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1836,6 +1856,7 @@
         }
       ],
       "title": "気圧",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -1956,6 +1977,7 @@
         }
       ],
       "title": "湿度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2052,6 +2074,7 @@
         }
       ],
       "title": "経度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -2148,6 +2171,7 @@
         }
       ],
       "title": "緯度",
+      "transparent": true,
       "type": "timeseries"
     }
   ],
