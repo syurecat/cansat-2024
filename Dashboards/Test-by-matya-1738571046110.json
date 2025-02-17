@@ -2153,7 +2153,7 @@
     }
   ],
   "preload": false,
-  "refresh": "5s",
+  "refresh": "1s",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
