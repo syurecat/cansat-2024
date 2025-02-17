@@ -51,8 +51,6 @@ services:
       - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
     networks:
       - cansat_network     
-    dashboards:
-      - default_home_dashboard_path=../Dashboards/Test-by-matya-1738571046110.json
 
 networks:
   cansat_network:
