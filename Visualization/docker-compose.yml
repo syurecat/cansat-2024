@@ -50,7 +50,9 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
     networks:
-      - cansat_network
+      - cansat_network     
+    dashboards:
+      - default_home_dashboard_path=../Dashboards/Test-by-matya-1738571046110.json
 
 networks:
   cansat_network:
