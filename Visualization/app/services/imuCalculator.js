@@ -9,7 +9,7 @@ class SensorAhrs {
   }
 
   updateGyro(gyr) {
-    this.gyro = gyr.map(value => value * 12);
+    this.gyro = gyr;
   }
 
   updateAccel(acc) {
