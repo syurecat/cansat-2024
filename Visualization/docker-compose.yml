@@ -49,9 +49,10 @@ services:
       - GF_SERVER_ROOT_URL=http://localhost:8085
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
       - GF_PANELS_DISABLE_SANITIZE_HTML=TRUE
-      - GF_default_home_dashboard_path=../Dashboards/Test-by-matya-1738571046110.json
     networks:
       - cansat_network
+    dashboard:
+      - default_home_dashboard_path=../Dashboards/Test-by-matya-1738571046110.json
 
 networks:
   cansat_network:
