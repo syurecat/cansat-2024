@@ -81,7 +81,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -148,7 +148,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -215,7 +215,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -301,7 +301,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -396,7 +396,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -464,7 +464,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"x\")\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r[\"_measurement\"] == \"ACC\")\n  |> filter(fn: (r) => r[\"_field\"] == \"x\")\n  |> keep(columns: [\"_time\", \"_value\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -629,7 +629,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -724,7 +724,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -790,7 +790,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_field\"] == \"stre\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -874,7 +874,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GYR\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GYR\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -969,7 +969,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GYR\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GYR\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1103,7 +1103,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "latitude = from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"GPS\" and\r\n  r[\"_field\"] == \"lati\"\r\n  )\r\nlongitude = from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"GPS\" and\r\n  r[\"_field\"] == \"long\"\r\n  )\r\n  join(tables: {longitude,latitude}, on: [\"_time\"])\r\n",
+          "query": "latitude = from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"GPS\" and\r\n  r[\"_field\"] == \"lati\"\r\n  )\r\nlongitude = from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => \r\n  r[\"_measurement\"] == \"GPS\" and\r\n  r[\"_field\"] == \"long\"\r\n  )\r\n  join(tables: {longitude,latitude}, on: [\"_time\"])\r\n",
           "refId": "Data"
         }
       ],
@@ -1216,7 +1216,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1295,7 +1295,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"alti\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1379,7 +1379,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MAG\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MAG\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1474,7 +1474,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MAG\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"MAG\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"x\" or r[\"_field\"] == \"y\" or r[\"_field\"] == \"z\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1556,7 +1556,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1638,7 +1638,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1718,7 +1718,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1813,7 +1813,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -1908,7 +1908,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"pres\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -2028,7 +2028,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"BME\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"humi\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -2124,7 +2124,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"long\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"long\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
@@ -2220,7 +2220,7 @@
             "type": "influxdb",
             "uid": "bdxva1ue7rx8gc"
           },
-          "query": "from(bucket: \"cansata_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"lati\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"cansat_data\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"GPS\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"lati\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
