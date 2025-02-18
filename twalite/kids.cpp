@@ -20,6 +20,17 @@ void vTransmit(const char* msg, uint32_t addr);
 // packet message
 SNS_BME280 sns_bme280;
 
+enum class STATE {
+    INIT = 0,
+    CAPTURE_PRE,
+    CAPTURE,
+    TX,
+    TX_WAIT_COMP,
+    SUCCESS,
+    ERROR
+};
+STATE State = STATE::INIT;
+
 /*** setup procedure (run once at cold boot) */
 void setup() {
 	/*** SETUP section */
@@ -49,67 +60,89 @@ void setup() {
 
 /*** loop procedure (called every event) */
 void loop() {
-    // read from serial
-	while(Serial.available())  {
-        int c = Serial.read();
+	do {
+		new_state = false;
+		case STATE::INIT: // starting state
+			// start sensor capture
+			sns_bme280.begin();
+			eState =  E_STATE::CAPTURE_PRE;
+		break;
 
-		Serial << mwx::crlf << char(c) << ':';
+		case STATE::CAPTURE_PRE: // wait for sensor capture completion
+			if (TickTimer.available()) {
+				sns_bme280.process_ev(E_EVENT_TICK_TIMER);
+			}
+			new_state = true;
+			eState =  E_STATE::CAPTURE;
+		break;
 
-        switch(c) {
-            case 't':
-                vTransmit(MSG_PING, 0xFF);
-                break;
+		case STATE::CAPTURE:
+			step.next(STATE::GO_SLEEP); // set default next state (for error handling.)
 
-            default:
-				break;
-        }
-	}
+			// get new packet instance.
+			eState = E_STATE::ERROR; // change this when success TX request...
 
-	// Button press
-	if (Buttons.available()) {
-		uint32_t btn_state, change_mask;
-		Buttons.read(btn_state, change_mask);
+			if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
+				// set tx packet behavior
+				pkt << tx_addr(0x00)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
+					<< tx_retry(0x1) // set retry (0x1 send two times in total)
+					<< tx_packet_delay(0, 0, 2); // send packet w/ delay
 
-		// Serial << fmt("<BTN %b:%b>", btn_state, change_mask);
-		if (!(change_mask & 0x80000000) && (btn_state && (1UL << PIN_BTN))) {
-			// PIN_BTN pressed
-			vTransmit(MSG_PING, 0xFF);
-		}
-	}
+				// prepare packet payload
+				pack_bytes(pkt.get_payload() // set payload data objects.
+					, make_pair(FOURCHARS, 4)  // just to see packet identification, you can design in any.
+					, uint16_t(sns_bme280.get_temp_cent()) // temp
+					, uint16_t(sns_bme280.get_humid_per_dmil())
+					, uint16_t(sns_bme280.get_press())
+				);
+
+				// do transmit
+				MWX_APIRET ret = pkt.transmit();
+			} else {
+				Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
+			}
+		break;
+
+		case STATE::TX_WAIT_COMP: // wait for complete of transmit
+			if (the_twelite.tx_status.is_complete(u8txid)) {
+				Serial << crlf << format("..%04d/transmit complete.", millis() & 8191);
+		
+				// success on TX
+				eState = E_STATE::SUCCESS;
+				new_state = true;
+			} else if (millis() - u32tick_tx > 3000) {
+				Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
+				eState = E_STATE::ERROR;
+				new_state = true;
+			} 
+		break;
+
+		case E_STATE::ERROR: // FATAL ERROR
+			Serial.flush();
+			delay(100);
+			the_twelite.reset_system();
+			break;
+
+		case E_STATE::SUCCESS: // NORMAL EXIT (go into sleeping...)
+			sleepNow();
+			break;
+
+	} while(step.b_more_loop()); // if state is changed, loop more.
 }
 
-/**
- * @brief	Transmits the given message.
- *
- *          The packet data structure is:
- *            uint8_t[4] : the message "PING" or "PONG"
- *            uint16_t   : A1=ADC0 adc value [0..1023 (max=2470mV)]
- *            uint16_t   : Vcc [mV]
- *            uint32_t   : system timer count in ms.
- *
- * @param msg	the message with length of MSG_LEN.
- * @param addr	destination address
- *
- */
-void vTransmit(const char* msg, uint32_t addr) {
-	Serial << "vTransmit()" << mwx::crlf;
+void sleepNow() {
+	uint32_t u32ct = 1750 + random(0,500);
+	Serial << crlf << format("..%04d/sleeping %dms.", millis() % 8191, u32ct);
+	Serial.flush();
 
-	if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
-		// set tx packet behavior
-		pkt << tx_addr(addr)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
-			<< tx_retry(0x3) // set retry (0x3 send four times in total)
-			<< tx_packet_delay(100,200,20); // send packet w/ delay (send first packet with randomized delay from 100 to 200ms, repeat every 20ms)
-
-		// prepare packet payload
-		pack_bytes(pkt.get_payload() // set payload data objects.
-			, make_pair(msg, MSG_LEN) // string should be paired with length explicitly.
-			, uint16_t(analogRead(PIN_ANALOGUE::A1)) // possible numerical values types are uint8_t, uint16_t, uint32_t. (do not put other types)
-			, uint16_t(analogRead_mv(PIN_ANALOGUE::VCC)) // A1 and VCC values (note: alalog read is valid after the first (Analogue.available() == true).)
-			, uint32_t(millis()) // put timestamp here.
-		);
-	
-		// do transmit 
-		pkt.transmit();
-	}
+	the_twelite.sleep(u32ct);
 }
 
+// wakeup procedure
+void wakeup() {
+	Wire.begin();
+
+	Serial	<< crlf << "--- " << APP_NAME << ":" << FOURCHARS << " wake up ---";
+
+	eState = E_STATE::INIT; // go into INIT state in the loop()
+}
