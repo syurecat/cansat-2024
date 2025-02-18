@@ -1787,7 +1787,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 8,
         "x": 0,
         "y": 20
@@ -1882,7 +1882,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 8,
         "x": 8,
         "y": 20
@@ -2002,7 +2002,7 @@
         ]
       },
       "gridPos": {
-        "h": 4,
+        "h": 3,
         "w": 8,
         "x": 16,
         "y": 20
@@ -2101,7 +2101,7 @@
         "h": 3,
         "w": 11,
         "x": 0,
-        "y": 24
+        "y": 23
       },
       "id": 20,
       "options": {
@@ -2197,7 +2197,7 @@
         "h": 3,
         "w": 13,
         "x": 11,
-        "y": 24
+        "y": 23
       },
       "id": 35,
       "options": {
@@ -2251,6 +2251,6 @@
   "timezone": "Asia/Tokyo",
   "title": "Test by matya",
   "uid": "edxvoc5bjasxsd",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
