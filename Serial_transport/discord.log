@@ -1,0 +1,16 @@
+[2025-02-16 14:56:02] [ERROR   ] serial_post: Unexpected error: 'utf-8' codec can't decode byte 0xd1 in position 3: invalid continuation byte
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 38, in main
+    line = ser.readline().decode('utf-8').strip()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xd1 in position 3: invalid continuation byte
+[2025-02-16 14:57:42] [INFO    ] serial_post: KeyboardInterrupt detected. Exiting...
+[2025-02-16 15:00:48] [INFO    ] serial_post: KeyboardInterrupt detected. Exiting...
+[2025-02-16 15:39:43] [ERROR   ] serial_post: Unexpected error: ClearCommError failed (PermissionError(13, 'アクセスが拒否されました。', None, 5))
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 39, in main
+    line = ser.readline().decode('utf-8').strip()
+           ^^^^^^^^^^^^^^
+  File "C:\Users\S\AppData\Local\Programs\Python\Python312\Lib\site-packages\serial\serialwin32.py", line 275, in read
+    raise SerialException("ClearCommError failed ({!r})".format(ctypes.WinError()))
+serial.serialutil.SerialException: ClearCommError failed (PermissionError(13, 'アクセスが拒否されました。', None, 5))
