@@ -97,8 +97,10 @@ socket.onmessage = (event) => {
 		}
 
 		if (data.flag && mixer) {
-			action.reset();
-			action.play();
+			animationActions.forEach((action) => {
+				action.reset();
+				action.play();
+			})
 		}
 
         if (data.message) {
