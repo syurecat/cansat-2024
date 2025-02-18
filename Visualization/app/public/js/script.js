@@ -93,9 +93,7 @@ socket.onmessage = (event) => {
         if (data.euler) {
             // オイラー角 (rad) を受け取ってオブジェクトを回転
 			console.log(data.euler)
-            const [ x, y, z ] = data.euler;
-            const euler = new THREE.Euler(x, y, z, 'XYZ'); // 回転順序
-			trgtQuaternion.setFromEuler(euler);
+			trgtQuaternion.set(data.euler.x, data.euler.y, data.euler.z, data.euler.w);
 		}
 
 		if (data.flag && mixer) {
@@ -117,7 +115,7 @@ function animate(){
 	//読み込み待ち
 	if (model) {
 		curQuaternion.slerp(trgtQuaternion, 0.06);// 第2引数は線形補間の値
-		model.quaternion.copy(curQuaternion);
+		model.quaternion.copy(trgtQuaternion);
 	}
 	camera.lookAt(new THREE.Vector3(0, 0, 0));
 	controls.update();

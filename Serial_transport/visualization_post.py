@@ -19,6 +19,9 @@ class PostData:
         self.token = token
         self.url = url
         self.sensor_name = sensor_name
+        self.session = None
+
+    async def init(self):
         self.session = aiohttp.ClientSession()
 
     async def close(self) -> None:

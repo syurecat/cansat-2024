@@ -6,14 +6,12 @@ import configparser
 import asyncio
 import logging
 import logging.handlers
-from dotenv import load_dotenv
 from visualization_post import PostData
 
-load_dotenv()
 config = configparser.ConfigParser()
 config.read("config.ini")
 
-API_TOKEN = os.getenv("API_TOKEN", "default_token")
+API_TOKEN = "cansat"
 API_URL = config["api"]["api_url"]
 DEVICE_NAME = config["senser"]["name"]
 SERIAL_PORT = config["senser"]["serial_port"]
@@ -34,6 +32,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 async def main():
+    await post_client.init()
     with serial.Serial(SERIAL_PORT, SERIAL_BAUDRATE, timeout=1) as ser:
         try:
             while True:

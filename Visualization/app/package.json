@@ -1,6 +1,6 @@
 {
     "name": "app",
-    "version": "1.2.0",
+    "version": "1.3.0",
     "description": "cansat 2024 data server",
     "type": "module",
     "exports": "./app.js",
@@ -16,7 +16,8 @@
       "url": "0.11.4",
       "mathjs": "14.1.0",
       "cors": "2.8.5",
-      "fs": "0.0.1-security"
+      "fs": "0.0.1-security",
+      "ahrs": "^1.3.3"
     }
 }
   

@@ -20,7 +20,7 @@ cd cansat-2024/Visualization
 ```sh
 docker-compose up
 ```
-ブラウザで `http://localhost:8080` にアクセスしてください。
+ブラウザで `http://localhost:7080` にアクセス。
 
 ### APIドキュメント
 [API ドキュメント](https://syurecat.github.io/cansat-2024/docs/api/)をご参照ください。
