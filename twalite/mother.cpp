@@ -1,7 +1,6 @@
 // use twelite mwx c++ template library
 #include <TWELITE>
 #include <NWK_SIMPLE>
-#include <STG_STD>
 
 /*** Config part */
 // application ID
@@ -41,21 +40,35 @@ void setup() {
 /*** loop procedure (called every event) */
 void loop() {
     // read from serial
-	while(Serial.available())  {
-		if (SerialParser.parse(Serial.read())) {
-			Serial << ".." << SerialParser;
-			const uint8_t* b = SerialParser.get_buf().begin();
-			uint8_t addr = *b; ++b; // the first byte is destination address.
-			transmit(addr, b, SerialParser.get_buf().end());
-		}
-	}
+    while(Serial.available())  {
+        if (SerialParser.parse(Serial.read())) {
+            Serial << ".." << SerialParser;
+            const uint8_t* b = SerialParser.get_buf().begin();
+
+            smplbuf_u8<64> binary_data;
+            bool first = true;
+            uint8_t val;
+
+            for (const uint8_t* p = b; p < SerialParser.get_buf().end(); ++p) {
+                if (*p == ',' || p == SerialParser.get_buf().end()-1) {
+                    if (!first) binary_data.push_back(val);
+                    first = false;
+                    val = 0;
+                } else if (*p >= '0' && *p <= '9') {
+                    val = val * 10 + (*p - '0');
+                }
+            }
+
+            transmit(addr, binary_data.begin(), binary_data.end());
+        }
+    }
 }
 
 /** transmit a packet */
-MWX_APIRET transmit(uint8_t dest, const uint8_t* b, const uint8_t* e) {
+MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 	if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
 		// set tx packet behavior
-		pkt << tx_addr(dest) // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
+		pkt << tx_addr(0xFF) // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
 			<< tx_retry(0x1) // set retry (0x3 send four times in total)
 			<< tx_packet_delay(20,100,10); // send packet w/ delay (send first packet with randomized delay from 20 to 100ms, repeat every 10ms)
 
@@ -74,18 +87,19 @@ MWX_APIRET transmit(uint8_t dest, const uint8_t* b, const uint8_t* e) {
 
 /** on receiving a packet */
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
-	// check the packet header.
-	const uint8_t* p = rx.get_payload().begin();
-	if (rx.get_length() > 4 && !strncmp((const char*)p, (const char*)FOURCHARS, 4)) {
-		Serial << format("..rx from %08x/%d", rx.get_addr_src_long(), rx.get_addr_src_lid()) << mwx::crlf;
+    // check the packet header.
+    const uint8_t* p = rx.get_payload().begin();
+    if (rx.get_length() > 4 && !strncmp((const char*)p, (const char*)FOURCHARS, 4)) {
+        Serial << format("..rx from %08x/%d", rx.get_addr_src_long(), rx.get_addr_src_lid()) << mwx::crlf;
 
-		smplbuf_u8<128> buf;
-		mwx::pack_bytes(buf			
-				, uint8_t(rx.get_addr_src_lid())            // src addr (LID)
-				, make_pair(p+4, rx.get_payload().end()) );	// data body
+        // 受信データのバイナリを取得
+        const uint8_t* data_start = p + 4;
+        const uint8_t* data_end = rx.get_payload().end();
 
-		serparser_attach pout;
-		pout.begin(PARSER::ASCII, buf.begin(), buf.size(), buf.size());
-		Serial << pout;
-	}
+        // 転送先アドレス（例: 0xFFでブロードキャスト、または特定アドレスに変更）
+        uint8_t forward_addr = 0xFF;  
+
+        // 受信データをそのまま転送
+        transmit(forward_addr, data_start, data_end);
+    }
 }
