@@ -48,10 +48,6 @@ void setup() {
 	nwksmpl << NWK_SIMPLE::logical_id(0xFF) // set Logical ID. (0xFE means a child device with no ID)
 	        << NWK_SIMPLE::repeat_max(3);   // can repeat a packet up to three times. (being kind of a router)
 
-	/*** BEGIN section */
-	Buttons.begin(pack_bits(PIN_BTN), 5, 10); // check every 10ms, a change is reported by 5 consequent values.
-	Analogue.begin(pack_bits(PIN_ANALOGUE::A1, PIN_ANALOGUE::VCC), 50); // _start continuous adc capture.
-
 	the_twelite.begin(); // start twelite!
 
 	/*** INIT message */
