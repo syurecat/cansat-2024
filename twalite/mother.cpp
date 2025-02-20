@@ -9,7 +9,7 @@ const uint32_t APP_ID = 0x1234abcd;
 const uint8_t CHANNEL = 13;
 
 /*** function prototype */
-MWX_APIRET transmit(uint8_t addr, const uint8_t* b, const uint8_t* e);
+MWX_APIRET transmit(const uint8_t* b, const uint8_t* e);
 
 /*** setup procedure (run once at cold boot) */
 void setup() {
