@@ -45,7 +45,7 @@ void setup() {
 
 	// Register Network
 	auto&& nwksmpl = the_twelite.network.use<NWK_SIMPLE>();
-	nwksmpl << NWK_SIMPLE::logical_id(0xFF) // set Logical ID. (0xFE means a child device with no ID)
+	nwksmpl << NWK_SIMPLE::logical_id(0xFE) // set Logical ID. (0xFE means a child device with no ID)
 	        << NWK_SIMPLE::repeat_max(3);   // can repeat a packet up to three times. (being kind of a router)
 
 	the_twelite.begin(); // start twelite!
@@ -80,7 +80,7 @@ void loop() {
 
 			if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
 				// set tx packet behavior
-				pkt << tx_addr(0x00)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
+				pkt << tx_addr(0xFF)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
 					<< tx_retry(0x1) // set retry (0x1 send two times in total)
 					<< tx_packet_delay(0, 0, 2); // send packet w/ delay
 

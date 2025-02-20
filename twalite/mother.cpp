@@ -4,11 +4,9 @@
 
 /*** Config part */
 // application ID
-const uint32_t DEFAULT_APP_ID = 0x1234abcd;
+const uint32_t APP_ID = 0x1234abcd;
 // channel
-const uint8_t DEFAULT_CHANNEL = 13;
-// channel
-const uint8_t DEFAULT_LID = 1;
+const uint8_t CHANNEL = 13;
 
 /*** function prototype */
 MWX_APIRET transmit(uint8_t addr, const uint8_t* b, const uint8_t* e);
@@ -26,7 +24,7 @@ void setup() {
 
 	// Register Network
 	auto&& nwksmpl = the_twelite.network.use<NWK_SIMPLE>();
-	nwksmpl << NWK_SIMPLE::logical_id(0xFF) // set Logical ID. (0xFE means a child device with no ID)
+	nwksmpl << NWK_SIMPLE::logical_id(0x01) // set Logical ID. (0xFE means a child device with no ID)
 	        << NWK_SIMPLE::repeat_max(3);   // can repeat a packet up to three times. (being kind of a router)
 
 	/*** BEGIN section */
@@ -68,7 +66,7 @@ void loop() {
 MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 	if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
 		// set tx packet behavior
-		pkt << tx_addr(0xFF) // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
+		pkt << tx_addr(0x00) // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
 			<< tx_retry(0x1) // set retry (0x3 send four times in total)
 			<< tx_packet_delay(20,100,10); // send packet w/ delay (send first packet with randomized delay from 20 to 100ms, repeat every 10ms)
 
@@ -102,4 +100,5 @@ void on_rx_packet(packet_rx& rx, bool_t &handled) {
         // 受信データをそのまま転送
         transmit(forward_addr, data_start, data_end);
     }
+
 }
