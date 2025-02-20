@@ -45,6 +45,7 @@ services:
       - ./grafana/grafana_data:/var/lib/grafana
       - ./grafana/grafana-config:/etc/grafana
       - ./grafana/grafana-dashboards:/ver/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning/datasources
     depends_on:
       - influxdb
     environment:

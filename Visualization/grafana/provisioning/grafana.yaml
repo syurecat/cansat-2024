@@ -1,0 +1,15 @@
+apiVersion: 1
+datasources:
+  - name: InfluxDB
+    type: influxdb
+    access: proxy
+    url: http://influxdb:8086
+    isDefault: true  # デフォルトのデータソースにする
+    basicAuth: false
+    jsonData:
+      version: Flux  # InfluxDB 2.x の場合は Flux を使用
+      organization: koshi  # InfluxDB 2.x の Org 名
+      defaultBucket: cansat_data  # InfluxDB 2.x のデフォルトバケット
+      httpMode: GET
+    secureJsonData:
+      token: ${INFLUXDB_TOKEN}  # InfluxDB 2.x の認証トークン
