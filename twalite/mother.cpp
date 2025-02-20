@@ -11,9 +11,6 @@ const uint8_t CHANNEL = 13;
 /*** function prototype */
 MWX_APIRET transmit(uint8_t addr, const uint8_t* b, const uint8_t* e);
 
-/*** application defs */
-const uint8_t FOURCHARS[] = "WURT";
-
 /*** setup procedure (run once at cold boot) */
 void setup() {
 	// the twelite main class
@@ -32,34 +29,20 @@ void setup() {
 	the_twelite.begin(); // start twelite!
 
 	/*** INIT message */
-	Serial << "init done"
+	Serial << "init done";
 }
 
 /*** loop procedure (called every event) */
 void loop() {
     // read from serial
-    while(Serial.available())  {
-        if (SerialParser.parse(Serial.read())) {
-            Serial << ".." << SerialParser;
-            const uint8_t* b = SerialParser.get_buf().begin();
-
-            smplbuf_u8<64> binary_data;
-            bool first = true;
-            uint8_t val;
-
-            for (const uint8_t* p = b; p < SerialParser.get_buf().end(); ++p) {
-                if (*p == ',' || p == SerialParser.get_buf().end()-1) {
-                    if (!first) binary_data.push_back(val);
-                    first = false;
-                    val = 0;
-                } else if (*p >= '0' && *p <= '9') {
-                    val = val * 10 + (*p - '0');
-                }
-            }
-
-            transmit(addr, binary_data.begin(), binary_data.end());
-        }
-    }
+	while(Serial.available())  {
+		if (SerialParser.parse(Serial.read())) {
+			Serial << ".." << SerialParser;
+			const uint8_t* b = SerialParser.get_buf().begin();
+			uint8_t addr = *b; ++b; // the first byte is destination address.
+			transmit(addr, b, SerialParser.get_buf().end());
+		}
+	}
 }
 
 /** transmit a packet */
@@ -72,7 +55,7 @@ MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 
 		// prepare packet payload
 		pack_bytes(pkt.get_payload() // set payload data objects.
-			, make_pair(FOURCHARS, 4) // string should be paired with length explicitly.
+			, make_pair(FOURCHARS, 3) // string should be paired with length explicitly.
 			, make_pair(b, e) // put timestamp here.
 		);
 		
@@ -87,17 +70,12 @@ MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
     // check the packet header.
     const uint8_t* p = rx.get_payload().begin();
-    if (rx.get_length() > 4 && !strncmp((const char*)p, (const char*)FOURCHARS, 4)) {
+    if (rx.get_length() > 3 && !strncmp((const char*)p, (const char*)FOURCHARS, 3)) {
         Serial << format("..rx from %08x/%d", rx.get_addr_src_long(), rx.get_addr_src_lid()) << mwx::crlf;
 
-        // 受信データのバイナリを取得
-        const uint8_t* data_start = p + 4;
+        const uint8_t* data_start = p + 3;
         const uint8_t* data_end = rx.get_payload().end();
 
-        // 転送先アドレス（例: 0xFFでブロードキャスト、または特定アドレスに変更）
-        uint8_t forward_addr = 0xFF;  
-
-        // 受信データをそのまま転送
         transmit(forward_addr, data_start, data_end);
     }
 
