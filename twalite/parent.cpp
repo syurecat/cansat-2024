@@ -53,6 +53,6 @@ void on_rx_packet(packet_rx& rx, bool_t &handled) {
 		const uint8_t* data_start = p;
 		const uint8_t* data_end = rx.get_payload().end();
 
-		transmit(forward_addr, data_start, data_end);
+		transmit(data_start, data_end);
 	}
 }
