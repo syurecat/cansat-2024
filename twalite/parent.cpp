@@ -1,17 +1,14 @@
 // use twelite mwx c++ template library
-#include <TWELITE>
+#include <TWELITE> 
 #include <NWK_SIMPLE>
 #include <MONOSTICK>
-#include <STG_STD>
+
 
 /*** Config part */
 // application ID
-const uint32_t DEFAULT_APP_ID = 0x1234abcd;
+const uint32_t APP_ID = 0x1234abcd;
 // channel
-const uint8_t DEFAULT_CHANNEL = 13;
-// option bits
-uint32_t OPT_BITS = 0;
-
+const uint8_t CHANNEL = 13;
 /*** function prototype */
 bool analyze_payload(packet_rx& rx);
 
@@ -21,28 +18,17 @@ bool analyze_payload(packet_rx& rx);
 void setup() {
 	/*** SETUP section */
 	auto&& brd = the_twelite.board.use<MONOSTICK>();
-	auto&& set = the_twelite.settings.use<STG_STD>();
-	auto&& nwk = the_twelite.network.use<NWK_SIMPLE>();
 
-	// settings: configure items
-	set << SETTINGS::appname("PARENT");
-	set << SETTINGS::appid_default(DEFAULT_APP_ID); // set default appID
-	set << SETTINGS::ch_default(DEFAULT_CHANNEL); // set default channel
-	set << SETTINGS::lid_default(0x00); // set default LID
-	set.hide_items(E_STGSTD_SETID::OPT_DWORD2, E_STGSTD_SETID::OPT_DWORD3, E_STGSTD_SETID::OPT_DWORD4, E_STGSTD_SETID::ENC_KEY_STRING, E_STGSTD_SETID::ENC_MODE);
-	set.reload(); // load from EEPROM.
-	OPT_BITS = set.u32opt1(); // this value is not used in this example.
+	// Register Network
+	auto&& nwksmpl = the_twelite.network.use<NWK_SIMPLE>();
+	nwksmpl << NWK_SIMPLE::logical_id(0x00) // set Logical ID. (0xFE means a child device with no ID)
+	        << NWK_SIMPLE::repeat_max(3);   // can repeat a packet up to three times. (being kind of a router)
 
 	// the twelite main class
 	the_twelite
-		<< set                    // apply settings (appid, ch, power)
-		<< TWENET::rx_when_idle() // open receive circuit (if not set, it can't listen packts from others)
-		;
-
-	// Register Network
-	nwk << set;							// apply settings (LID and retry)
-	nwk << NWK_SIMPLE::logical_id(0x00) // set Logical ID. (0x00 means parent device)
-		;
+	<< TWENET::appid(APP_ID)    // set application ID (identify network group)
+	<< TWENET::channel(CHANNEL) // set channel (pysical channel)
+	<< TWENET::rx_when_idle();  // open receive circuit (if not set, it can't listen packts from others)
 
 	// configure hardware
 	brd.set_led_red(LED_TIMER::ON_RX, 200); // RED (on receiving)
@@ -86,10 +72,10 @@ void on_rx_packet(packet_rx& rx, bool_t &handled) {
 	if (1) {
 		smplbuf_u8<256> buf;
 		pack_bytes(buf
-			, uint8_t(rx.get_addr_src_lid())		// *1:src addr (LID)
+			, uint8_t(rx.get_addr_src_lid())		// *1:送信元の論理ID
 			, uint8_t(0xCC)							// *2:cmd id (0xCC, fixed)
-			, uint8_t(rx.get_psRxDataApp()->u8Seq)	// *3:seqence number
-			, uint32_t(rx.get_addr_src_long())		// *4:src addr (long)
+			, uint8_t(rx.get_psRxDataApp()->u8Seq)	// *3:パケットのシーケンス番号
+			, uint32_t(rx.get_addr_src_long())		// *4:送信元のシリアル番号
 			, uint32_t(rx.get_addr_dst())			// *5:dst addr
 			, uint8_t(rx.get_lqi())					// *6:LQI
 			, uint16_t(rx.get_length())				// *7:payload length
