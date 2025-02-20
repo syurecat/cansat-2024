@@ -1036,10 +1036,10 @@
         "layers": [
           {
             "config": {
-              "showLegend": true,
+              "showLegend": false,
               "style": {
                 "color": {
-                  "fixed": "dark-green"
+                  "fixed": "dark-red"
                 },
                 "opacity": 0.4,
                 "rotation": {
