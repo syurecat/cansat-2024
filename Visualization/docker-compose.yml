@@ -43,6 +43,7 @@ services:
     user: "472"
     volumes:
       - ./grafana/grafana_data:/var/lib/grafana
+      - ./grafana/grafana-config:/etc/grafana
     depends_on:
       - influxdb
     environment:
