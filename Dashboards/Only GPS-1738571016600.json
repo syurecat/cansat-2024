@@ -84,6 +84,7 @@
         }
       ],
       "title": "Panel Title",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -208,6 +209,7 @@
         }
       ],
       "title": "位置情報",
+      "transparent": true,
       "type": "geomap"
     },
     {
@@ -298,6 +300,7 @@
         }
       ],
       "title": "緯度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -388,6 +391,7 @@
         }
       ],
       "title": "経度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -478,6 +482,7 @@
         }
       ],
       "title": "高度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -540,6 +545,7 @@
         }
       ],
       "title": "高度",
+      "transparent": true,
       "type": "stat"
     },
     {
@@ -630,6 +636,7 @@
         }
       ],
       "title": "信号強度",
+      "transparent": true,
       "type": "timeseries"
     },
     {
@@ -689,6 +696,7 @@
         }
       ],
       "title": "Panel Title",
+      "transparent": true,
       "type": "gauge"
     }
   ],
@@ -707,6 +715,6 @@
   "timezone": "browser",
   "title": "Only GPS",
   "uid": "debxh3zxiq1hcd",
-  "version": 3,
+  "version": 5,
   "weekStart": ""
 }
