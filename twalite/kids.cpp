@@ -65,77 +65,78 @@ void setup() {
 void loop() {
 	do {
 		new_state = false;
-		case STATE::INIT: // starting state
-			// start sensor capture
-			sns_bme280.begin();
-			State =  STATE::CAPTURE_PRE;
-		break;
+		switch (State) {
+			case STATE::INIT: // starting state
+				// start sensor capture
+				sns_bme280.begin();
+				State =  STATE::CAPTURE_PRE;
+			break;
 
-		case STATE::CAPTURE_PRE: // wait for sensor capture completion
-			if (TickTimer.available()) {
-				sns_bme280.process_ev(E_EVENT_TICK_TIMER);
-			}
-			new_state = true;
-			State =  STATE::CAPTURE;
-		break;
-
-		case STATE::CAPTURE:
-
-			// get new packet instance.
-			State = STATE::ERROR; // change this when success TX request...
-
-			if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
-				// set tx packet behavior
-				pkt << tx_addr(0xFF)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
-					<< tx_retry(0x1) // set retry (0x1 send two times in total)
-					<< tx_packet_delay(0, 0, 2); // send packet w/ delay
-
-				// prepare packet payload
-				pack_bytes(pkt.get_payload() // set payload data objects.
-					, make_pair("Kid", 3)  // just to see packet identification, you can design in any.
-					, uint16_t(sns_bme280.get_temp_cent()) // temp
-					, uint16_t(sns_bme280.get_humid_per_dmil())
-					, uint16_t(sns_bme280.get_press())
-				);
-
-				// do transmit
-				MWX_APIRET ret = pkt.transmit();
-				if (ret) {
-					u8txid = ret.get_value() & 0xFF;
-					u32tick_tx = millis();
-					State = STATE::TX_WAIT_COMP;
-				} else {
-					Serial << crlf << "!FATAL: TX REQUEST FAILS. reset the system." << crlf;
+			case STATE::CAPTURE_PRE: // wait for sensor capture completion
+				if (TickTimer.available()) {
+					sns_bme280.process_ev(E_EVENT_TICK_TIMER);
 				}
-			} else {
-				Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
-			}
-		break;
-
-		case STATE::TX_WAIT_COMP: // wait for complete of transmit
-			if (the_twelite.tx_status.is_complete(u8txid)) {
-				Serial << crlf << format("..%04d/transmit complete.", millis() & 8191);
-		
-				// success on TX
-				State = STATE::SUCCESS;
 				new_state = true;
-			} else if (millis() - u32tick_tx > 3000) {
-				Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
-				State = STATE::ERROR;
-				new_state = true;
-			} 
-		break;
+				State =  STATE::CAPTURE;
+			break;
 
-		case STATE::ERROR: // FATAL ERROR
-			Serial.flush();
-			delay(100);
-			the_twelite.reset_system();
-		break;
+			case STATE::CAPTURE:
 
-		case STATE::SUCCESS: // NORMAL EXIT (go into sleeping...)
-			sleepNow();
-		break;
+				// get new packet instance.
+				State = STATE::ERROR; // change this when success TX request...
 
+				if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
+					// set tx packet behavior
+					pkt << tx_addr(0xFF)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
+						<< tx_retry(0x1) // set retry (0x1 send two times in total)
+						<< tx_packet_delay(0, 0, 2); // send packet w/ delay
+
+					// prepare packet payload
+					pack_bytes(pkt.get_payload() // set payload data objects.
+						, make_pair("Kid", 3)  // just to see packet identification, you can design in any.
+						, uint16_t(sns_bme280.get_temp_cent()) // temp
+						, uint16_t(sns_bme280.get_humid_per_dmil())
+						, uint16_t(sns_bme280.get_press())
+					);
+
+					// do transmit
+					MWX_APIRET ret = pkt.transmit();
+					if (ret) {
+						u8txid = ret.get_value() & 0xFF;
+						u32tick_tx = millis();
+						State = STATE::TX_WAIT_COMP;
+					} else {
+						Serial << crlf << "!FATAL: TX REQUEST FAILS. reset the system." << crlf;
+					}
+				} else {
+					Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
+				}
+			break;
+
+			case STATE::TX_WAIT_COMP: // wait for complete of transmit
+				if (the_twelite.tx_status.is_complete(u8txid)) {
+					Serial << crlf << format("..%04d/transmit complete.", millis() & 8191);
+			
+					// success on TX
+					State = STATE::SUCCESS;
+					new_state = true;
+				} else if (millis() - u32tick_tx > 3000) {
+					Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
+					State = STATE::ERROR;
+					new_state = true;
+				} 
+			break;
+
+			case STATE::ERROR: // FATAL ERROR
+				Serial.flush();
+				delay(100);
+				the_twelite.reset_system();
+			break;
+
+			case STATE::SUCCESS: // NORMAL EXIT (go into sleeping...)
+				sleepNow();
+			break;
+		}
 	} while(new_state); // if state is changed, loop more.
 }
 
