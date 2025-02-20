@@ -2242,6 +2242,8 @@
   },
   "timepicker": {
     "refresh_intervals": [
+      "500ms",
+      "1s",
       "5s",
       "10s",
       "30s",
