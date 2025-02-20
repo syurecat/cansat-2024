@@ -2181,7 +2181,7 @@
     }
   ],
   "preload": false,
-  "refresh": "5s",
+  "refresh": "500ms",
   "schemaVersion": 40,
   "tags": [],
   "templating": {
