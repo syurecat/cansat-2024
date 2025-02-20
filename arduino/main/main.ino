@@ -17,6 +17,8 @@ void setup() {
     MWSerial.begin(38400);
     LED_Init();
     pinMode( DIN_PIN, INPUT );
+    pinMode( 6, INPUT_PULLUP );
+    attachInterrupt(digitalPinToInterrupt(6),sep,FALLING);
     delay(300);
 
     SD_Init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
@@ -114,4 +116,8 @@ void loop() {
 
     LED_Error(errorFlag);
     errorFlag = false;
+}
+
+void sep(){
+    Serial.println(F(SEPA));
 }
