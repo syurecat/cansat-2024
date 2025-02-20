@@ -997,7 +997,9 @@
       "id": 8,
       "options": {
         "basemap": {
-          "config": {},
+         "config": {
+          "url": "https://cyberjapandata.gsi.go.jp/xyz/seamlessphoto/{z}/{x}/{y}.jpg"
+          },
           "name": "Layer 0",
           "type": "xyz"
         },
@@ -1066,10 +1068,10 @@
         "view": {
           "allLayers": true,
           "id": "coords",
-          "lat": 36.122466,
-          "lon": 136.220739,
+          "lat": 34.156662,
+          "lon": 135.192342,
           "shared": false,
-          "zoom": 14.62
+          "zoom": 13.04
         }
       },
       "pluginVersion": "11.5.0",
