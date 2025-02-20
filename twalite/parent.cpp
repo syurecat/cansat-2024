@@ -46,7 +46,7 @@ void loop() {
 }
 
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
-	const uint8_t* p = rx.get_payload().begin()	{
+	const uint8_t* p = rx.get_payload().begin();
 		smplbuf_u8<128> buf;
 		mwx::pack_bytes(buf
 				, uint8_t(rx.get_lqi())            // src addr (LID)
@@ -56,4 +56,3 @@ void on_rx_packet(packet_rx& rx, bool_t &handled) {
 		pout.begin(PARSER::ASCII, buf.begin(), buf.size(), buf.size());
 		Serial << pout;
 	}
-}
