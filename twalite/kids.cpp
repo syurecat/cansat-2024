@@ -31,6 +31,9 @@ enum class STATE {
 };
 STATE State = STATE::INIT;
 
+uint8_t u8txid = 0;
+uint32_t u32tick_tx;
+
 /*** setup procedure (run once at cold boot) */
 void setup() {
 	/*** SETUP section */
@@ -93,6 +96,13 @@ void loop() {
 
 				// do transmit
 				MWX_APIRET ret = pkt.transmit();
+				if (ret) {
+					u8txid = ret.get_value() & 0xFF;
+					u32tick_tx = millis();
+					eState = E_STATE::TX_WAIT_COMP;
+				} else {
+					Serial << crlf << "!FATAL: TX REQUEST FAILS. reset the system." << crlf;
+				}
 			} else {
 				Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
 			}
