@@ -73,7 +73,6 @@ void loop() {
 		break;
 
 		case STATE::CAPTURE:
-			step.next(STATE::GO_SLEEP); // set default next state (for error handling.)
 
 			// get new packet instance.
 			State = STATE::ERROR; // change this when success TX request...
