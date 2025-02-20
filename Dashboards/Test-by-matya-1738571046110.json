@@ -1075,8 +1075,8 @@
               "options": "Data"
             },
             "location": {
-              "latitude": "_value_latitude {_field_latitude=\"lati\", _field_longitude=\"long\", _measurement_latitude=\"GPS\", _measurement_longitude=\"GPS\", _start_latitude=\"2024-09-15 01:15:50.909 +0000 UTC\", _start_longitude=\"2024-09-15 01:15:50.909 +0000 UTC\", _stop_latitude=\"2024-09-15 01:16:10.909 +0000 UTC\", _stop_longitude=\"2024-09-15 01:16:10.909 +0000 UTC\"}",
-              "longitude": "_value_longitude {_field_latitude=\"lati\", _field_longitude=\"long\", _measurement_latitude=\"GPS\", _measurement_longitude=\"GPS\", _start_latitude=\"2024-09-15 01:15:50.909 +0000 UTC\", _start_longitude=\"2024-09-15 01:15:50.909 +0000 UTC\", _stop_latitude=\"2024-09-15 01:16:10.909 +0000 UTC\", _stop_longitude=\"2024-09-15 01:16:10.909 +0000 UTC\"}",
+              "latitude": "_value_latitude",
+              "longitude": "_value_longitude",
               "mode": "coords"
             },
             "name": "Layer 1",
