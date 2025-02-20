@@ -46,13 +46,11 @@ void loop() {
 }
 
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
-	do{
-		const uint8_t* p = rx.get_payload().begin();
-		if (rx.get_length() > 4 && !strncmp((const char*)p, (const char*)FOURCHARS, 4)) {
-			Serial << format("..rx from %08x/%d", rx.get_addr_src_long(), rx.get_addr_src_lid()) << mwx::crlf;
-			const uint8_t* data_start = p + 4;
-			const uint8_t* data_end = rx.get_payload().end();
-			transmit(forward_addr, data_start, data_end);
-		}
+	const uint8_t* p = rx.get_payload().begin();
+	if (rx.get_length() > 4 && !strncmp((const char*)p, (const char*)FOURCHARS, 4)) {
+		Serial << format("..rx from %08x/%d", rx.get_addr_src_long(), rx.get_addr_src_lid()) << mwx::crlf;
+		const uint8_t* data_start = p + 4;
+		const uint8_t* data_end = rx.get_payload().end();
+		transmit(forward_addr, data_start, data_end);
 	}
 }
