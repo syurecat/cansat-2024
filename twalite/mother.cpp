@@ -40,7 +40,7 @@ void loop() {
 			Serial << ".." << SerialParser;
 			const uint8_t* b = SerialParser.get_buf().begin();
 			uint8_t addr = *b; ++b; // the first byte is destination address.
-			transmit(addr, b, SerialParser.get_buf().end());
+			transmit(b, SerialParser.get_buf().end());
 		}
 	}
 }
@@ -76,7 +76,7 @@ void on_rx_packet(packet_rx& rx, bool_t &handled) {
         const uint8_t* data_start = p;
         const uint8_t* data_end = rx.get_payload().end();
 
-        transmit(forward_addr, data_start, data_end);
+        transmit(data_start, data_end);
     }
 
 }
