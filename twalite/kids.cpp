@@ -34,6 +34,8 @@ STATE State = STATE::INIT;
 uint8_t u8txid = 0;
 uint32_t u32tick_tx;
 
+bool new_state;
+
 void sleepNow();
 
 /*** setup procedure (run once at cold boot) */
@@ -101,7 +103,7 @@ void loop() {
 				if (ret) {
 					u8txid = ret.get_value() & 0xFF;
 					u32tick_tx = millis();
-					eState = E_STATE::TX_WAIT_COMP;
+					State = STATE::TX_WAIT_COMP;
 				} else {
 					Serial << crlf << "!FATAL: TX REQUEST FAILS. reset the system." << crlf;
 				}
