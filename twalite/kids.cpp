@@ -149,7 +149,7 @@ void sleepNow() {
 void wakeup() {
 	Wire.begin();
 
-	Serial	<< crlf << "--- " << APP_NAME << ":" << FOURCHARS << " wake up ---";
+	Serial	<< crlf << "--- wake up ---";
 
 	State = STATE::INIT; // go into INIT state in the loop()
 }
