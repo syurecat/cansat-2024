@@ -34,6 +34,8 @@ STATE State = STATE::INIT;
 uint8_t u8txid = 0;
 uint32_t u32tick_tx;
 
+void sleepNow();
+
 /*** setup procedure (run once at cold boot) */
 void setup() {
 	/*** SETUP section */
@@ -132,7 +134,7 @@ void loop() {
 			sleepNow();
 		break;
 
-	} while(step.b_more_loop()); // if state is changed, loop more.
+	} while(new_state); // if state is changed, loop more.
 }
 
 void sleepNow() {
