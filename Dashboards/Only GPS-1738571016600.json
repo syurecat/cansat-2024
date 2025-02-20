@@ -18,13 +18,13 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 7,
   "links": [],
   "panels": [
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -89,7 +89,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -180,6 +180,8 @@
               }
             },
             "location": {
+              "latitude": "_value_latitude",
+              "longitude": "_value_longitude",
               "mode": "coords"
             },
             "name": "Layer 1",
@@ -211,7 +213,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -301,7 +303,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -391,7 +393,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -481,7 +483,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -543,7 +545,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -633,7 +635,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "eebxb15g2xiwwf"
+        "uid": "eedfmw8352sxsa"
       },
       "fieldConfig": {
         "defaults": {
@@ -705,6 +707,6 @@
   "timezone": "browser",
   "title": "Only GPS",
   "uid": "debxh3zxiq1hcd",
-  "version": 12,
+  "version": 3,
   "weekStart": ""
 }
