@@ -55,8 +55,8 @@ MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 
 		// prepare packet payload
 		pack_bytes(pkt.get_payload() // set payload data objects.
-			, make_pair(FOURCHARS, 3) // string should be paired with length explicitly.
-			, make_pair(b, e) // put timestamp here.
+			, make_pair(b, 3) // string should be paired with length explicitly.
+			, make_pair(b + 4, e) // put timestamp here.
 		);
 		
 		// do transmit 
@@ -70,10 +70,10 @@ MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
     // check the packet header.
     const uint8_t* p = rx.get_payload().begin();
-    if (rx.get_length() > 3 && !strncmp((const char*)p, (const char*)FOURCHARS, 3)) {
+    if (rx.get_length() > 3) {
         Serial << format("..rx from %08x/%d", rx.get_addr_src_long(), rx.get_addr_src_lid()) << mwx::crlf;
 
-        const uint8_t* data_start = p + 3;
+        const uint8_t* data_start = p;
         const uint8_t* data_end = rx.get_payload().end();
 
         transmit(forward_addr, data_start, data_end);
