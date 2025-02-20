@@ -85,7 +85,7 @@ void loop() {
 
 				// prepare packet payload
 				pack_bytes(pkt.get_payload() // set payload data objects.
-					, make_pair(FOURCHARS, 4)  // just to see packet identification, you can design in any.
+					, make_pair("Kid", 3)  // just to see packet identification, you can design in any.
 					, uint16_t(sns_bme280.get_temp_cent()) // temp
 					, uint16_t(sns_bme280.get_humid_per_dmil())
 					, uint16_t(sns_bme280.get_press())
