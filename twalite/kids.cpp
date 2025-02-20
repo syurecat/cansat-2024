@@ -51,7 +51,7 @@ void setup() {
 	the_twelite.begin(); // start twelite!
 
 	/*** INIT message */
-	Serial << "init done"
+	Serial << "init done";
 }
 
 /*** loop procedure (called every event) */
@@ -61,7 +61,7 @@ void loop() {
 		case STATE::INIT: // starting state
 			// start sensor capture
 			sns_bme280.begin();
-			eState =  E_STATE::CAPTURE_PRE;
+			State =  STATE::CAPTURE_PRE;
 		break;
 
 		case STATE::CAPTURE_PRE: // wait for sensor capture completion
@@ -69,14 +69,14 @@ void loop() {
 				sns_bme280.process_ev(E_EVENT_TICK_TIMER);
 			}
 			new_state = true;
-			eState =  E_STATE::CAPTURE;
+			State =  STATE::CAPTURE;
 		break;
 
 		case STATE::CAPTURE:
 			step.next(STATE::GO_SLEEP); // set default next state (for error handling.)
 
 			// get new packet instance.
-			eState = E_STATE::ERROR; // change this when success TX request...
+			State = STATE::ERROR; // change this when success TX request...
 
 			if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
 				// set tx packet behavior
@@ -104,24 +104,24 @@ void loop() {
 				Serial << crlf << format("..%04d/transmit complete.", millis() & 8191);
 		
 				// success on TX
-				eState = E_STATE::SUCCESS;
+				State = STATE::SUCCESS;
 				new_state = true;
 			} else if (millis() - u32tick_tx > 3000) {
 				Serial << crlf << "!FATAL: MWX TX OBJECT FAILS. reset the system." << crlf;
-				eState = E_STATE::ERROR;
+				State = STATE::ERROR;
 				new_state = true;
 			} 
 		break;
 
-		case E_STATE::ERROR: // FATAL ERROR
+		case STATE::ERROR: // FATAL ERROR
 			Serial.flush();
 			delay(100);
 			the_twelite.reset_system();
-			break;
+		break;
 
-		case E_STATE::SUCCESS: // NORMAL EXIT (go into sleeping...)
+		case STATE::SUCCESS: // NORMAL EXIT (go into sleeping...)
 			sleepNow();
-			break;
+		break;
 
 	} while(step.b_more_loop()); // if state is changed, loop more.
 }
@@ -140,5 +140,5 @@ void wakeup() {
 
 	Serial	<< crlf << "--- " << APP_NAME << ":" << FOURCHARS << " wake up ---";
 
-	eState = E_STATE::INIT; // go into INIT state in the loop()
+	State = STATE::INIT; // go into INIT state in the loop()
 }
