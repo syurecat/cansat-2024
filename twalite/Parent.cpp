@@ -1,8 +1,8 @@
 // use twelite mwx c++ template library
-#include <TWELITE>
+#include <TWELITE> 
 #include <NWK_SIMPLE>
 #include <MONOSTICK>
-#include <STG_STD>
+
 
 /*** Config part */
 // application ID
@@ -21,9 +21,8 @@ bool analyze_payload(packet_rx& rx);
 void setup() {
 	/*** SETUP section */
 	auto&& brd = the_twelite.board.use<MONOSTICK>();
-	auto&& set = the_twelite.settings.use<STG_STD>();
 	auto&& nwk = the_twelite.network.use<NWK_SIMPLE>();
-
+/* 
 	// settings: configure items
 	set << SETTINGS::appname("PARENT");
 	set << SETTINGS::appid_default(DEFAULT_APP_ID); // set default appID
@@ -32,9 +31,9 @@ void setup() {
 	set.hide_items(E_STGSTD_SETID::OPT_DWORD2, E_STGSTD_SETID::OPT_DWORD3, E_STGSTD_SETID::OPT_DWORD4, E_STGSTD_SETID::ENC_KEY_STRING, E_STGSTD_SETID::ENC_MODE);
 	set.reload(); // load from EEPROM.
 	OPT_BITS = set.u32opt1(); // this value is not used in this example.
-
+ */
 	// the twelite main class
-	the_twelite
+/* 	the_twelite
 		<< set                    // apply settings (appid, ch, power)
 		<< TWENET::rx_when_idle() // open receive circuit (if not set, it can't listen packts from others)
 		;
@@ -42,7 +41,7 @@ void setup() {
 	// Register Network
 	nwk << set;							// apply settings (LID and retry)
 	nwk << NWK_SIMPLE::logical_id(0x00) // set Logical ID. (0x00 means parent device)
-		;
+		; */
 
 	// configure hardware
 	brd.set_led_red(LED_TIMER::ON_RX, 200); // RED (on receiving)
