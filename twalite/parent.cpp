@@ -3,7 +3,6 @@
 #include <NWK_SIMPLE>
 #include <MONOSTICK>
 
-
 /*** Config part */
 // application ID
 const uint32_t APP_ID = 0x1234abcd;
