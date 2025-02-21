@@ -1,6 +1,7 @@
 // use twelite mwx c++ template library
 #include <TWELITE>
 #include <NWK_SIMPLE>
+#include <STG_STD>
 
 /*** Config part */
 // application ID
@@ -15,6 +16,8 @@ int bufferPos = 0;
 
 /*** setup procedure (run once at cold boot) */
 void setup() {
+
+	Serial.begin(19200);
 	// the twelite main class
 	the_twelite
 		<< TWENET::appid(APP_ID)    // set application ID (identify network group)

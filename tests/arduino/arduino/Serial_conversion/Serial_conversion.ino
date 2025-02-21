@@ -2,8 +2,8 @@
 
 
 void setup() {
-    Serial.begin(38400);
-    Serial1.begin(38400);
+    Serial.begin(9800);
+    Serial1.begin(9800);
     Serial.println("Ready");
 }
 
