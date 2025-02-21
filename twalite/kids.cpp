@@ -77,7 +77,7 @@ void loop() {
 					if (!sns_bme280.available()) {
 						sns_bme280.process_ev(E_EVENT_TICK_TIMER);
 					}
-					if (!b_found_bme280 || (b_found_bme280 && sns_bme280.available())) {
+					if (sns_bme280.available()) {
 						new_state = true;
 						State =  STATE::CAPTURE;
 					}
