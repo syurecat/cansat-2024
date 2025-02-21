@@ -52,7 +52,7 @@ void setup() {
 
 	// Register Network
 	auto&& nwksmpl = the_twelite.network.use<NWK_SIMPLE>();
-	nwksmpl << NWK_SIMPLE::logical_id(0x00) // set Logical ID. (0xFE means a child device with no ID)
+	nwksmpl << NWK_SIMPLE::logical_id(0xFF) // set Logical ID. (0xFE means a child device with no ID)
 	        << NWK_SIMPLE::repeat_max(3);   // can repeat a packet up to three times. (being kind of a router)
 
 	the_twelite.begin(); // start twelite!
@@ -102,6 +102,7 @@ void loop() {
 						, uint16_t(sns_bme280.get_humid())
 						, uint16_t(sns_bme280.get_press())
 					);
+					Serial << crlf << pkt.get_payload()
 					Serial << crlf << sns_bme280.get_temp() <<"℃," << sns_bme280.get_humid()<<"%,"<<sns_bme280.get_press() << "hp";
 					// do transmit
 					MWX_APIRET ret = pkt.transmit();
