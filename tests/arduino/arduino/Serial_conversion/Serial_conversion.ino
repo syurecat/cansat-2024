@@ -1,21 +1,20 @@
 #include <SoftwareSerial.h>
 
-SoftwareSerial mySerial(8, 9);
 
 void setup() {
-    Serial.begin(9600);
-    mySerial.begin(9600);
+    Serial.begin(38400);
+    Serial1.begin(38400);
     Serial.println("Ready");
 }
 
 void loop() {
     if (Serial.available()) {
         char dataFromPC = Serial.read();
-        mySerial.write(dataFromPC);
+        Serial1.write(dataFromPC);
     }
 
-    if (mySerial.available()) {
-        char dataFromDevice = mySerial.read();
+    if (Serial1.available()) {
+        char dataFromDevice = Serial1.read();
         Serial.write(dataFromDevice);
     }
 }

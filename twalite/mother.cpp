@@ -36,13 +36,13 @@ void setup() {
 void loop() {
     // read from serial
 	while(Serial.available() > 0)  {
-		Serial << "a" << crlf; 
+		Serial << "loop start" << crlf; 
 
 		char c = Serial.read();
 		Serial << "c = " << c << crlf;
 
 		if (SerialParser.parse(c)) {
-			Serial << "b";
+			Serial << "in if block";
 			Serial << ".." << SerialParser;
 			const uint8_t* b = SerialParser.get_buf().begin();
 			Serial << b;

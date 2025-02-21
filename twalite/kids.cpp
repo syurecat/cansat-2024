@@ -38,6 +38,8 @@ bool new_state;
 
 void sleepNow();
 
+const uint8_t FOURCHARS[] = "kid";
+
 /*** setup procedure (run once at cold boot) */
 void setup() {
 	/*** SETUP section */
@@ -98,7 +100,7 @@ void loop() {
 
 					// prepare packet payload
 					pack_bytes(pkt.get_payload() // set payload data objects.
-						, make_pair("Kid", 3)  // just to see packet identification, you can design in any.
+						, make_pair(FOURCHARS, 3)  // just to see packet identification, you can design in any.
 						, uint16_t(sns_bme280.get_temp_cent()) // temp
 						, uint16_t(sns_bme280.get_humid_per_dmil())
 						, uint16_t(sns_bme280.get_press())

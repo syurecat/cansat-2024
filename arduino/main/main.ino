@@ -7,18 +7,19 @@
 
 SoftwareSerial MWSerial(2, 3); // RX, TX
 
+
 bool errorFlag = false;
 const int DIN_PIN = 7;
 uint8_t gpsQuality = 0;
 
 void setup() {
     Wire.begin();
-    Serial.begin(115200);
-    MWSerial.begin(115200);
+    Serial.begin(38400);
+    MWSerial.begin(38400);
     LED_Init();
-    pinMode( DIN_PIN, INPUT );
-    pinMode( 6, INPUT_PULLUP );
-    attachInterrupt(digitalPinToInterrupt(6),sep,FALLING);
+    // pinMode( DIN_PIN, INPUT );
+    // pinMode( 6, INPUT_PULLUP );
+    // attachInterrupt(digitalPinToInterrupt(6),sep,FALLING);
     delay(300);
 
     SD_Init() ? MWSerial.println("SD_init_done.") : MWSerial.println("SD: init failed!");
@@ -65,10 +66,7 @@ void loop() {
     // 高度の値を取得
     float height = GPS_GetHeight();
 
-
-    int value = digitalRead( DIN_PIN );
-
-    if ( value == LOW ){
+    MWSerial.println("a");
         MWSerial.println("BME,"
             + String(tmp) + ","
             + String(hum) + ","
@@ -94,7 +92,6 @@ void loop() {
             + String(lng) + ","
             + String(height)
         );
-    }
 
         SD_Write(","
         + String(acc_x) + ","
@@ -118,6 +115,6 @@ void loop() {
     errorFlag = false;
 }
 
-void sep(){
-    Serial.println(F("SEPA"));
-}
+// void sep(){
+//     MWSerial.println(F("SEPA"));
+// }
