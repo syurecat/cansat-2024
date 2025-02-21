@@ -46,16 +46,12 @@ void loop() {
 }
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
     const uint8_t* p = rx.get_payload().begin(); // 受信したパケットのペイロードの先頭ポインタを取得
-    if (rx.get_length() > 4) {
-        // パケットの長さが4より大きい場合
         smplbuf_u8<128> buf; // サイズ128のバッファを作成
         mwx::pack_bytes(buf,
-            uint8_t(rx.get_lqi()), // 信号品質指標
-            make_pair(p + 4, rx.get_payload().end()) // ペイロードのデータ部分（ヘッダー以外）
+            make_pair(p, rx.get_payload().end()) // ペイロードのデータ部分（ヘッダー以外）
         );
 
         serparser_attach pout; // シリアルパーサーのインスタンスを作成
         pout.begin(PARSER::ASCII, buf.begin(), buf.size(), buf.size()); // パーサーをASCII形式で初期化
         Serial << pout; // パーサーの内容をシリアル出力に送信
-    }
 }
