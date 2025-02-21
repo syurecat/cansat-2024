@@ -42,7 +42,7 @@ void loop() {
 
 		int c = Serial.read();
 		Serial << "c = " << c << crlf;
-		p1.get_buf();
+		Serial << p1.get_buf();
 
 		if (p1.parse(c)) {
 			Serial << "in if block";
