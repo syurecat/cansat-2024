@@ -101,6 +101,7 @@ void loop() {
 						, uint16_t(sns_bme280.get_temp()) // temp
 						, uint16_t(sns_bme280.get_humid())
 						, uint16_t(sns_bme280.get_press())
+					Serial << "test";
 					);
 
 					// do transmit
