@@ -152,7 +152,7 @@ void wakeup() {
 	Wire.begin();
 
 	Serial	<< crlf << "--- wake up ---";
-	Serial << crlf << sns_bme280.get_temp_cent() << sns_bme280.get_humid_per_dmil() << sns_bme280.get_press();
+	Serial << crlf << sns_bme280.get_temp() << sns_bme280.get_humid() << sns_bme280.get_press();
 
 	State = STATE::INIT; // go into INIT state in the loop()
 }
