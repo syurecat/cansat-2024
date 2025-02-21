@@ -17,7 +17,7 @@ void setup() {
 	the_twelite
 		<< TWENET::appid(APP_ID)    // set application ID (identify network group)
 		<< TWENET::channel(CHANNEL) // set channel (pysical channel)
-		<< TWENET::rx_when_idle();  // open receive circuit (if not set, it can't listen packts from others)
+		<< TWENET::rx_when_idle(1);  // open receive circuit (if not set, it can't listen packts from others)
 
 	// Register Network
 	auto&& nwksmpl = the_twelite.network.use<NWK_SIMPLE>();

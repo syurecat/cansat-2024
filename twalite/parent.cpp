@@ -28,7 +28,7 @@ void setup() {
 	the_twelite
 	<< TWENET::appid(APP_ID)    // set application ID (identify network group)
 	<< TWENET::channel(CHANNEL) // set channel (pysical channel)
-	<< TWENET::rx_when_idle();  // open receive circuit (if not set, it can't listen packts from others)
+	<< TWENET::rx_when_idle(1);  // open receive circuit (if not set, it can't listen packts from others)
 
 	// configure hardware
 	brd.set_led_red(LED_TIMER::ON_RX, 200); // RED (on receiving)
