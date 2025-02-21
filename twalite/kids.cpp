@@ -95,7 +95,6 @@ void loop() {
 						<< tx_retry(0x1) // set retry (0x1 send two times in total)
 						<< tx_packet_delay(0, 0, 2); // send packet w/ delay
 
-					Serial << crlf << sns_bme280.get_temp() <<"℃," << sns_bme280.get_humid()<<"%,"<<sns_bme280.get_press() << "hp";
 
 					// prepare packet payload
 					pack_bytes(pkt.get_payload() // set payload data objects.
@@ -105,7 +104,7 @@ void loop() {
 						, uint16_t(sns_bme280.get_press())
 					);
 					Serial << crlf << pkt.get_payload();
-					Serial << crlf << sns_bme280.get_temp() <<"℃," << sns_bme280.get_humid()<<"%,"<<sns_bme280.get_press() << "hp";
+					Serial << crlf << sns_bme280.get_temp_cent() <<"℃," << sns_bme280.get_humid_per_dmil()<<"%,"<<sns_bme280.get_press() << "hp";
 					// do transmit
 					MWX_APIRET ret = pkt.transmit();
 					if (ret) {
