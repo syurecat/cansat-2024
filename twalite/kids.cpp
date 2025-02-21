@@ -152,6 +152,7 @@ void wakeup() {
 	Wire.begin();
 
 	Serial	<< crlf << "--- wake up ---";
+	Serial << crlf << sns_bme280.get_temp_cent();
 
 	State = STATE::INIT; // go into INIT state in the loop()
 }
