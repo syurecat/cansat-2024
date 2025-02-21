@@ -102,7 +102,7 @@ void loop() {
 						, uint16_t(sns_bme280.get_humid())
 						, uint16_t(sns_bme280.get_press())
 					);
-					Serial << crlf << pkt.get_payload()
+					Serial << crlf << pkt.get_payload();
 					Serial << crlf << sns_bme280.get_temp() <<"℃," << sns_bme280.get_humid()<<"%,"<<sns_bme280.get_press() << "hp";
 					// do transmit
 					MWX_APIRET ret = pkt.transmit();
