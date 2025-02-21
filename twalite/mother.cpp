@@ -51,7 +51,7 @@ MWX_APIRET transmit(const uint8_t* b, const uint8_t* e) {
 	if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
 		// set tx packet behavior
 		pkt << tx_addr(0x00) // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
-			<< tx_retry(0x1) // set retry (0x3 send four times in total)
+			<< tx_retry(0x3) // set retry (0x3 send four times in total)
 			<< tx_packet_delay(20,100,10); // send packet w/ delay (send first packet with randomized delay from 20 to 100ms, repeat every 10ms)
 
 		// prepare packet payload
