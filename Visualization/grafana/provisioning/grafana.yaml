@@ -5,7 +5,7 @@ datasources:
     access: proxy
     url: http://influxdb:8086
     isDefault: true  # デフォルトのデータソースにする
-    basicAuth: false  #基本認証をオフにする
+    editable: false  #UIからの編集の禁止
     jsonData:
       version: Flux  # InfluxDB 2.x の場合は Flux を使用
       organization: koshi  # InfluxDB 2.x の Org 名
