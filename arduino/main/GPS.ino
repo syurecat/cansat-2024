@@ -76,7 +76,7 @@ int GPS_Update() {
 			}
 
 			Serial.print(F("GPS_Update:"));
-			Serial.printl(rtn);
+			Serial.println(rtn);
 		}
 	}
 	return rtn;

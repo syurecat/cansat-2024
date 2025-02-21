@@ -36,10 +36,11 @@ void setup() {
 void loop() {
     // read from serial
 	while(Serial.available())  {
+		Serial << "aa";
 		if (SerialParser.parse(Serial.read())) {
 			Serial << ".." << SerialParser;
 			const uint8_t* b = SerialParser.get_buf().begin();
-			uint8_t addr = *b; ++b; // the first byte is destination address.
+			Serial << b;
 			transmit(b, SerialParser.get_buf().end());
 		}
 	}

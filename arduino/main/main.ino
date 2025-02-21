@@ -13,8 +13,8 @@ uint8_t gpsQuality = 0;
 
 void setup() {
     Wire.begin();
-    Serial.begin(38400);
-    MWSerial.begin(38400);
+    Serial.begin(115200);
+    MWSerial.begin(115200);
     LED_Init();
     pinMode( DIN_PIN, INPUT );
     pinMode( 6, INPUT_PULLUP );
@@ -119,5 +119,5 @@ void loop() {
 }
 
 void sep(){
-    Serial.println(F(SEPA));
+    Serial.println(F("SEPA"));
 }
