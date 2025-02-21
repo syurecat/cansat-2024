@@ -141,7 +141,7 @@ void loop() {
 
 void sleepNow() {
 	uint32_t u32ct = 1750 + random(0,500);
-	Serial << crlf << format("..%04d/sleeping %dms.", millis() % 8191, u32ct);
+	Serial << crlf << format("..%04d/sleeping %dms.", millis() % 8191, u32ct); 
 	Serial.flush();
 
 	the_twelite.sleep(u32ct);
