@@ -73,11 +73,15 @@ void loop() {
 			break;
 
 			case STATE::CAPTURE_PRE: // wait for sensor capture completion
-				if (TickTimer.available() && !sns_bme280.available()) {
-					sns_bme280.process_ev(E_EVENT_TICK_TIMER);
+				if (TickTimer.available()) {
+					if (!sns_bme280.available()) {
+						sns_bme280.process_ev(E_EVENT_TICK_TIMER);
+					}
+					if (!b_found_bme280 || (b_found_bme280 && sns_bme280.available())) {
+						new_state = true;
+						State =  STATE::CAPTURE;
+					}
 				}
-				new_state = true;
-				State =  STATE::CAPTURE;
 			break;
 
 			case STATE::CAPTURE:
