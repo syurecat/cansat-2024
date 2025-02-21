@@ -44,10 +44,9 @@ void setup() {
 void loop() {
 }
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
-    const uint8_t* p = rx.get_payload().begin(); // 受信したパケットのペイロードの先頭ポインタを取得
         smplbuf_u8<128> buf; // サイズ128のバッファを作成
-        mwx::pack_bytes(buf,
-            make_pair(p, rx.get_payload().end()) // ペイロードのデータ部分（ヘッダー以外）
+        mwx::pack_bytes(buf
+            , rx.get_payload()
         );
 
         serparser_attach pout; // シリアルパーサーのインスタンスを作成
