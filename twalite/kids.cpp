@@ -73,7 +73,7 @@ void loop() {
 			break;
 
 			case STATE::CAPTURE_PRE: // wait for sensor capture completion
-				if (TickTimer.available()) {
+				if (TickTimer.available() && !sns_bme280.available()) {
 					sns_bme280.process_ev(E_EVENT_TICK_TIMER);
 				}
 				new_state = true;
@@ -115,7 +115,7 @@ void loop() {
 
 			case STATE::TX_WAIT_COMP: // wait for complete of transmit
 				if (the_twelite.tx_status.is_complete(u8txid)) {
-					Serial << crlf << format("..%04d/transmit complete.", millis() & 8191);
+					Serial << crlf << "test" << format("..%04d/transmit complete.", millis() & 8191);
 					// success on TX
 					State = STATE::SUCCESS;
 					new_state = true;
