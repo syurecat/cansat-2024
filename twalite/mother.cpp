@@ -7,11 +7,11 @@
 const uint32_t APP_ID = 0x1234abcd;
 // channel
 const uint8_t CHANNEL = 13;
-
-serparser_heap p1;
-
 /*** function prototype */
 MWX_APIRET transmit(const uint8_t* b, const uint8_t* e);
+
+char inputBuffer[128];
+int bufferPos = 0;
 
 /*** setup procedure (run once at cold boot) */
 void setup() {
@@ -27,7 +27,7 @@ void setup() {
 	        << NWK_SIMPLE::repeat_max(3);   // can repeat a packet up to three times. (being kind of a router)
 
 	/*** BEGIN section */
-	p1.begin(PARSER::ASCII, 128); // Initialize the serial parser
+	SerialParser.begin(PARSER::ASCII, 128); // Initialize the serial parser
 	the_twelite.begin(); // start twelite!
 
 	/*** INIT message */
@@ -36,22 +36,32 @@ void setup() {
 
 /*** loop procedure (called every event) */
 void loop() {
-    // read from serial
-	while(Serial.available() > 0)  {
-		Serial << "loop start" << crlf; 
-
-		int c = Serial.read();
-		Serial << "c = " << c << crlf;
-		Serial << p1.get_buf();
-
-		if (p1.parse(c)) {
-			Serial << "in if block";
-			Serial << ".." << p1;
-			const uint8_t* b = p1.get_buf().begin();
-			Serial << b;
-			transmit(b, p1.get_buf().end());
-		}
-	}
+  // シリアルからの入力を1文字ずつ読み出す
+  while (Serial.available() > 0) {
+    int c = Serial.read();
+    Serial << "c = " << c << crlf;
+    
+    // CR (13) または LF (10) が来たら改行とみなし、送信処理を実施
+    if (c == 13 || c == 10) {
+      if (bufferPos > 0) { // 空行の場合は無視
+        // 受信した文字列を送信
+        Serial << "Sending: " << inputBuffer << crlf;
+        transmit((uint8_t*)inputBuffer, (uint8_t*)(inputBuffer + bufferPos));
+        bufferPos = 0;  // バッファをリセット
+      }
+    }
+    else {
+      // バッファサイズに余裕があれば受信文字を蓄積
+      if (bufferPos < (int)(sizeof(inputBuffer) - 1)) {
+        inputBuffer[bufferPos++] = (char)c;
+        inputBuffer[bufferPos] = '\0'; // デバッグ用に文字列終了をセット
+      }
+      else {
+        Serial << "Buffer overflow, resetting buffer" << crlf;
+        bufferPos = 0;
+      }
+    }
+  }
 }
 
 /** transmit a packet */

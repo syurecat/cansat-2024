@@ -17,6 +17,7 @@ bool analyze_payload(packet_rx& rx);
 void setup() {
 	/*** SETUP section */
 	auto&& brd = the_twelite.board.use<MONOSTICK>();
+	auto&& set = the_twelite.settings.use<STG_STD>();
 
 	// Register Network
 	auto&& nwksmpl = the_twelite.network.use<NWK_SIMPLE>();
@@ -37,19 +38,24 @@ void setup() {
 	the_twelite.begin(); // start twelite!
 
 	/*** INIT message */
-	Serial << "--- MONOSTICK_Parent act ---";
 }
 
 /*** loop procedure (called every event) */
 void loop() {
 }
 void on_rx_packet(packet_rx& rx, bool_t &handled) {
-        smplbuf_u8<128> buf; // サイズ128のバッファを作成
-        mwx::pack_bytes(buf
-            , rx.get_payload()
-        );
 
-        serparser_attach pout; // シリアルパーサーのインスタンスを作成
-        pout.begin(PARSER::ASCII, buf.begin(), buf.size(), buf.size()); // パーサーをASCII形式で初期化
-        Serial << pout; // パーサーの内容をシリアル出力に送信
+    smplbuf_u8<128> buf;
+    mwx::pack_bytes(buf, rx.get_payload());
+
+    // シリアル出力
+    for (size_t i = 0; i < buf.size(); i++) {
+        char c = buf[i];
+        if (isprint(c)) {
+            Serial << c;
+        } else {
+            Serial << ".";
+        }
+    }
+    Serial.println(rx.get_lqi());
 }
