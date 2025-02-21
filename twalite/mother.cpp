@@ -35,7 +35,7 @@ void setup() {
 /*** loop procedure (called every event) */
 void loop() {
     // read from serial
-	while(Serial.available())  {
+	while(Serial.available() > 0)  {
 		Serial << "aa";
 		if (SerialParser.parse(Serial.read())) {
 			Serial << ".." << SerialParser;
