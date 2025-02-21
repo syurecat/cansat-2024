@@ -36,8 +36,9 @@ void setup() {
 void loop() {
     // read from serial
 	while(Serial.available() > 0)  {
-		Serial << "aa";
+		Serial << "a";
 		if (SerialParser.parse(Serial.read())) {
+			Serial << "b";
 			Serial << ".." << SerialParser;
 			const uint8_t* b = SerialParser.get_buf().begin();
 			Serial << b;
