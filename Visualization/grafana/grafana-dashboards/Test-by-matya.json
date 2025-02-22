@@ -1641,12 +1641,8 @@
                 "value": 50
               },
               {
-                "color": "#EAB839",
-                "value": 80
-              },
-              {
                 "color": "red",
-                "value": 100
+                "value": 80
               }
             ]
           }
