@@ -30,7 +30,7 @@ let lastTime = Date.now();
 const sensor = new imuCalculator({
     sampleInterval: 5,
     algorithm: 'Madgwick',
-    beta: 0.4
+    beta: 0.6
 });
 
 // api auth

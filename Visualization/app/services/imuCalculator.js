@@ -13,12 +13,14 @@ class SensorAhrs {
   }
 
   updateAccel(acc) {
-    this.accel = acc.map(value => value / 9.81);
+    this.accel = [acc[0] / 4.81, acc[1] / 4.81, -acc[2] / 4.81];
   }
 
   updateMag(mag) {
-    this.magnet = mag;
+    // Z軸を反転
+    this.magnet = [mag[0] / 100, mag[1] / 100, -mag[2] /100];
   }
+
 
   updateSensorData() {
     console.log(this.accel);
