@@ -49,13 +49,12 @@ void on_rx_packet(packet_rx& rx, bool_t &handled) {
 
     // シリアル出力
     for (size_t i = 0; i < buf.size(); i++) {
-        char c = buf[i];
-        if (isprint(c)) {
-            Serial << c;
-        } else {
-            Serial << ".";
-        }
-    }
-	Serial << ",";
-    Serial.println(rx.get_lqi());
+        Serial << buf[i];
+	}
+	if (buf[0]) {
+		Serial << ",";
+    	Serial.println(rx.get_lqi());
+	} else {
+		Serial << rx.get_lqi() << crlf;
+	}
 }

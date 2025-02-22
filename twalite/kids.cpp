@@ -38,7 +38,7 @@ bool new_state;
 
 void sleepNow();
 
-const uint8_t FOURCHARS[] = "kids";
+const uint8_t FOURCHARS[] = "kid";
 
 /*** setup procedure (run once at cold boot) */
 void setup() {
@@ -93,14 +93,15 @@ void loop() {
 
 				if (auto&& pkt = the_twelite.network.use<NWK_SIMPLE>().prepare_tx_packet()) {
 					// set tx packet behavior
-					pkt << tx_addr(0xFF)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
+					pkt << tx_addr(0xFE)  // 0..0xFF (LID 0:parent, FE:child w/ no id, FF:LID broad cast), 0x8XXXXXXX (long address)
 						<< tx_retry(0x1) // set retry (0x1 send two times in total)
 						<< tx_packet_delay(0, 0, 2); // send packet w/ delay
 
 
 					// prepare packet payload
 					pack_bytes(pkt.get_payload() // set payload data objects.
-						, make_pair(FOURCHARS, 4)  // just to see packet identification, you can design in any.
+						, uint8_t(0)
+						, make_pair(FOURCHARS, 3)  // just to see packet identification, you can design in any.
 						, uint16_t(sns_bme280.get_temp_cent()) // temp
 						, uint16_t(sns_bme280.get_humid_per_dmil())
 						, uint16_t(sns_bme280.get_press())

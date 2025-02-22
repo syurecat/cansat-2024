@@ -13,6 +13,7 @@ class PostData:
         "MAG": ["x", "y", "z"],
         "BME": ["temp", "humi", "pres"],
         "GPS": ["lati", "long", "alti"],
+        "kid": ["temp", "humi", "pres"],
     }
 
     def __init__(self, token: str, url: str, sensor_name: str) -> None:

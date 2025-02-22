@@ -24,7 +24,7 @@ const queryApi = influxDB.getQueryApi(
 )
 const router = express.Router();
 const wrap = fn => (...args) => fn(...args).catch(args[2])
-const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME"];
+const SENSER_TYPES = ["ACC", "GPS", "GYR", "MAG", "BME", "kid"];
 const AUTH_TOKEN = process.env.AUTH_TOKEN
 let lastTime = Date.now();
 const sensor = new imuCalculator({

@@ -14,3 +14,51 @@ Traceback (most recent call last):
   File "C:\Users\S\AppData\Local\Programs\Python\Python312\Lib\site-packages\serial\serialwin32.py", line 275, in read
     raise SerialException("ClearCommError failed ({!r})".format(ctypes.WinError()))
 serial.serialutil.SerialException: ClearCommError failed (PermissionError(13, 'アクセスが拒否されました。', None, 5))
+[2025-02-23 02:40:35] [ERROR   ] serial_post: Unexpected error: 'utf-8' codec can't decode byte 0xb7 in position 2: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 71, in main
+    sensor_type = sensor_type_bytes.decode('utf-8')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb7 in position 2: invalid start byte
+[2025-02-23 02:47:56] [ERROR   ] serial_post: Unexpected error: 'utf-8' codec can't decode byte 0xc0 in position 2: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 71, in main
+    sensor_type = sensor_type_bytes.decode('utf-8')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc0 in position 2: invalid start byte
+[2025-02-23 02:49:40] [ERROR   ] serial_post: Unexpected error: 'utf-8' codec can't decode byte 0xc0 in position 2: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 71, in main
+    sensor_type = sensor_type_bytes.decode('utf-8')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc0 in position 2: invalid start byte
+[2025-02-23 02:55:23] [ERROR   ] serial_post: Unexpected error: 'utf-8' codec can't decode byte 0xb7 in position 0: invalid start byte
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 71, in main
+    sensor_type = sensor_type_bytes.decode('utf-8')
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xb7 in position 0: invalid start byte
+[2025-02-23 03:32:41] [ERROR   ] serial_post: Unexpected error: unpack requires a buffer of 2 bytes
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 81, in main
+    stre = struct.unpack('>h', ser.read(1))[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+[2025-02-23 03:32:47] [ERROR   ] serial_post: Unexpected error: unpack requires a buffer of 2 bytes
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 81, in main
+    stre = struct.unpack('>h', ser.read(1))[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+[2025-02-23 03:34:05] [ERROR   ] serial_post: Unexpected error: unpack requires a buffer of 2 bytes
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 82, in main
+    stre = struct.unpack('>h', sig)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+[2025-02-23 03:35:15] [ERROR   ] serial_post: Unexpected error: could not convert string to float: b'\xa2'
+Traceback (most recent call last):
+  File "C:\Users\S\Documents\cansat\2024\cansat-2024\Serial_transport\serial_post.py", line 81, in main
+    stre = float(ser.read(1))
+           ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: b'\xa2'

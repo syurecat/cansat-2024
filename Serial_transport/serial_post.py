@@ -2,6 +2,7 @@ import os
 import time
 import serial
 import json
+import struct
 import configparser
 import asyncio
 import logging
@@ -36,27 +37,52 @@ async def main():
     with serial.Serial(SERIAL_PORT, SERIAL_BAUDRATE, timeout=1) as ser:
         try:
             while True:
-                line = ser.readline().decode('utf-8').strip()
-                if not line:
+                first_byte = ser.read(1)
+                if not first_byte:
                     continue
-                row = line.split(',')[1:]
-                if "BME" in line:
-                    sensor_type = "BME"
-                elif "ACC" in line:
-                    sensor_type = "ACC"
-                elif "GYR" in line:
-                    sensor_type = "GYR"
-                elif "MAG" in line:
-                    sensor_type = "MAG"
-                elif "GPS" in line:
-                    sensor_type = "GPS"
+                first_byte = first_byte[0]
+                if first_byte == 0x01:
+                    line = ser.readline().decode('utf-8').strip()
+                    if not line:
+                        continue
+                    row = line.split(',')[1:]
+                    if "BME" in line:
+                        sensor_type = "BME"
+                    elif "ACC" in line:
+                        sensor_type = "ACC"
+                    elif "GYR" in line:
+                        sensor_type = "GYR"
+                    elif "MAG" in line:
+                        sensor_type = "MAG"
+                    elif "GPS" in line:
+                        sensor_type = "GPS"
 
-                if sensor_type:
-                    data = list(map(float, row))
-                    stre = None
-                    if len(data) == 4:
-                        stre = data.pop()
-                    await post_client.send(sensor_type, *data, stre=stre)
+                    if sensor_type:
+                        data = list(map(float, row))
+                        stre = None
+                        if len(data) == 4:
+                            stre = data.pop()
+                        print(data)
+                        await post_client.send(sensor_type, *data, stre=stre)
+                else:
+                    sensor_type_bytes = ser.read(3)
+                    if len(sensor_type_bytes) < 3:
+                        continue
+                    sensor_type = sensor_type_bytes.decode('utf-8')
+                    print(sensor_type)
+                    data_list = []
+                    for i in range(3):
+                        binary_data = ser.read(2)
+                        if len(binary_data) == 2:
+                            value = struct.unpack('>h', binary_data)[0]
+                            if i < 2:
+                                value = value / 100.0
+                            data_list.append(float(value))
+                    stre = ser.read(1)
+                    print(stre)
+                    print(ser.read(2)) # crlf
+                    print(data_list)
+                    await post_client.send(sensor_type, *data_list)
 
         except KeyboardInterrupt:
             logger.info("KeyboardInterrupt detected. Exiting...")

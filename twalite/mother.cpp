@@ -11,7 +11,7 @@ const uint8_t CHANNEL = 13;
 /*** function prototype */
 MWX_APIRET transmit(const uint8_t* b, const uint8_t* e);
 
-char inputBuffer[128];
+uint8_t inputBuffer[128];
 int bufferPos = 0;
 
 /*** setup procedure (run once at cold boot) */
@@ -46,11 +46,12 @@ void loop() {
     
     // CR (13) または LF (10) が来たら改行とみなし、送信処理を実施
     if (c == 13 || c == 10) {
-      if (bufferPos > 0) { // 空行の場合は無視
+      if (bufferPos > 1) { // 空行の場合は無視
         // 受信した文字列を送信
         Serial << "Sending: " << inputBuffer << crlf;
         transmit((uint8_t*)inputBuffer, (uint8_t*)(inputBuffer + bufferPos));
         bufferPos = 0;  // バッファをリセット
+		inputBuffer[bufferPos++] = 1;
       }
     }
     else {
@@ -62,6 +63,7 @@ void loop() {
       else {
         Serial << "Buffer overflow, resetting buffer" << crlf;
         bufferPos = 0;
+		inputBuffer[bufferPos++] = 1;
       }
     }
   }
