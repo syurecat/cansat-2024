@@ -110,7 +110,7 @@ void loop() {
 					// do transmit
 					MWX_APIRET ret = pkt.transmit();
 					if (ret) {
-						u8txid = ret.get_value() & 0xFF;
+						u8txid = ret.get_value() & 0xFE;
 						u32tick_tx = millis();
 						State = STATE::TX_WAIT_COMP;
 					} else {
