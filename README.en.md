@@ -2,6 +2,7 @@
 # Koshi Science Team 2024
 
 ## Mission
+### Subaru project(Sub-aru project)
 Establish basic communication technology between parent, child, and ground
 
 ## Configuration
